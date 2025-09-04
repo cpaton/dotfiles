@@ -1,0 +1,3 @@
+.\?.lua;
+C:\_cp\Apps\nvim\bin\lua\?.lua;
+C:\_cp\Apps\nvim\bin\lua\?\init.lua;
