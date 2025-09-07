@@ -1,11 +1,21 @@
 return {
     {
+		-- https://github.com/folke/which-key.nvim
 		-- displays help text for key bindings
 		"folke/which-key.nvim",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 300
-		end,
-		opts = {}
+		event = "VeryLazy",
+		opts = {
+			preset = "modern",
+			delay = 1000
+		},
+		keys = {
+			{
+			  "<leader>?",
+			  function()
+				require("which-key").show({ global = false })
+			  end,
+			  desc = "Buffer Local Keymaps (which-key)",
+			},
+		  }
 	}
 }
