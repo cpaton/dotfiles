@@ -1,3 +1,6 @@
+-- see what Keys Neovim gets
+-- in insert mode press Ctrl+Q to enter a literal and then press the key combination
+
 vim.keymap.set("n", "<leader>b", vim.cmd.Explore, { desc = "File browser" } ) -- file browser
 
 -- Leaders
@@ -15,3 +18,11 @@ vim.keymap.set("n", "<leader>fc", telescope_bi.commands, { desc = "Find vim comm
 vim.keymap.set("n", "<leader>fs", function()
 	telescope_bi.grep_string({ search = vim.fn.input("Grep > ")});
 end, { desc = "Find with grep and allow second filtering" })
+
+-- code completion
+vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
+-- attempts to use spacebar are failing
+vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
+vim.keymap.set('i', '<Esc><Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
+
+  

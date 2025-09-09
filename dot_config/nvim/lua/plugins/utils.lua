@@ -17,5 +17,10 @@ return {
 			  desc = "Buffer Local Keymaps (which-key)",
 			},
 		  }
-	}
+	},
+	{ 
+		'nvim-mini/mini.nvim', 
+		version = '*',
+		enabled = true,
+	},
 }

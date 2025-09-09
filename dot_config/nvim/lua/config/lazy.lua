@@ -29,7 +29,7 @@ require("lazy").setup({
     -- couldn't get luarocks working on windows
     rocks = {
       enabled = false,
-      hererocks = true
+      hererocks = false
     }
   }
 )
