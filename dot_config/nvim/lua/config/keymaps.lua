@@ -1,10 +1,13 @@
 -- see what Keys Neovim gets
 -- in insert mode press Ctrl+Q to enter a literal and then press the key combination
+-- see if something is mapped
+-- :verbose imap <key sequence>
 
 vim.keymap.set("n", "<leader>b", vim.cmd.Explore, { desc = "File browser" } ) -- file browser
 
 -- Leaders
 -- f - fuzzy find files
+-- k - language of file stuff
 
 -- file finding operations
 local telescope_bi = require('telescope.builtin')
@@ -22,7 +25,47 @@ end, { desc = "Find with grep and allow second filtering" })
 -- code completion
 -- vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
 -- attempts to use spacebar are failing
-vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
-vim.keymap.set('i', '<Esc><Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
+-- vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
+-- vim.keymap.set('i', '<Esc><Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
 
-  
+-- formatting
+-- format entire file
+vim.keymap.set("n", "<leader>kf", 
+	function()
+		local clients = vim.lsp.get_clients({ bufnr = 0 })
+		if #clients > 0 then
+			-- LSP formatting
+			vim.lsp.buf.format({ async = true })
+		else
+			-- Built-in reindent whole file
+			vim.cmd("normal! gg=G")
+		end
+	end,
+	{ desc = "Format file"}
+)
+vim.keymap.set("n", "<M-F>",  --shift+alt+f
+	function()
+		local clients = vim.lsp.get_clients({ bufnr = 0 })
+		if #clients > 0 then
+			-- LSP formatting
+			vim.lsp.buf.format({ async = true })
+		else
+			-- Built-in reindent whole file
+			vim.cmd("normal! gg=G")
+		end
+	end,
+	{ desc = "Format file"}
+)
+vim.keymap.set("v", "<M-F>",  --shift+alt+f
+	function()
+		local clients = vim.lsp.get_clients({ bufnr = 0 })
+		if #clients > 0 then
+			-- LSP formatting
+			vim.lsp.buf.format({ async = true })
+		else
+			-- Built-in reindent whole file
+			vim.cmd("normal! =")
+		end
+	end,
+	{ desc = "Format selected text"}
+)
