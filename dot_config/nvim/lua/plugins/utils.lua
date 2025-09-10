@@ -21,6 +21,6 @@ return {
 	{ 
 		'nvim-mini/mini.nvim', 
 		version = '*',
-		enabled = true,
+		enabled = false,
 	},
 }

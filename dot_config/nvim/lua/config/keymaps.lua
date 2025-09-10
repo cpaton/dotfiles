@@ -20,7 +20,7 @@ vim.keymap.set("n", "<leader>fs", function()
 end, { desc = "Find with grep and allow second filtering" })
 
 -- code completion
-vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
+-- vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
 -- attempts to use spacebar are failing
 vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
 vim.keymap.set('i', '<Esc><Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
