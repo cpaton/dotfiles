@@ -14,6 +14,7 @@ return {
     {
         -- https://github.com/nvim-neo-tree/neo-tree.nvim
         -- modern file explorer
+        -- https://github.com/nvim-neo-tree/neo-tree.nvim/wiki
         "nvim-neo-tree/neo-tree.nvim",
         name = "neo-tree",
         branch = "v3.x",
@@ -21,17 +22,34 @@ return {
             "plenary",
             "nui",
             "web-devicons"
+        },
+        opts = {
+            sources = {
+                "filesystem",
+                "buffers",
+                "git_status",
+                "diagnostics"
+            }
         }
     },
     {
         "antosha417/nvim-lsp-file-operations",
         dependencies = {
-          "plenary",
-          "neo-tree",
+            "plenary",
+            "neo-tree",
         },
         lazy = false
         -- config = function()
         --   require("lsp-file-operations").setup()
         -- end,
-      }
+    },
+    {
+        -- https://github.com/mrbjarksen/neo-tree-diagnostics.nvim
+        -- adds diagnostics source to neo-tree
+        "mrbjarksen/neo-tree-diagnostics.nvim",
+        name = "neo-tree-diagnostics",
+        dependencies = {
+            "neo-tree"
+        }
+    }
 }
