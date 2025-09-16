@@ -90,3 +90,5 @@ vim.keymap.set("v", "<M-F>", --shift+alt+f
     end,
     { desc = "Format selected text" }
 )
+
+vim.keymap.set("n", "<Esc>", ":nohlsearch <CR><Esc>", { noremap = true, silent = true })
