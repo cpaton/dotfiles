@@ -8,6 +8,7 @@ require('config.lsp')
 require('config.completion')
 require('config.keymaps')
 require('config.formatting')
+require('config.ui')
 
 -- vim.cmd.colorscheme "solarized"
 -- vim.cmd.colorscheme "rose-pine"
