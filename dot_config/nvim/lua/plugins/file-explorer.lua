@@ -24,6 +24,16 @@ return {
             "web-devicons"
         },
         opts = {
+            close_if_last_window = true,
+            enable_diagnostics = true,
+            window = {
+                width = 35
+            },
+            filesystem = {
+                filtered_items = {
+                    hide_gitignored = false
+                }
+            },
             sources = {
                 "filesystem",
                 "buffers",
