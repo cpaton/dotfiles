@@ -2,6 +2,7 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'web-devicons' },
+        enabled = true,
         opts = {
             options = {
                 globalstatus = true,
@@ -49,5 +50,11 @@ return {
                 -- lualine_a = { 'filename' }
             }
         }
+    },
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = { 'web-devicons' },
+        opts = {}
     }
 }
