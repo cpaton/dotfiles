@@ -1,6 +1,13 @@
 # TODO
 
-- Status bar
-- Command bar as popup (cmdline + message)
+- CoPilot chat
 - Control of formatting rules from lsp
-- buffer line for tabs on top
+- remove names for plugins and use only urls
+- cmp sources
+- split keybindings
+- git fugitive how does it work
+- changed line status in gutter
+- lsp keybindings e.g. go to definition, rename
+- copy keymaps from old config
+- terminal within nvim
+- copy file paths from current buffer or neo-tree

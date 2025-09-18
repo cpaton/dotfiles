@@ -16,6 +16,11 @@ return {
         name = "fzy-native"
     },
     {
+        -- ui-select extension to replace vim.ui.select with Telescope
+        "nvim-telescope/telescope-ui-select.nvim",
+        name = "ui-select"
+    },
+    {
         "nvim-telescope/telescope.nvim",
         branch = '0.1.x', -- recommend not using master branch for stability
         dependencies = {
@@ -24,15 +29,18 @@ return {
         },
         config = function()
             local tele = require("telescope")
+            local themes = require("telescope.themes")
             tele.setup({
                 extensions = {
                     fzy_native = {
                         override_generic_sorter = false,
                         override_file_sorter = true,
-                    }
+                    },
+                    ["ui-select"] = themes.get_dropdown({})
                 }
             })
             tele.load_extension("fzy_native")
+            tele.load_extension("ui-select")
         end
     }
 }
