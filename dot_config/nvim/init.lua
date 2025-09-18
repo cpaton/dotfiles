@@ -12,4 +12,4 @@ require('config.ui')
 
 -- vim.cmd.colorscheme "solarized"
 -- vim.cmd.colorscheme "rose-pine"
-vim.cmd.colorscheme "catppuccin"
+-- vim.cmd.colorscheme "catppuccin"

@@ -32,14 +32,15 @@ return {
             filesystem = {
                 filtered_items = {
                     hide_gitignored = false
-                }
+                },
+                hijack_netrw_behavior = "open_default",
             },
             sources = {
                 "filesystem",
                 "buffers",
                 "git_status",
                 "diagnostics"
-            }
+            },
         }
     },
     {

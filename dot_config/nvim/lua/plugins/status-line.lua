@@ -53,8 +53,48 @@ return {
     },
     {
         'akinsho/bufferline.nvim',
-        version = "*",
-        dependencies = { 'web-devicons' },
-        opts = {}
+        branch = "main",
+        dependencies = {
+            'web-devicons',
+            'catppuccin'
+        },
+        opts = function()
+            --vim.cmd.colorscheme "catppuccin"
+            local bufferline = require('bufferline')
+            -- local catppuccin = require('catppuccin')
+            return {
+                options = {
+                    mode = "buffers",
+                    style_preset = bufferline.style_preset.default,
+                    numbers = "none",
+                    -- highlights = catppuccin.groups.integrations.bufferline.get(),
+                    indicator = {
+                        style = 'underline',
+                    },
+                    diagnostics = "nvim_lsp",
+                    tab_size = 15,
+                    max_name_length = 18,
+                    show_tab_indicators = true,
+                    show_close_icon = true,
+                    show_buffer_icons = false,
+                    show_buffer_close_icons = false,
+                    separator_style = "slant",
+                    always_show_bufferline = true,
+                    offsets = {
+                        {
+                            filetype = "neo-tree",
+                            text = "File Explorer",
+                            highlight = "Directory",
+                            text_align = "center"
+                        }
+                    },
+                    hover = {
+                        enabled = true,
+                        delay = 200,
+                        reveal = { 'close' }
+                    }
+                }
+            }
+        end
     }
 }
