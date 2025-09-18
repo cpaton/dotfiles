@@ -33,7 +33,7 @@ return {
                 filtered_items = {
                     hide_gitignored = false
                 },
-                hijack_netrw_behavior = "open_default",
+                hijack_netrw_behavior = "open_current",
             },
             sources = {
                 "filesystem",
