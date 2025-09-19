@@ -92,3 +92,5 @@ vim.keymap.set("v", "<M-F>", --shift+alt+f
 )
 
 vim.keymap.set("n", "<Esc>", ":nohlsearch <CR><Esc>", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<M-I>", ":CopilotChatToggle <CR>", { noremap = true, silent = true, desc = "Toggle Copilot Chat" })
