@@ -1,9 +1,9 @@
 # TODO
 
-- CoPilot chat
+- Avante for llm / ai
 - Control of formatting rules from lsp
 - remove names for plugins and use only urls
-- cmp sources
+- cmp sources https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
 - split keybindings
 - git fugitive how does it work
 - changed line status in gutter

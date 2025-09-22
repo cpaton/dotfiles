@@ -57,8 +57,14 @@ cmp.setup({
         end,
     },
     window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered({
+            scrollbar = true,
+            max_width = 140
+        }),
+        documentation = cmp.config.window.bordered({
+            scrollbar = true,
+            max_width = 140
+        }),
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -72,6 +78,7 @@ cmp.setup({
     -- each array acts as its own group
     -- if a group doesn't return anything it falls back to the next group
         {
+            { name = 'copilot' },
             { name = 'nvim_lsp' },
             { name = 'luasnip' },
             { name = 'path' }
@@ -79,6 +86,12 @@ cmp.setup({
         {
             { name = 'buffer' },
         }
-    )
+    ),
 })
-
+-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+        { name = 'buffer' }
+    }
+})

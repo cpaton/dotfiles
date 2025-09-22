@@ -1,7 +1,10 @@
 return {
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'web-devicons' },
+        dependencies = {
+            'nvim-tree/nvim-web-devicons',
+            'AndreM222/copilot-lualine'
+        },
         enabled = true,
         opts = {
             options = {
@@ -14,6 +17,7 @@ return {
                 lualine_c = { 'filename' },
                 lualine_x = { 'searchcount', 'selectioncount' },
                 lualine_y = {
+                    'copilot',
                     'encoding',
                     'fileformat',
                     'location'
@@ -52,6 +56,11 @@ return {
         }
     },
     {
+        -- displays copilot status in lualine
+        'AndreM222/copilot-lualine'
+    },
+    {
+        -- tab bars across the top of the screen
         'akinsho/bufferline.nvim',
         branch = "main",
         dependencies = {

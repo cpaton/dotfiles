@@ -17,10 +17,11 @@ return {
         -- LspInstall command, and auto-enabling lsp servers installed via mason, including translating the mason name to that known by nvim-lspconfig
         "mason-org/mason-lspconfig.nvim",
         opts = {
-            ensure_installed = { 
+            ensure_installed = {
+                "copilot",
                 "dockerls",
-                "lua_ls", 
-                "powershell_es" 
+                "lua_ls",
+                "powershell_es"
             },
         },
         dependencies = {

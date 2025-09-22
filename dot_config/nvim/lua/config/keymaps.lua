@@ -91,6 +91,23 @@ vim.keymap.set("v", "<M-F>", --shift+alt+f
     { desc = "Format selected text" }
 )
 
-vim.keymap.set("n", "<Esc>", ":nohlsearch <CR><Esc>", { noremap = true, silent = true })
+-- Press Escape in normal mode to clear temporary things like search highlights and copilot suggestions
+vim.keymap.set("n", "<Esc>", function()
+    -- clear any next edit suggestions from copilot
+    local ok, copilot = pcall(require, "copilot-lsp.nes")
+    if ok and copilot.clear then
+        copilot.clear()
+    end
+
+    -- Clear search highlight
+    vim.cmd("nohlsearch")
+
+    -- Feed real <Esc> so it behaves normally
+    vim.api.nvim_feedkeys(
+        vim.api.nvim_replace_termcodes("<Esc>", true, false, true),
+        "n",
+        true
+    )
+end, { noremap = true, silent = true, desc = "Clear Copilot + search highlight + Esc" })
 
 vim.keymap.set("n", "<M-I>", ":CopilotChatToggle <CR>", { noremap = true, silent = true, desc = "Toggle Copilot Chat" })
