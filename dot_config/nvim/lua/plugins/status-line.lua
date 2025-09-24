@@ -64,8 +64,8 @@ return {
         'akinsho/bufferline.nvim',
         branch = "main",
         dependencies = {
-            'web-devicons',
-            'catppuccin'
+            'nvim-tree/nvim-web-devicons',
+            'catppuccin/nvim'
         },
         opts = function()
             --vim.cmd.colorscheme "catppuccin"

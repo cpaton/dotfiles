@@ -17,4 +17,8 @@ cd:
   args:
     - -NoProfile 
     - -NoLogo
+
+data:
+  full_name: Craig Paton
+  email: << fill in >>
 ```

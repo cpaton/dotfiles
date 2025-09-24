@@ -25,7 +25,6 @@ return {
     },
     {
         's1n7ax/nvim-window-picker',
-        name = 'window-picker',
         event = 'VeryLazy',
         version = '2.*'
     },
@@ -33,7 +32,6 @@ return {
     -- general functions for showing notification popups
     {
         "rcarriga/nvim-notify",
-        name = "nvim-notify"
     },
     {
         'MeanderingProgrammer/render-markdown.nvim',

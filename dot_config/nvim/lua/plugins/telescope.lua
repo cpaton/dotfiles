@@ -8,24 +8,21 @@ return {
         -- https://github.com/nvim-lua/plenary.nvim
         -- depenendcy of telescope - bunch of lua functions author wants to share between many of their modules
         "nvim-lua/plenary.nvim",
-        name = "plenary"
     },
     {
         -- provides more performant list sorting in telescope
         "nvim-telescope/telescope-fzy-native.nvim",
-        name = "fzy-native"
     },
     {
         -- ui-select extension to replace vim.ui.select with Telescope
         "nvim-telescope/telescope-ui-select.nvim",
-        name = "ui-select"
     },
     {
         "nvim-telescope/telescope.nvim",
         branch = '0.1.x', -- recommend not using master branch for stability
         dependencies = {
-            "plenary",
-            "fzy-native"
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-fzy-native.nvim"
         },
         config = function()
             local tele = require("telescope")

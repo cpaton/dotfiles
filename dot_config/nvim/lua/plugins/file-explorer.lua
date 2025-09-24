@@ -3,25 +3,22 @@ return {
         -- https://github.com/MunifTanjim/nui.nvim
         -- re-usable UI components
         "MunifTanjim/nui.nvim",
-        name = "nui",
     },
     {
         -- https://github.com/nvim-tree/nvim-web-devicons
         -- file type icons
         "nvim-tree/nvim-web-devicons",
-        name = "web-devicons"
     },
     {
         -- https://github.com/nvim-neo-tree/neo-tree.nvim
         -- modern file explorer
         -- https://github.com/nvim-neo-tree/neo-tree.nvim/wiki
         "nvim-neo-tree/neo-tree.nvim",
-        name = "neo-tree",
         branch = "v3.x",
         dependencies = {
-            "plenary",
-            "nui",
-            "web-devicons"
+            "nvim-lua/plenary.nvim",
+            "MunifTanjim/nui.nvim",
+            "nvim-tree/nvim-web-devicons"
         },
         opts = {
             close_if_last_window = true,
@@ -73,8 +70,8 @@ return {
     {
         "antosha417/nvim-lsp-file-operations",
         dependencies = {
-            "plenary",
-            "neo-tree",
+            "nvim-lua/plenary.nvim",
+            "nvim-neo-tree/neo-tree.nvim"
         },
         lazy = false
         -- config = function()
@@ -85,9 +82,8 @@ return {
         -- https://github.com/mrbjarksen/neo-tree-diagnostics.nvim
         -- adds diagnostics source to neo-tree
         "mrbjarksen/neo-tree-diagnostics.nvim",
-        name = "neo-tree-diagnostics",
         dependencies = {
-            "neo-tree"
+            "nvim-neo-tree/neo-tree.nvim"
         }
     }
 }

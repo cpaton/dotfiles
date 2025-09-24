@@ -13,7 +13,7 @@ return {
         "CopilotC-Nvim/CopilotChat.nvim",
         enabled = false,
         dependencies = {
-            { "plenary" },
+            { "nvim-lua/plenary.nvim" },
         },
         -- build = "make tiktoken",
         opts = {

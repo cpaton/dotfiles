@@ -2,7 +2,6 @@ return {
     {
         -- color scheme
         "rose-pine/neovim",
-        name = "rose-pine",
         enabled = false,
         -- config = function()
         -- 	vim.cmd('colorscheme rose-pine')
@@ -22,7 +21,6 @@ return {
     {
         -- https://github.com/catppuccin/nvim
         "catppuccin/nvim",
-        name = "catppuccin",
         dependencies = { "akinsho/bufferline.nvim" },
         enabled = true,
         priority = 1000,

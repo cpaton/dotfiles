@@ -8,7 +8,6 @@
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        name = "treesitter",
         enabled = true,
         config = function()
             local install = require("nvim-treesitter.install")
