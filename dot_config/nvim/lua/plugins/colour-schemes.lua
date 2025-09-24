@@ -25,7 +25,7 @@ return {
         name = "catppuccin",
         dependencies = { "akinsho/bufferline.nvim" },
         enabled = true,
-        --priority = 1000,
+        priority = 1000,
         config = function()
             require("catppuccin").setup({
                 flavour = "frappe", -- latte, frappe, macchiato, mocha

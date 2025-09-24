@@ -4,9 +4,20 @@
 -- :verbose imap <key sequence>
 
 -- Leaders
+-- a - ai
 -- e - explorer / browser
 -- f - fuzzy find files
 -- k - language of file stuff
+
+-- Avante key mappings - https://github.com/yetone/avante.nvim?tab=readme-ov-file#key-bindings
+-- leader a c - add current
+-- leader a t - toggle
+-- vim.keymap.set("n", "<leader>ac", ":AvanteAsk position=right <CR>",
+--    { noremap = true, silent = true, desc = "Avante Chat" })
+-- vim.keymap.set("n", "<leader>af", ":AvanteToggle<CR>",
+--    { noremap = true, silent = true, desc = "Avante toggle" })
+-- vim.keymap.set("n", "<leader>ax", ":AvanteToggle<CR>",
+--    { noremap = true, silent = false, desc = "Avante add/remove current file from context" })
 
 -- vim.keymap.set("n", "<leader>b", vim.cmd.Explore, { desc = "File browser" }) -- file browser
 -- https://github.com/nvim-neo-tree/neo-tree.nvim?tab=readme-ov-file#arguments
@@ -25,6 +36,8 @@ vim.keymap.set("n", "<leader>eb", ":Neotree action=focus source=buffers position
 vim.keymap.set("n", "<leader>ed", ":Neotree action=focus source=diagnostics position=bottom toggle=true <CR>",
     { noremap = true, silent = true, desc = "File browser git status" })
 vim.keymap.set("n", "<leader>ec", ":Neotree action=close <CR>",
+    { noremap = true, silent = true, desc = "File browser close" })
+vim.keymap.set("n", "<leader>ex", ":Neotree action=close <CR>",
     { noremap = true, silent = true, desc = "File browser close" })
 
 -- file finding operations
