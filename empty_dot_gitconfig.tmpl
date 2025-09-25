@@ -1,6 +1,17 @@
 [user]
-        email = {{ .email }}
-        name = {{ .full_name }}
-
+    email = {{ .email }}
+    name = {{ .full_name }}
+[alias]
+    co = checkout
+    lc = log --oneline --decorate --graph
 [core]
-        autocrlf = false
+    autocrlf = false
+[credential]
+	helper = store
+[core]
+	autocrlf = false
+	editor = vim
+	editor = vim
+[http]
+	postBuffer = 157286400
+
