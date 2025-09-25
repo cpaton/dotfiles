@@ -20,6 +20,7 @@ return {
             ensure_installed = {
                 "copilot",
                 "dockerls",
+                "gopls",
                 "lua_ls",
                 "powershell_es"
             },
