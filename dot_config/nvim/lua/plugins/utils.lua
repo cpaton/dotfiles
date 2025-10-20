@@ -47,5 +47,10 @@ return {
             file_types = { "markdown", "Avante" },
         },
         ft = { "markdown", "Avante" },
-    }
+    },
+    -- https://github.com/famiu/bufdelete.nvim
+    -- Delete buffers without messing up window layout
+    {
+        "famiu/bufdelete.nvim",
+    },
 }

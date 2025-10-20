@@ -14,7 +14,13 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', 'diff', 'diagnostics' },
-                lualine_c = { 'filename' },
+                lualine_c = {
+                    -- https://github.com/nvim-lualine/lualine.nvim?tab=readme-ov-file#filename-component-options
+                    {
+                        'filename',
+                        path = 1, -- relative path
+                    }
+                },
                 lualine_x = { 'searchcount', 'selectioncount' },
                 lualine_y = {
                     'copilot',

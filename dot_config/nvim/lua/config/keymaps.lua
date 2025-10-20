@@ -8,6 +8,7 @@
 -- e - explorer / browser
 -- f - fuzzy find files
 -- k - language of file stuff
+-- t - buffers - but more thought of as tabs from other tools
 
 -- Avante key mappings - https://github.com/yetone/avante.nvim?tab=readme-ov-file#key-bindings
 -- leader a c - add current
@@ -124,3 +125,19 @@ vim.keymap.set("n", "<Esc>", function()
 end, { noremap = true, silent = true, desc = "Clear Copilot + search highlight + Esc" })
 
 vim.keymap.set("n", "<M-I>", ":CopilotChatToggle <CR>", { noremap = true, silent = true, desc = "Toggle Copilot Chat" })
+
+-- buffer navigation, with bufferline line these look like tabs along the top of the window
+vim.keymap.set("n", "<leader><right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader><left>", ":bprev <CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>t<right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader>tl", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
+vim.keymap.set("n", "<leader>t<left>", ":bprev <CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>tj", ":bprev <CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+vim.keymap.set("n", "<leader>tc", function()
+    -- close current buffer using bufdelete plugin to avoid messing up window layout
+    -- 0 - current buffer
+    -- false - do not force close
+    require("bufdelete").bufdelete(0, false)
+end, { noremap = true, silent = true, desc = "Close tab (buffer)" })
+vim.keymap.set("n", "<leader>to", ":bonly <CR>",
+    { noremap = true, silent = true, desc = "Close all other tabs (buffers)" })

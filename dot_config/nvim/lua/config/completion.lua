@@ -81,12 +81,13 @@ cmp.setup({
             { name = 'copilot' },
             { name = 'nvim_lsp' },
             { name = 'luasnip' },
-            { name = 'path' }
-        },
-        {
+            { name = 'path' },
             { name = 'buffer' },
         }
     ),
+    experimental = {
+        ghost_text = true, -- 👈 enables ghost text
+    }
 })
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline({ '/', '?' }, {
@@ -95,3 +96,10 @@ cmp.setup.cmdline({ '/', '?' }, {
         { name = 'buffer' }
     }
 })
+-- Hide copilot suggestions when the completion menu is open
+cmp.event:on("menu_opened", function()
+    vim.b.copilot_suggestion_hidden = true
+end)
+cmp.event:on("menu_closed", function()
+    vim.b.copilot_suggestion_hidden = false
+end)
