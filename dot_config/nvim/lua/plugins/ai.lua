@@ -25,7 +25,7 @@ return {
         -- integrate GitHub Copilot with Neovim's built-in LSP client
         -- displays Next Edit Suggestions (NES) inline and provides code completions via the LSP interface
         "copilotlsp-nvim/copilot-lsp",
-        enabled = false,
+        enabled = true,
         init = function()
             vim.g.copilot_nes_debounce = 3000
             vim.lsp.enable("copilot_ls")
@@ -72,15 +72,15 @@ return {
                 debounce = 2000,
                 keymap = {
                     accept = "<M-l>",
-                    accept_word = false,
-                    accept_line = false,
+                    accept_word = "<M-w>",
+                    accept_line = "<M-W>",
                     next = "<M-]>",
                     prev = "<M-[>",
                     dismiss = "<C-]>",
                 }
             },
             nes = {
-                enabled = false,
+                enabled = true,
                 auto_trigger = true,
             },
             filetypes = {

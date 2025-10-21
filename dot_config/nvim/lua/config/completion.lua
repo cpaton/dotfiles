@@ -40,6 +40,10 @@ Completion can be done for:
 
 local cmp = require('cmp')
 cmp.setup({
+    --completion = {
+    --    autocomplete = false -- prevent automatic popup of completion menu
+    --},
+
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
@@ -72,7 +76,10 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(), -- doesn't generally work in my setup
         ['<C-l>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+        ['<Right>'] = cmp.mapping.confirm({ select = true }),
+        ['<M-Right>'] = cmp.mapping.confirm({ select = true }),
     }),
     sources = cmp.config.sources(
     -- each array acts as its own group
@@ -86,7 +93,7 @@ cmp.setup({
         }
     ),
     experimental = {
-        ghost_text = true, -- 👈 enables ghost text
+        ghost_text = true
     }
 })
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -102,4 +109,23 @@ cmp.event:on("menu_opened", function()
 end)
 cmp.event:on("menu_closed", function()
     vim.b.copilot_suggestion_hidden = false
+end)
+
+-- add a delay to how quickly the auto complete menu shows up
+local debounce_timer = nil
+local debounce_ms = 500
+
+cmp.event:on("TextChangedI", function()
+    if debounce_timer then
+        debounce_timer:stop()
+        debounce_timer:close()
+    end
+
+    debounce_timer = vim.defer_fn(function()
+        if cmp.visible() then
+            cmp.complete()
+        else
+            cmp.complete()
+        end
+    end, debounce_ms)
 end)

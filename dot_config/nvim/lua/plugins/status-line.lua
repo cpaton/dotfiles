@@ -23,7 +23,8 @@ return {
                 },
                 lualine_x = { 'searchcount', 'selectioncount' },
                 lualine_y = {
-                    'copilot',
+                    'lsp_status',
+                    --'copilot',
                     'encoding',
                     'fileformat',
                     'location'
@@ -92,7 +93,7 @@ return {
                     show_tab_indicators = true,
                     show_close_icon = true,
                     show_buffer_icons = false,
-                    show_buffer_close_icons = false,
+                    show_buffer_close_icons = true,
                     separator_style = "slant",
                     always_show_bufferline = true,
                     offsets = {

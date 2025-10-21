@@ -139,5 +139,9 @@ vim.keymap.set("n", "<leader>tc", function()
     -- false - do not force close
     require("bufdelete").bufdelete(0, false)
 end, { noremap = true, silent = true, desc = "Close tab (buffer)" })
-vim.keymap.set("n", "<leader>to", ":bonly <CR>",
+vim.keymap.set("n", "<leader>to", ":Bonly <CR>",
     { noremap = true, silent = true, desc = "Close all other tabs (buffers)" })
+
+vim.api.nvim_create_user_command("Bonly", function()
+    vim.cmd("%bd|e#|bd#")
+end, {})

@@ -4,8 +4,14 @@ local groupFormatOnSave = vim.api.nvim_create_augroup("FormatOnSave", { clear = 
 -- Add autocommands to the group
 vim.api.nvim_create_autocmd("BufWritePre", {
     group = groupFormatOnSave,
-    pattern = { "*.lua" },
+    pattern = {
+        "*.lua",
+        "*.ps1",
+        "*.tf",
+    },
     callback = function()
-        vim.lsp.buf.format({ async = false })
+        vim.lsp.buf.format({
+            async = false
+        })
     end,
 })
