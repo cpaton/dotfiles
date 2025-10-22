@@ -19,6 +19,11 @@ return {
         }
     },
     {
+        -- https://github.com/nvim-lua/plenary.nvim
+        -- bunch of lua functions author wants to share between many of their modules
+        "nvim-lua/plenary.nvim",
+    },
+    {
         'nvim-mini/mini.nvim',
         version = '*',
         enabled = false,

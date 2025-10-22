@@ -78,6 +78,9 @@ cmp.setup({
         ['<C-l>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping(function(fallback)
+            -- Having enter accept the intellisense suggestion was too agressive when enabled everywhere
+            -- But it was the natural key to use when explicitly selecting an item from the popup
+            -- This function attempts to use the best of both worlds and have enter only work when an item has been selecteed in the popup
             if cmp.visible() and cmp.get_selected_entry() then
                 cmp.confirm({ select = false })
             else
