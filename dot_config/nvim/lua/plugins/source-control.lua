@@ -9,7 +9,13 @@ return {
         -- LazyGit within Neovim
         "kdheepak/lazygit.nvim",
         lazy = true,
-        cmd = { "LazyGit" },
+        cmd = {
+            "LazyGit",
+            "LazyGitConfig",
+            "LazyGitCurrentFile",
+            "LazyGitFilter",
+            "LazyGitFilterCurrentFile",
+        },
         opts = {}
     }
 }
