@@ -9,6 +9,7 @@
 -- f - fuzzy find files
 -- k - language of file stuff
 -- t - buffers - but more thought of as tabs from other tools
+-- w - windows / panes
 
 -- Avante key mappings - https://github.com/yetone/avante.nvim?tab=readme-ov-file#key-bindings
 -- leader a c - add current
@@ -145,3 +146,12 @@ vim.keymap.set("n", "<leader>to", ":Bonly <CR>",
 vim.api.nvim_create_user_command("Bonly", function()
     vim.cmd("%bd|e#|bd#")
 end, {})
+
+-- window naviagation and manipulation
+vim.keymap.set("n", "<leader>w-", ":split <CR>", { noremap = true, silent = true, desc = "Horizontal split" })
+vim.keymap.set("n", "<leader>w|", ":vsplit <CR>", { noremap = true, silent = true, desc = "Vertical split" })
+vim.keymap.set("n", "<leader>wc", ":close <CR>", { noremap = true, silent = true, desc = "Close Window" })
+vim.keymap.set("n", "<leader>w<Up>", "<C-w><Up>", { noremap = false, desc = "Select window above" })
+vim.keymap.set("n", "<leader>w<Down>", "<C-w><Down>", { noremap = false, desc = "Select window below" })
+vim.keymap.set("n", "<leader>w<Left", "<C-w><Left>", { noremap = false, desc = "Select window to the left" })
+vim.keymap.set("n", "<leader>w<Right>", "<C-w><Right>", { noremap = false, desc = "Select window to the right" })
