@@ -8,7 +8,7 @@
 -- e - explorer / browser
 -- f - fuzzy find files
 -- g - git / source control
--- k - language of file stuff
+-- l - language of file stuff
 -- t - buffers - but more thought of as tabs from other tools
 -- w - windows / panes
 
@@ -68,9 +68,15 @@ vim.keymap.set("n", "<leader>gg", ":LazyGit <CR>", { noremap = true, silent = tr
 -- vim.keymap.set('i', '<C-Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
 -- vim.keymap.set('i', '<Esc><Space>', '<C-x><C-o>', { noremap = true, silent = true, desc = "Trigger completion" })
 
+vim.keymap.set("n", "<leader>ld", function()
+    vim.diagnostic.open_float(nil, { focus = false })
+end, { noremap = true, silent = true, desc = "Show diagnostics for currnet word" })
+vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "LSP help" })
+vim.keymap.set("n", "<leader>lp", vim.lsp.buf.signature_help,
+    { noremap = true, silent = true, desc = "LSP signature help" })
 -- formatting
 -- format entire file
-vim.keymap.set("n", "<leader>kf",
+vim.keymap.set("n", "<leader>lf",
     function()
         local clients = vim.lsp.get_clients({ bufnr = 0 })
         if #clients > 0 then
