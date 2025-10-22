@@ -7,6 +7,7 @@
 -- a - ai
 -- e - explorer / browser
 -- f - fuzzy find files
+-- g - git / source control
 -- k - language of file stuff
 -- t - buffers - but more thought of as tabs from other tools
 -- w - windows / panes
@@ -57,6 +58,9 @@ vim.keymap.set("n", "<leader>fs",
     end,
     { desc = "Find with grep and allow second filtering" }
 )
+
+vim.keymap.set("n", "<leader>gg", ":LazyGit <CR>", { noremap = true, silent = true, desc = "Open LazyGit" })
+
 
 -- code completion
 -- vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
