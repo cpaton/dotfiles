@@ -37,6 +37,7 @@ Completion can be done for:
 -- })
 -- require('mini.icons').setup({})
 -- MiniIcons.tweak_lsp_kind()
+--
 
 local cmp = require('cmp')
 cmp.setup({
@@ -76,7 +77,15 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(), -- doesn't generally work in my setup
         ['<C-l>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<CR>'] = cmp.mapping(function(fallback)
+            if cmp.visible() and cmp.get_selected_entry() then
+                cmp.confirm({ select = false })
+            else
+                fallback() -- behave like normal <CR>
+            end
+        end, { "i", "s" }),
+        ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
         --['<Right>'] = cmp.mapping.confirm({ select = true }),
         ['<M-Right>'] = cmp.mapping.confirm({ select = true }),
