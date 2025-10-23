@@ -45,7 +45,8 @@ return {
         branch = '0.1.x', -- recommend not using master branch for stability
         dependencies = {
             "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope-fzy-native.nvim"
+            "nvim-telescope/telescope-fzy-native.nvim",
+            "nvim-telescope/telescope-fzf-native.nvim",
         },
         config = function()
             local tele = require("telescope")
