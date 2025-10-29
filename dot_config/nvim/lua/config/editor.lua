@@ -27,3 +27,6 @@ vim.opt.undodir = vim.fn.stdpath("data") .. "/undodir"
 vim.opt.undofile = true
 
 vim.opt.mouse = "a" -- Enable mouse support in all modes
+
+vim.opt.spell = true
+vim.opt.spelllang = { "en_gb" }
