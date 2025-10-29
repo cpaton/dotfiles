@@ -49,3 +49,20 @@ vim.api.nvim_create_autocmd('LspAttach', {
 ]]
 
 vim.lsp.enable('lua_ls')
+
+-- go templates ending in teml should use their main filetype for their filetype
+vim.filetype.add({
+    pattern = {
+        ['.*%.([%w_]+)%.tmpl'] = function(_, _, captures)
+            -- depending on nvim version captures is either a string or a table - handle both scenarios
+            local ft
+            if type(captures) == "table" then
+                ft = captures[1]
+            elseif type(captures) == "string" then
+                ft = captures
+            end
+            -- print("Detected filetype:", ft)
+            return ft
+        end,
+    },
+})
