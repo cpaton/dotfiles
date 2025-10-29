@@ -3,6 +3,10 @@
 -- see if something is mapped
 -- :verbose imap <key sequence>
 
+-- <Ctrl+/> in Visual mode to toggle comment
+vim.keymap.set("x", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle comment selection" })
+
+--
 -- Leaders
 -- a - ai
 -- e - explorer / browser

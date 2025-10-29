@@ -29,5 +29,19 @@ return {
             "mason-org/mason.nvim",
             "neovim/nvim-lspconfig",
         }
+    },
+    {
+        -- comment code easily
+        'numToStr/Comment.nvim',
+        opts = {
+            toggler = {
+                line = '<leader>l/',
+                block = '<leader>lb/',
+            },
+            opleader = {
+                line = '<leader>l/',
+                block = '<leader>lb/',
+            },
+        }
     }
 }
