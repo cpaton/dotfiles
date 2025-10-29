@@ -9,6 +9,10 @@ return {
         "hrsh7th/cmp-path"
     },
     {
+        -- current buffer words
+        "hrsh7th/cmp-buffer"
+    },
+    {
         -- code completion source for lsp
         "hrsh7th/cmp-nvim-lsp"
     },
