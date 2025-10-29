@@ -25,7 +25,7 @@ return {
         -- integrate GitHub Copilot with Neovim's built-in LSP client
         -- displays Next Edit Suggestions (NES) inline and provides code completions via the LSP interface
         "copilotlsp-nvim/copilot-lsp",
-        enabled = true,
+        enabled = {{ default "false" ( get .feature_flags "github_copilot" ) }},
         init = function()
             vim.g.copilot_nes_debounce = 3000
             vim.lsp.enable("copilot_ls")
@@ -57,7 +57,7 @@ return {
         -- https://github.com/zbirenbaum/copilot.lua
         -- CoPilot extension written in Lua as a replacement for copilot.vim
         "zbirenbaum/copilot.lua",
-        enabled = true,
+        enabled = {{ default "false" ( get .feature_flags "github_copilot" ) }},
         event = "InsertEnter", -- load when entering insert mode to speed up startup
         opts = {
             panel = {
@@ -106,7 +106,7 @@ return {
             -- this file can contain specific instructions for your project
             instructions_file = "avante.md",
             -- for example
-            provider = "copilot",
+            provider = "{{ .neovim.avante_provider }}",
             mode = "agentic",
             -- auto_suggestion_provider = "copilot", -- disabled for now as Copilot has issues https://github.com/yetone/avante.nvim/issues/1048
             behaviour = {
@@ -172,7 +172,9 @@ return {
             --"stevearc/dressing.nvim",        -- for input provider dressing
             --"folke/snacks.nvim",             -- for input provider snacks
             "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+            {{- if ( default "false" ( get .feature_flags "github_copilot" ) ) }}
             "zbirenbaum/copilot.lua",      -- for providers='copilot'
+            {{- end }}
             --[[
             {
                 -- support for image pasting

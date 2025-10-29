@@ -21,4 +21,8 @@ cd:
 data:
   full_name: Craig Paton
   email: << fill in >>
+  neovim:
+    avante_provider: copilot
+  feature_flags:
+    github_copilot: true
 ```
