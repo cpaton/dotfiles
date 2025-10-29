@@ -20,7 +20,10 @@ return {
             "MunifTanjim/nui.nvim",
             "nvim-tree/nvim-web-devicons"
         },
+        ---@type neotree.Config
         opts = {
+            -- removed Terminal from this list to avoid unwanted splits
+            open_files_do_not_replace_types = { "Trouble", "qf", "edgy" }, -- when opening files, do not use windows containing these filetypes or buftypes
             close_if_last_window = true,
             enable_diagnostics = true,
             window = {
