@@ -3,7 +3,6 @@ return {
         'nvim-lualine/lualine.nvim',
         dependencies = {
             'nvim-tree/nvim-web-devicons',
-            'AndreM222/copilot-lualine'
         },
         enabled = true,
         opts = {
@@ -61,10 +60,6 @@ return {
                 -- lualine_a = { 'filename' }
             }
         }
-    },
-    {
-        -- displays copilot status in lualine
-        'AndreM222/copilot-lualine'
     },
     {
         -- tab bars across the top of the screen
