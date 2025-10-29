@@ -1,3 +1,5 @@
+-- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
+
 return {
     -- { "rafamadriz/friendly-snippets" }
     {
@@ -11,6 +13,10 @@ return {
     {
         -- current buffer words
         "hrsh7th/cmp-buffer"
+    },
+    {
+        -- function signature hints
+        "hrsh7th/cmp-nvim-lsp-signature-help"
     },
     {
         -- code completion source for lsp

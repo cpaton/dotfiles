@@ -37,7 +37,6 @@ Completion can be done for:
 -- })
 -- require('mini.icons').setup({})
 -- MiniIcons.tweak_lsp_kind()
---
 
 local cmp = require('cmp')
 cmp.setup({
@@ -96,6 +95,9 @@ cmp.setup({
     sources = cmp.config.sources(
     -- each array acts as its own group
     -- if a group doesn't return anything it falls back to the next group
+        {
+            { name = 'nvim_lsp_signature_help' }
+        },
         {
             { name = 'copilot' },
             { name = 'nvim_lsp' },
