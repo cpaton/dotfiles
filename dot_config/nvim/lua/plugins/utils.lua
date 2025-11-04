@@ -58,4 +58,8 @@ return {
     {
         "famiu/bufdelete.nvim",
     },
+    {
+        "MunifTanjim/nui.nvim",
+        name = "nui"
+    }
 }
