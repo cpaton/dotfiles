@@ -7,7 +7,7 @@
 
 ## Configuration
 
-By default looks for configuration file in ~/.config/chezmoi/chezmoi.config (following XDG_CONFIG_HOME conventions)
+By default looks for configuration file in ~/.config/chezmoi/chezmoi.yaml (following XDG_CONFIG_HOME conventions)
 
 ```yaml
 sourceDir: c:\_cp\Git\dotfiles
@@ -21,6 +21,11 @@ cd:
 data:
   full_name: Craig Paton
   email: << fill in >>
+  paths:
+    local_data_root: c:\_cp
+    local_app_data_root: C:\Users\craig\AppData\Local
+    roaming_app_data_root: C:\Users\craig\OneDrive\Roaming\T480S
+    shell_initial_directory: c:\_cp
   neovim:
     avante_provider: copilot
   feature_flags:

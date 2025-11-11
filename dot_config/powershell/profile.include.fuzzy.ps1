@@ -1,5 +1,7 @@
-Import-Module PSFzf -ErrorAction SilentlyContinue
-Set-PsFzfOption -PSReadlineChordReverseHistory Ctrl+r
+__ProfileOnIdleInitialization "fuzzy" {
+    Import-Module PSFzf -ErrorAction SilentlyContinue -Global
+    Set-PsFzfOption -PSReadlineChordReverseHistory Ctrl+r
+}
 
 function Set-LocationFuzzy() {
     [CmdletBinding()]

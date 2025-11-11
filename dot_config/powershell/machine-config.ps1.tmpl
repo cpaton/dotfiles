@@ -1,4 +1,98 @@
-@{
-    LocalModulePath = "c:\_cp\PowerShell\Modules-Local"
+<#
+{{- $initialDir := "~" -}}
+{{- $localDataRoot := "~" -}}
+{{- $roamingAppDataRoot := "" -}}
+{{- $cacheRoot := "" -}}
+{{- $stateRoot := "" -}}
+{{- if (hasKey . "paths") -}}
+  {{- if hasKey .paths "shell_initial_directory" -}}
+    {{- $initialDir = get .paths "shell_initial_directory" -}}
+  {{- end -}}
+  {{- if hasKey .paths "local_data_root" -}}
+    {{- $localDataRoot = get .paths "local_data_root" -}}
+  {{- end -}}
+  {{- if hasKey .paths "roaming_app_data_root" -}}
+    {{- $roamingAppDataRoot = get .paths "roaming_app_data_root" -}}
+  {{- end -}}
+  {{- if hasKey .paths "cache_root" -}}
+    {{- $cacheRoot = get .paths "cache_root" -}}
+  {{- end -}}
+  {{- if hasKey .paths "state_root" -}}
+    {{- $stateRoot = get .paths "state_root" -}}
+  {{- end -}}
+{{- end -}}
+#>
+$machineConfig = @{}
+
+$machineConfig.InitialDirectory = Resolve-Path '{{ $initialDir }}'
+$machineConfig.LocalDataRoot = Resolve-Path '{{ $localDataRoot }}'
+
+# XDG folder specification takes precedence if provided.  
+# Otherwise use data provided in Chezmoi config, falling back to sensible defaults based on O/S
+if (Test-Path env:XDG_CONFIG_HOME) {
+    $machineConfig.ConfigRoot = $env:XDG_CONFIG_HOME -replace '~', ( Resolve-Path ~ )
+} else {
+    $machineConfig.ConfigRoot = Join-Path ( Resolve-Path ~ ) ".config"
 }
 
+if (Test-Path env:XDG_DATA_HOME) {
+    $machineConfig.LocalAppDataRoot = $env:XDG_DATA_HOME -replace '~', ( Resolve-Path ~ )
+} else {
+    if ($IsWindows) {
+        $machineConfig.LocalAppDataRoot = $env:LOCALAPPDATA
+    }
+    else {
+        $machineConfig.LocalAppDataRoot = Join-Path ( Resolve-Path ~ ) ".local/share" 
+    }
+}
+
+if (Test-Path env:XDG_CACHE_HOME) {
+    $machineConfig.CacheRoot = $env:XDG_CACHE_HOME -replace '~', ( Resolve-Path ~ )
+} else {
+    if ([string]::IsNullOrWhiteSpace("{{ $cacheRoot }}")) {
+        $machineConfig.CacheRoot = Join-Path ( Resolve-Path ~ ) ".cache"
+    }
+    else {
+        $machineConfig.CacheRoot = "{{ $cacheRoot }}"
+    }
+}
+
+if (Test-Path env:XDG_STATE_HOME) {
+    $machineConfig.StateRoot = $env:XDG_STATE_HOME -replace '~', ( Resolve-Path ~ )
+} else {
+    if ([string]::IsNullOrWhiteSpace("{{ $stateRoot }}")) {
+        if ($IsWindows) {
+            $machineConfig.StateRoot = Join-Path $env:LOCALAPPDATA ".state"
+        }
+        else {
+            $machineConfig.StateRoot = Join-Path ( Resolve-Path ~ ) ".local/state" 
+        }
+    }
+    else {
+        $machineConfig.StateRoot = "{{ $stateRoot }}"
+    }
+}
+
+
+if ([string]::IsNullOrWhiteSpace("{{ $roamingAppDataRoot }}")) {
+    if ($IsWindows) {
+        $machineConfig.RoamingAppDataRoot = $env:APPDATA
+    }
+    else {
+        $machineConfig.RoamingAppDataRoot = Join-Path ( Resolve-Path ~ ) ".local/state" 
+    }
+}
+else {
+    $machineConfig.RoamingAppDataRoot = "{{ $roamingAppDataRoot }}"
+}
+
+$machineConfig.GitRoot = Join-Path $machineConfig.LocalDataRoot "git"
+
+$machineConfig.PowerShell = @{
+    ConfigRoot = Join-Path $machineConfig.ConfigRoot "powershell"
+    CacheRoot  = Join-Path $machineConfig.CacheRoot "powershell"
+    LocalModulesRoot = Join-Path $machineConfig.LocalAppDataRoot "powershell/Modules"
+    ProfileLogPath = Join-Path $machineConfig.StateRoot "powershell/profile.log"
+}
+
+return $machineConfig

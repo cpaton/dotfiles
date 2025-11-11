@@ -34,3 +34,10 @@ Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -Function MenuComplete
 Set-PSReadLineKeyHandler -Key Ctrl+D2 -Function MenuComplete
 
 # Use [System.Console]::ReadKey() to see the keys as seen by .Net / PowerShell
+
+# Store history file in roaming data
+$consoleHistoryFolder = Join-Path $MachineConfiguration.RoamingAppDataRoot "PSReadLine"
+if (-not (Test-Path $consoleHistoryFolder)) {
+    New-Item -Path $consoleHistoryFolder -ItemType Directory -Force | Out-Null
+}
+Set-PSReadLineOption -HistorySavePath ( Join-Path $consoleHistoryFolder "ConsoleHost_history.txt" )

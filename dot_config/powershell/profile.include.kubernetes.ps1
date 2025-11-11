@@ -1,10 +1,32 @@
-$kubeCtl = Get-Command kubectl.exe -ErrorAction SilentlyContinue
-if ($null -ne $kubeCtl) {
-    New-Alias -Name k -Value $kubeCtl.Definition
-}
+. __ProfileCachedInitialization "kubernetes" {
+    $kubeCtl = Get-Command kubectl.exe -ErrorAction SilentlyContinue
+    if ($null -ne $kubeCtl) {
+        "New-Alias -Name k -Value $($kubeCtl.Definition) -Scope Global"
+        $kubectlCompletion = kubectl completion powershell
 
-helm completion powershell | Out-String | Invoke-Expression
-kubectl completion powershell | Out-String | Invoke-Expression
+        # Setup tab completion for the k alias in addition to kubectl
+        $insideArgumentCompleter = $false
+        $argumentCompleterForAlias = @()
+        foreach ($line in $kubectlCompletion) {
+            if ($insideArgumentCompleter) {
+                $argumentCompleterForAlias += $line
+                if ($line -match "^}") {
+                    break
+                }
+            }
+            if ($line -match "Register-ArgumentCompleter -CommandName 'kubectl'") {
+                $insideArgumentCompleter = $true
+                $argumentCompleterForAlias += $line -replace 'kubectl','k'
+            }
+        }
+
+        @($kubectlCompletion) + $argumentCompleterForAlias | Out-String
+    }
+
+    if ($null -ne (Get-Command helm -ErrorAction SilentlyContinue)) {
+        helm completion powershell | Out-String
+    }
+}
 
 function eks()
 {
