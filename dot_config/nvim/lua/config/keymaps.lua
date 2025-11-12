@@ -157,15 +157,34 @@ end, { noremap = true, silent = true, desc = "Close tab (buffer)" })
 vim.keymap.set("n", "<leader>to", ":Bonly <CR>",
     { noremap = true, silent = true, desc = "Close all other tabs (buffers)" })
 
+-- vim.api.nvim_create_user_command("Bonly", function()
+--     vim.cmd("%bd|e#|bd#")
+-- end, {})
+
 vim.api.nvim_create_user_command("Bonly", function()
-    vim.cmd("%bd|e#|bd#")
+    local current_buf = vim.api.nvim_get_current_buf()
+    local listed_bufs = vim.api.nvim_list_bufs()
+
+    for _, buf in ipairs(listed_bufs) do
+        -- Skip:
+        --  1. Current buffer
+        --  2. Unloaded buffers
+        --  3. Neo-tree or any special buftypes (e.g. terminal, nofile, prompt)
+        if buf ~= current_buf and vim.api.nvim_buf_is_loaded(buf) then
+            local buftype = vim.bo[buf].buftype
+            local filetype = vim.bo[buf].filetype
+            if buftype == "" and not vim.tbl_contains({ "neo-tree", "lazy", "mason", "help" }, filetype) then
+                require("bufdelete").bufdelete(buf, false)
+            end
+        end
+    end
 end, {})
 
--- window naviagation and manipulation
+-- window navigation and manipulation
 vim.keymap.set("n", "<leader>w-", ":split <CR>", { noremap = true, silent = true, desc = "Horizontal split" })
 vim.keymap.set("n", "<leader>w|", ":vsplit <CR>", { noremap = true, silent = true, desc = "Vertical split" })
 vim.keymap.set("n", "<leader>wc", ":close <CR>", { noremap = true, silent = true, desc = "Close Window" })
 vim.keymap.set("n", "<leader>w<Up>", "<C-w><Up>", { noremap = false, desc = "Select window above" })
 vim.keymap.set("n", "<leader>w<Down>", "<C-w><Down>", { noremap = false, desc = "Select window below" })
-vim.keymap.set("n", "<leader>w<Left", "<C-w><Left>", { noremap = false, desc = "Select window to the left" })
+vim.keymap.set("n", "<leader>w<Left>", "<C-w><Left>", { noremap = false, desc = "Select window to the left" })
 vim.keymap.set("n", "<leader>w<Right>", "<C-w><Right>", { noremap = false, desc = "Select window to the right" })
