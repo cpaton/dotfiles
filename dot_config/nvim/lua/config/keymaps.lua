@@ -74,14 +74,12 @@ vim.keymap.set("n", "<leader>gg", ":LazyGit <CR>", { noremap = true, silent = tr
 
 -- Language <leader>l
 local telescope = require('telescope.builtin')
-vim.keymap.set("n", "<leader>ld", telescope.lsp_definitions,
-    { noremap = true, silent = true, desc = "LSP go to definition" })
+vim.keymap.set("n", "<leader>ld", telescope.lsp_definitions, { noremap = true, silent = true, desc = "LSP go to definition" })
 vim.keymap.set("n", "<leader>li", function()
     vim.diagnostic.open_float(nil, { focus = false })
 end, { noremap = true, silent = true, desc = "Show diagnostics for currnet word" })
 vim.keymap.set("n", "<leader>lh", vim.lsp.buf.hover, { noremap = true, silent = true, desc = "LSP help" })
-vim.keymap.set("n", "<leader>ln", telescope.lsp_implementations,
-    { noremap = true, silent = true, desc = "LSP go to implementers" })
+vim.keymap.set("n", "<leader>ln", telescope.lsp_implementations, { noremap = true, silent = true, desc = "LSP go to implementers" })
 vim.keymap.set("n", "<leader>lp", vim.lsp.buf.signature_help,
     { noremap = true, silent = true, desc = "LSP signature help" })
 vim.keymap.set("n", "<leader>lr", telescope.lsp_references,

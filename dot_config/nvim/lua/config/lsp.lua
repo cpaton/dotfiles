@@ -48,12 +48,32 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 ]]
 
-vim.lsp.enable('lua_ls')
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls`
+local lua_ls_config = vim.lsp.config("lua_ls", {
+    cmd = { "lua-language-server" },
+    settings = {
+        Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            format = {
+                enable = true,
+                defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "2",
+                    quote_style = "double",
+                    max_line_length = "220",
+                },
+            },
+        },
+    },
+})
 
--- go templates ending in teml should use their main filetype for their filetype
+vim.lsp.enable("lua_ls")
+
+-- go templates ending in tmpl should use their main filetype for their filetype
 vim.filetype.add({
     pattern = {
-        ['.*%.([%w_]+)%.tmpl'] = function(_, _, captures)
+        [".*%.([%w_]+)%.tmpl"] = function(_, _, captures)
             -- depending on nvim version captures is either a string or a table - handle both scenarios
             local ft
             if type(captures) == "table" then
