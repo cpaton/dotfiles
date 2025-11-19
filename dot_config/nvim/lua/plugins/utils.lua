@@ -61,5 +61,13 @@ return {
     {
         "MunifTanjim/nui.nvim",
         name = "nui"
+    },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "telescope.nvim"
+        }
     }
 }
