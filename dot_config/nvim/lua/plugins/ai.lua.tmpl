@@ -1,3 +1,9 @@
+{{- $awsSsoStartUrl := "https://view.awsapps.com/start" -}}
+{{- if (hasKey . "aws") -}}
+  {{- if hasKey .aws "sso_start_url" -}}
+    {{- $awsSsoStartUrl = get .aws "sso_start_url" -}}
+  {{- end -}}
+{{- end -}}
 -- https://www.joshmedeski.com/posts/ai-in-neovim-neovimconf-2024/
 return {
     {
@@ -196,10 +202,11 @@ return {
             ]]
         }
     },
-{
-    'awslabs/amazonq.nvim',
-    opts = {
-      ssoStartUrl = 'https://view.awsapps.com/start',  -- Authenticate with Amazon Q Free Tier
-    },
-  }
+    {
+        'awslabs/amazonq.nvim',
+        opts = {
+            ssoStartUrl = '{{ $awsSsoStartUrl }}',
+            inline_suggest = true
+        },
+    }
 }
