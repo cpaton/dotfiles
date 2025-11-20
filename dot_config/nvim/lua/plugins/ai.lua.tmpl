@@ -208,5 +208,14 @@ return {
             ssoStartUrl = '{{ $awsSsoStartUrl }}',
             inline_suggest = true
         },
+    },
+    {
+       "supermaven-inc/supermaven-nvim",
+       -- event = "InsertEnter",
+       config = function() 
+           require("supermaven-nvim").setup({
+               disable_inline_completion = true,
+           })
+       end,
     }
 }

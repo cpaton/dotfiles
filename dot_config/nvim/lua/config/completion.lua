@@ -39,6 +39,7 @@ Completion can be done for:
 -- MiniIcons.tweak_lsp_kind()
 
 local cmp = require('cmp')
+local lspkind = require('lspkind')
 cmp.setup({
     --completion = {
     --    autocomplete = false -- prevent automatic popup of completion menu
@@ -100,6 +101,7 @@ cmp.setup({
         },
         {
             { name = 'copilot' },
+            { name = "supermaven" },
             { name = 'nvim_lsp' },
             { name = 'luasnip' },
             { name = 'path' },
@@ -108,6 +110,20 @@ cmp.setup({
     ),
     experimental = {
         ghost_text = true
+    },
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = 'symbol_text',
+            maxwidth = {
+                menu = 50, -- leading text
+                abbr = 50, -- actual suggestion
+            },
+            ellipsis_char = '...',
+            show_labelDetails = true,
+            before = function(entry, vim_item)
+                return vim_item
+            end
+        })
     }
 })
 -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
