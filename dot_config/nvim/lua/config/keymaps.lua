@@ -14,6 +14,7 @@ vim.keymap.set("x", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = 
 -- g - git / source control
 -- h - harpoon
 -- l - language of file stuff
+-- r - refactoring
 -- t - buffers - but more thought of as tabs from other tools
 -- w - windows / panes
 
@@ -154,6 +155,16 @@ vim.keymap.set("n", "<Esc>", function()
 end, { noremap = true, silent = true, desc = "Clear Copilot + search highlight + Esc" })
 
 vim.keymap.set("n", "<M-I>", ":CopilotChatToggle <CR>", { noremap = true, silent = true, desc = "Toggle Copilot Chat" })
+
+-- refactoring
+vim.keymap.set("x", "<leader>re", ":Refactor extract ")
+vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
+vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
+vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
+vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
+vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
+vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
+
 
 -- buffer navigation, with bufferline line these look like tabs along the top of the window
 vim.keymap.set("n", "<leader><right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
