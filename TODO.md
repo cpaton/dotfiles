@@ -1,4 +1,5 @@
 # Config TODO
 
-- chezmoi templates
-- git settings
+* git diff with delta
+* zoxide
+* tmux project automation
