@@ -1,5 +1,5 @@
 . __ProfileCachedInitialization "kubernetes" {
-    $kubeCtl = Get-Command kubectl.exe -ErrorAction SilentlyContinue
+    $kubeCtl = Get-Command kubectl -ErrorAction SilentlyContinue
     if ($null -ne $kubeCtl) {
         "New-Alias -Name k -Value $($kubeCtl.Definition) -Scope Global"
         $kubectlCompletion = kubectl completion powershell
