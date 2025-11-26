@@ -3,7 +3,7 @@ __ProfileOnIdleInitialization "fuzzy" {
     Set-PsFzfOption -PSReadlineChordReverseHistory Ctrl+r
 }
 
-__ProfileCachedInitialization "fuzzy-tab-completion" {
+. __ProfileCachedInitialization "fuzzy-tab-completion" {
     if ($null -ne (Get-Command fzf -ErrorAction SilentlyContinue)) {
         ". $(Join-Path $MachineConfiguration.PowerShell.ConfigRoot "fuzzy-tab-expansion.ps1")"
     }
