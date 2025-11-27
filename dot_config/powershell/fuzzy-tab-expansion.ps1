@@ -25,34 +25,42 @@
 # }
 #
 
-function Invoke-FuzzyTabExpansion {
+<#
+.SYNOPSIS
+Wraps TabExpansion2 to provide fuzzy selection via fzf when multiple completions are available.
+#>
+function Invoke-FuzzyTabExpansion2 {
     [CmdletBinding()]
     param()
 
     $line   = $null
-$cursor = 0
+    $cursor = 0
+    [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState(
+        [ref]$line,
+        [ref]$cursor
+    )
 
-[Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState(
-    [ref]$line,
-    [ref]$cursor
-)
+    # $beforeCursor = $line.Substring(0, $cursor)
+    # $lastWord = $beforeCursor -replace '.*[ ;|&]',''
 
-    $beforeCursor = $line.Substring(0, $cursor)
+    $completion = TabExpansion2 $line $cursor
 
-    # 2. Determine the last word being completed
-    $lastWord = $beforeCursor -replace '.*[ ;|&]',''
-    $completion = TabExpansion2 $beforeCursor $cursor
+    $completionMatches = $completion.CompletionMatches
+    if (-not $completionMatches -or $completionMatches.Count -eq 0) {
+        return
+    }
 
-    $matches = $completion.CompletionMatches
-    if (-not $matches -or $matches.Count -eq 0) { return }
-
-    if ($matches.Count -eq 1) {
-        $choice = $matches[0].CompletionText
+    if ($completionMatches.Count -eq 1) {
+        $choice = $completionMatches[0].CompletionText
     }
     else {
-        $choice = $matches.CompletionText | fzf
-        if (-not $choice)
-        {
+        if ($IsWindows) {
+            $choice = $completionMatches.CompletionText | fzf "--height=~$($completionMatches.Count)" --reverse --prompt="$line> "
+        }
+        else {
+            $choice = $completionMatches.CompletionText | fzf "--height=~$($completionMatches.Count)" --reverse
+        }
+        if (-not $choice) {
             return
         }
     }
@@ -76,5 +84,14 @@ $cursor = 0
     # [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($newCursor)
 }
 
-Set-PSReadLineKeyHandler -Chord "Ctrl+s,t" -ScriptBlock { Invoke-FuzzyTabExpansion }
-
+if ($IsLinux) {
+    Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"
+}
+else {
+    # On windows when run through PSReadline keyhandler input and output is redirected
+    # This means fzf defaults to its fallback behavior and uses the full screen which can be a jarring experience
+    # So use alternative keybinding to offer both experiences
+    Set-PSReadLineKeyHandler -Chord Ctrl+Spacebar -Function MenuComplete
+}
+Set-PSReadLineKeyHandler -Chord Ctrl+. -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"
+Set-PSReadLineKeyHandler -Chord Ctrl+OemPeriod -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"

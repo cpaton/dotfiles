@@ -1,4 +1,5 @@
 # Convention to use Ctrl+s as the prefix for custom key bindings
+# Use [System.Console]::ReadKey() to see the keys as seen by .Net / PowerShell
 
 <#
 .SYNOPSIS
@@ -19,3 +20,7 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+s,c' `
     -ScriptBlock { Copy-CurrentPath } `
     -BriefDescription 'copy path' `
     -Description 'Copy current path'
+
+$env:VISUAL="nvim"
+Set-PSReadLineKeyHandler -Key 'Ctrl+s,e' -Function ViEditVisually
+
