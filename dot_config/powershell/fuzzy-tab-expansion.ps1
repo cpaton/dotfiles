@@ -54,12 +54,7 @@ function Invoke-FuzzyTabExpansion2 {
         $choice = $completionMatches[0].CompletionText
     }
     else {
-        if ($IsWindows) {
-            $choice = $completionMatches.CompletionText | fzf "--height=~$($completionMatches.Count)" --reverse --prompt="$line> "
-        }
-        else {
-            $choice = $completionMatches.CompletionText | fzf "--height=~$($completionMatches.Count)" --reverse
-        }
+        $choice = $completionMatches.CompletionText | fzf "--height=~$($completionMatches.Count)" --min-height=5 --reverse --prompt="$line> "
         if (-not $choice) {
             return
         }
