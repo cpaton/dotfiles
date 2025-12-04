@@ -1,0 +1,12 @@
+git:
+  pagers:
+{{- if eq .chezmoi.os "linux" }}
+    - pager: delta --dark --paging=never
+    - pager: delta --dark --paging=never --features=catppuccin-frappe
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
+    - pager: ""
+    - externalDiffCommand: "{{ .chezmoi.homeDir | replace "\\" "/" }}/.config/lazygit/delta-pager-windows.bat"
+{{- end }}
+  paging:
+    externalDiffCommand: "{{ .chezmoi.homeDir | replace "\\" "/" }}/.config/lazygit/delta-pager-windows.bat"

@@ -6,14 +6,25 @@
     lc = log --oneline --decorate --graph
 [core]
     autocrlf = false
+    pager = delta
 [credential]
-	helper = store
+    helper = store
 [core]
-	autocrlf = false
-	editor = vim
-	editor = vim
+    autocrlf = false
+    editor = vim
+    editor = vim
 [http]
-	postBuffer = 157286400
+    postBuffer = 157286400
 [pull]
     rebase = merges
+[diff]
+    colorMoved = default
+[merge]
+    # when showing diff conflicts show yours, original and theirs
+    conflictStyle = zdiff3
 
+[interactive]
+    diffFilter = delta
+
+[include]
+    path = ../delta/delta.gitconfig

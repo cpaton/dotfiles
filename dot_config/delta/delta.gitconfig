@@ -1,0 +1,20 @@
+[include]
+  path = ./catppuccin.gitconfig
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    line-numbers = true
+    hyperlinks = true
+    dark = true
+    features = side-by-side catppuccin-frappe
+
+    # delta detects terminal colors automatically; set one of these to disable auto-detection
+    # dark = true
+    # light = true
+
+[delta "no-side-by-side"]
+    side-by-side = false
+
+[delta "side-by-side"]
+    side-by-side = true
+
