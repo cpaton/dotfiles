@@ -79,10 +79,8 @@ function __ProfileCachedInitialization {
         $ScriptBlock
     )
 
-    if (-not (Test-Path $MachineConfiguration.CacheRoot)) {
-        if (-not (Test-Path $cacheFolder)) {
-            New-Item -ItemType Directory -Path $cacheFolder -Force | Out-Null
-        }
+    if (-not (Test-Path $MachineConfiguration.PowerShell.CacheRoot)) {
+        New-Item -ItemType Directory -Path $MachineConfiguration.PowerShell.CacheRoot -Force | Out-Null
     }
 
     # If we have cached output from a previous run execute it now in the current scope
