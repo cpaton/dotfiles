@@ -1,5 +1,7 @@
 # TODO
 
+* git signs - https://github.com/lewis6991/gitsigns.nvim?tab=readme-ov-file
+* learn fugitive
 * code actions plugins
 - Avante for llm / ai
 - MCP configuration for Avante - https://ravitemer.github.io/mcphub.nvim/extensions/avante.html
