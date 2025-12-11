@@ -20,13 +20,21 @@ function OnViModeChange
 }
 Set-PSReadLineOption -ViModeIndicator Script -ViModeChangeHandler $Function:OnViModeChange
 Set-PSReadLineOption -EditMode Vi
-
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
-Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-Set-Psreadlineoption -PredictionViewStyle ListView
 Set-PsReadLineOption -MaximumHistoryCount 10000
 Set-PSReadLineOption -AddToHistoryHandler { param([string]$line) return $true }
+
+
+$VTEnabled = ($PSStyle.OutputRendering -ne 'PlainText')
+$OutRedirected  = [Console]::IsOutputRedirected
+$ErrRedirected = [Console]::IsErrorRedirected
+if ($VTEnabled -and -not $OutRedirected -and -not $ErrRedirected)
+{
+    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    Set-Psreadlineoption -PredictionViewStyle ListView
+}
+
 
 Set-PSReadLineKeyHandler -Key Tab -Function TabCompleteNext
 Set-PSReadLineKeyHandler -Key Shift+Tab -Function TabCompletePrevious
