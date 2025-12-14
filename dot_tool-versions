@@ -1,0 +1,15 @@
+neovim 0.11.5
+chezmoi 2.67.0
+fd 10.3.0
+ripgrep 15.1.0
+fzf 0.66.1
+nodejs 24.11.0
+make 4.4.1
+golang 1.25.3
+lazygit 0.56.0
+ohmyposh 27.5.1
+bat 0.26.0
+delta 0.18.2
+rust 1.91.1
+opencode 1.0.143
+asdf-plugin-manager 1.5.0

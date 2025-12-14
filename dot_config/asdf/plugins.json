@@ -1,0 +1,92 @@
+[
+  {
+    "Name": "asdf-plugin-manager",
+    "Url": "https://github.com/asdf-community/asdf-plugin-manager.git",
+    "Ref": "f1cc7390168e10e2f7ebc044293957fe72009d5b"
+  },
+  {
+    "Name": "bat",
+    "Url": "https://github.com/pauloedurezende/asdf-bat.git",
+    "Ref": "08bc977b457e197fa9bdc3b9ec29b506a46a213c"
+  },
+  {
+    "Name": "bats",
+    "Url": "https://github.com/timgluz/asdf-bats.git",
+    "Ref": "299551f1668b2ba11804bdca709da8933b647bb5"
+  },
+  {
+    "Name": "chezmoi",
+    "Url": "https://github.com/joke/asdf-chezmoi.git",
+    "Ref": "326cf3e23441b8ed68adc72e9c4e20a3d442e4fc"
+  },
+  {
+    "Name": "delta",
+    "Url": "https://github.com/andweeb/asdf-delta.git",
+    "Ref": "501318bebf2d22011b86410da8a0551c9c2bdc9e"
+  },
+  {
+    "Name": "fd",
+    "Url": "https://gitlab.com/wt0f/asdf-fd.git",
+    "Ref": "17d56e06158d074df735224b2c267f0c53fe1afe"
+  },
+  {
+    "Name": "fzf",
+    "Url": "https://github.com/kompiro/asdf-fzf.git",
+    "Ref": "f8fcea1065bc0ba46ae9dc6be2dd8b44165ca7d1"
+  },
+  {
+    "Name": "golang",
+    "Url": "https://github.com/asdf-community/asdf-golang.git",
+    "Ref": "7cec9181a9b7871b5c213dc4a806080ac90b9bb7"
+  },
+  {
+    "Name": "lazygit",
+    "Url": "https://github.com/nklmilojevic/asdf-lazygit.git",
+    "Ref": "b121c742f09ce8b8ac015a4e5611986754b33eee"
+  },
+  {
+    "Name": "make",
+    "Url": "https://github.com/yacchi/asdf-make.git",
+    "Ref": "2b8c33adca11b79158298f1e35fe6a9ea363b6b0"
+  },
+  {
+    "Name": "neovim",
+    "Url": "https://github.com/richin13/asdf-neovim.git",
+    "Ref": "cc53c899a5a830ef6dc2e74afb8ef3b8abf4e51a"
+  },
+  {
+    "Name": "nodejs",
+    "Url": "https://github.com/asdf-vm/asdf-nodejs.git",
+    "Ref": "90b8ecaa556916daba983a7b01869a9ea682f285"
+  },
+  {
+    "Name": "ohmyposh",
+    "Url": "https://github.com/splinter98/asdf-ohmyposh.git",
+    "Ref": "54b4f551a78263dea5c469d8a6987502fca968f0"
+  },
+  {
+    "Name": "opencode",
+    "Url": "https://github.com/bitfrost/asdf-opencode.git",
+    "Ref": "8a6148023e9e8a10664694cad539cc1696696696"
+  },
+  {
+    "Name": "ripgrep",
+    "Url": "https://gitlab.com/wt0f/asdf-ripgrep.git",
+    "Ref": "738a361f28c8070f200b3944da8c783f4cae304e"
+  },
+  {
+    "Name": "rust",
+    "Url": "https://github.com/code-lever/asdf-rust.git",
+    "Ref": "6b521d15017696e8faf1c6bc4be789656e538ea3"
+  },
+  {
+    "Name": "shellcheck",
+    "Url": "https://github.com/luizm/asdf-shellcheck.git",
+    "Ref": "8b954a95d44b8d8a6c6cd5a5a52ed643b7bb52e3"
+  },
+  {
+    "Name": "shfmt",
+    "Url": "https://github.com/luizm/asdf-shfmt.git",
+    "Ref": "a42c5ffc85dacc5bde85a5ce5876ab4297ea8040"
+  }
+]
