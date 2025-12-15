@@ -2,17 +2,12 @@
   {
     "Name": "asdf-plugin-manager",
     "Url": "https://github.com/asdf-community/asdf-plugin-manager.git",
-    "Ref": "f1cc7390168e10e2f7ebc044293957fe72009d5b"
+    "Ref": "db4a5e6d46ea5b0df8476249536ac89deaddc08c"
   },
   {
     "Name": "bat",
     "Url": "https://github.com/pauloedurezende/asdf-bat.git",
     "Ref": "08bc977b457e197fa9bdc3b9ec29b506a46a213c"
-  },
-  {
-    "Name": "bats",
-    "Url": "https://github.com/timgluz/asdf-bats.git",
-    "Ref": "299551f1668b2ba11804bdca709da8933b647bb5"
   },
   {
     "Name": "chezmoi",
@@ -25,6 +20,16 @@
     "Ref": "501318bebf2d22011b86410da8a0551c9c2bdc9e"
   },
   {
+    "Name": "deno",
+    "Url": "https://github.com/asdf-community/asdf-deno.git",
+    "Ref": "fec2a081b00f98490bdff9aa0cbe04bc313a8639"
+  },
+  {
+    "Name": "dotnet-core",
+    "Url": "https://github.com/emersonsoares/asdf-dotnet-core.git",
+    "Ref": "4583e4b87b48d39e37ed0acbf54481297d6b4992"
+  },
+  {
     "Name": "fd",
     "Url": "https://gitlab.com/wt0f/asdf-fd.git",
     "Ref": "17d56e06158d074df735224b2c267f0c53fe1afe"
@@ -32,22 +37,47 @@
   {
     "Name": "fzf",
     "Url": "https://github.com/kompiro/asdf-fzf.git",
-    "Ref": "f8fcea1065bc0ba46ae9dc6be2dd8b44165ca7d1"
+    "Ref": "d19eb6792cbad50f0d69c78a270ebe5a76b91178"
   },
   {
     "Name": "golang",
     "Url": "https://github.com/asdf-community/asdf-golang.git",
-    "Ref": "7cec9181a9b7871b5c213dc4a806080ac90b9bb7"
+    "Ref": "50c8f58237da34223d31ac9e62e5d5f8dcc13f5f"
+  },
+  {
+    "Name": "helm",
+    "Url": "https://github.com/Antiarchitect/asdf-helm.git",
+    "Ref": "f4b7f38e367def5a2f6ec946f7b892a161fa223a"
+  },
+  {
+    "Name": "java",
+    "Url": "https://github.com/halcyon/asdf-java.git",
+    "Ref": "7e15155f40f0186721d06420442ca461ffdfd611"
+  },
+  {
+    "Name": "jq",
+    "Url": "https://github.com/AZMCode/asdf-jq.git",
+    "Ref": "a13dea7dfc55c12547426c4ef4e8fff8f349298d"
+  },
+  {
+    "Name": "k9s",
+    "Url": "https://github.com/looztra/asdf-k9s",
+    "Ref": "78643d732f9ea4e2458545b9f624edb2331d36b8"
+  },
+  {
+    "Name": "kubectl",
+    "Url": "https://github.com/asdf-community/asdf-kubectl.git",
+    "Ref": "cbe6df49865a52ad5e6e430dff33f474785ff2bf"
   },
   {
     "Name": "lazygit",
     "Url": "https://github.com/nklmilojevic/asdf-lazygit.git",
-    "Ref": "b121c742f09ce8b8ac015a4e5611986754b33eee"
+    "Ref": "78e04f1a4d21c19e4c33c77ca99ee65abe88ea1e"
   },
   {
     "Name": "make",
     "Url": "https://github.com/yacchi/asdf-make.git",
-    "Ref": "2b8c33adca11b79158298f1e35fe6a9ea363b6b0"
+    "Ref": "b86d452269c5e3478d7505e1f6d4abe9bb9dd4c9"
   },
   {
     "Name": "neovim",
@@ -57,17 +87,17 @@
   {
     "Name": "nodejs",
     "Url": "https://github.com/asdf-vm/asdf-nodejs.git",
-    "Ref": "90b8ecaa556916daba983a7b01869a9ea682f285"
-  },
-  {
-    "Name": "ohmyposh",
-    "Url": "https://github.com/splinter98/asdf-ohmyposh.git",
-    "Ref": "54b4f551a78263dea5c469d8a6987502fca968f0"
+    "Ref": "c5b7c40ea9ffc3470f44b6cf04a21e45dd6f81de"
   },
   {
     "Name": "opencode",
     "Url": "https://github.com/bitfrost/asdf-opencode.git",
     "Ref": "8a6148023e9e8a10664694cad539cc1696696696"
+  },
+  {
+    "Name": "python",
+    "Url": "https://github.com/danhper/asdf-python.git",
+    "Ref": "d4caa7d4832313b4c141ee0ceca4118747147e89"
   },
   {
     "Name": "ripgrep",
@@ -80,13 +110,23 @@
     "Ref": "6b521d15017696e8faf1c6bc4be789656e538ea3"
   },
   {
-    "Name": "shellcheck",
-    "Url": "https://github.com/luizm/asdf-shellcheck.git",
-    "Ref": "8b954a95d44b8d8a6c6cd5a5a52ed643b7bb52e3"
+    "Name": "terraform-docs",
+    "Url": "https://github.com/looztra/asdf-terraform-docs",
+    "Ref": "acfd01c50f93eeb7754d89e1fcd461bed22e3e23"
   },
   {
-    "Name": "shfmt",
-    "Url": "https://github.com/luizm/asdf-shfmt.git",
-    "Ref": "a42c5ffc85dacc5bde85a5ce5876ab4297ea8040"
+    "Name": "tmux",
+    "Url": "https://github.com/aphecetche/asdf-tmux.git",
+    "Ref": "eb8deee3db212dc48fba01cd93f093a011bc0a5d"
+  },
+  {
+    "Name": "trivy",
+    "Url": "https://github.com/zufardhiyaulhaq/asdf-trivy.git",
+    "Ref": "537a22a5480f304976fc738286aa35f549ec043d"
+  },
+  {
+    "Name": "uv",
+    "Url": "https://github.com/asdf-community/asdf-uv.git",
+    "Ref": "1d44a50b8006921f3cb55b4e4d14b1d90472b201"
   }
 ]
