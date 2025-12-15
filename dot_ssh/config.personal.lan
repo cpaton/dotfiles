@@ -1,0 +1,16 @@
+Host storage
+    Hostname storage.lan
+	Port 60022
+	IdentitiesOnly true
+	IdentityFile ~/.ssh/synology
+
+Host bee
+	Hostname bee.lan
+	IdentitiesOnly true
+	IdentityFile ~/.ssh/lan
+
+Host bee-root
+	Hostname bee.lan
+	User root
+	IdentitiesOnly true
+	IdentityFile ~/.ssh/lan
