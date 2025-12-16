@@ -2,7 +2,7 @@ Host storage
     Hostname storage.lan
 	Port 60022
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/synology
+	IdentityFile ~/.ssh/craig-lan.pub
 
 Host bee
 	Hostname bee.lan
