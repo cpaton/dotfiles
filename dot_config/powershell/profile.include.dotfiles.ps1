@@ -78,6 +78,7 @@ function Sync-DotFiles()
         }
 
         $sourceFiles = Get-ChildItem -File -Path $SyncSource -Force
+        $sourceFileNames = $sourceFiles.Name
         foreach ($file in $sourceFiles)
         {
             if (-not (Should-Sync -Name $file.Name))
@@ -110,6 +111,13 @@ function Sync-DotFiles()
             Sync-Directory -SyncSource $directory.FullName -SyncDestination $dstPath -Verbose:$VerbosePreference
         }
 
+        $targetFileNames = ( Get-ChildItem -File -Path $SyncDestination -Force ).Name
+        $filesToRemove = $targetFileNames | Where-Object { $sourceFileNames -notcontains $_ -and ( Should-Sync -Name $_ )}
+        foreach ($file in $filesToRemove)
+        {
+            Remove-Item -Path (Join-Path $SyncDestination $file) -Force -Verbose:$VerbosePreference
+        }
+
         $targetDirectoryNames = ( Get-ChildItem -Directory -Path $SyncDestination -Force ).Name
         $directoriesToRemove = $targetDirectoryNames | Where-Object { $sourceDirectoryNames -notcontains $_ }
         foreach ($directory in $directoriesToRemove)
@@ -120,7 +128,7 @@ function Sync-DotFiles()
                 continue
             }
 
-            Remove-Item -Path (Join-Path $SyncDestination $directory) -Force -Recurse -WhatIf -Verbose:$VerbosePreference
+            Remove-Item -Path (Join-Path $SyncDestination $directory) -Force -Recurse -Verbose:$VerbosePreference
         }
     }
 
