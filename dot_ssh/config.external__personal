@@ -1,9 +1,9 @@
 Host github.com
 	HostName github.com
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/craig-public.pub
+	IdentityFile ~/.ssh/craig-public__personal.pub
 
 Host bitbucket.org
 	HostName bitbucket.org
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/craig-public.pub
+	IdentityFile ~/.ssh/craig-public__personal.pub
