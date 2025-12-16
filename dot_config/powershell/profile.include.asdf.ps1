@@ -91,7 +91,11 @@ function Get-AsdfExportedPlugins
 function Update-AsdfPlugins
 {
     [CmdletBinding(SupportsShouldProcess)]
-    param()
+    param(
+        [Parameter()]
+        [switch]
+        $SkipRemove
+    )
 
     $ErrorActionPreference = "Stop"
     $PSNativeCommandUseErrorActionPreference = $true
@@ -139,13 +143,16 @@ function Update-AsdfPlugins
         }
     }
 
-    $pluginsToRemove = $currentPlugins | Where-Object { $pluginNamesWhichShouldExist -notcontains $_.Name }
-    foreach ($plugin in $pluginsToRemove)
+    if (-not $SkipRemove)
     {
-        Write-Verbose "Removing plugin $(plugin.Name)"
-        if ($PSCmdlet.ShouldProcess("Remove plugin $(plugin.Name)"))
+        $pluginsToRemove = $currentPlugins | Where-Object { $pluginNamesWhichShouldExist -notcontains $_.Name }
+        foreach ($plugin in $pluginsToRemove)
         {
-            asdf plugin remove $(plugin.Name)
+            Write-Verbose "Removing plugin $($plugin.Name)"
+            if ($PSCmdlet.ShouldProcess("Remove plugin $($plugin.Name)"))
+            {
+                asdf plugin remove $($plugin.Name)
+            }
         }
     }
 }
