@@ -1,0 +1,102 @@
+{
+    "apps": [
+        {
+            "Name": "7zip",
+            "Updated": "2025-09-07T23:15:27.1526505+01:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "25.01"
+        },
+        {
+            "Name": "bat",
+            "Updated": "2025-12-02T19:06:47.8751884+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "0.26.0"
+        },
+        {
+            "Name": "delta",
+            "Updated": "2025-11-20T19:47:19.8882752+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "0.18.2"
+        },
+        {
+            "Name": "less",
+            "Updated": "2025-12-02T19:07:05.3474137+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "685"
+        },
+        {
+            "Name": "lua",
+            "Updated": "2025-09-08T08:05:52.2178193+01:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "5.4.8-1"
+        },
+        {
+            "Name": "luarocks",
+            "Updated": "2025-09-08T08:13:21.5995744+01:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "3.12.2"
+        },
+        {
+            "Name": "mingw",
+            "Updated": "2025-09-07T23:17:04.3333045+01:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "15.2.0-rt_v13-rev0"
+        },
+        {
+            "Name": "opencode",
+            "Updated": "2025-12-04T20:34:18.2833654+00:00",
+            "Info": "",
+            "Source": "extras",
+            "Version": "1.0.132"
+        },
+        {
+            "Name": "perl",
+            "Updated": "2025-12-04T10:34:25.1497876+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "5.42.0.1"
+        },
+        {
+            "Name": "sed",
+            "Updated": "2025-12-04T10:10:01.3640949+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "4.9"
+        },
+        {
+            "Name": "uv",
+            "Updated": "2025-12-16T18:42:12.0581537+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "0.9.18"
+        },
+        {
+            "Name": "zoxide",
+            "Updated": "2025-11-20T19:53:19.0238188+00:00",
+            "Info": "",
+            "Source": "main",
+            "Version": "0.9.8"
+        }
+    ],
+    "buckets": [
+        {
+            "Name": "main",
+            "Source": "https://github.com/ScoopInstaller/Main.git",
+            "Updated": "2025-12-16T16:32:39+00:00",
+            "Manifests": 1412
+        },
+        {
+            "Name": "extras",
+            "Source": "https://github.com/ScoopInstaller/Extras",
+            "Updated": "2025-12-16T16:33:02+00:00",
+            "Manifests": 2229
+        }
+    ]
+}
