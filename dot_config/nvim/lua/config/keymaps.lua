@@ -52,6 +52,13 @@ vim.keymap.set("n", "<leader>ex", ":Neotree action=close <CR>",
 -- file finding operations
 local telescope_bi = require('telescope.builtin')
 vim.keymap.set("n", "<leader>ff", telescope_bi.find_files, { desc = "Find Files" })
+vim.keymap.set("n", "<leader>faf", function()
+    telescope_bi.find_files({
+        hidden = true,
+        no_ignore = true,
+        no_ignore_parent = true
+    })
+end, { desc = "Find Files (hidden)" })
 vim.keymap.set("n", "<leader>fp", telescope_bi.git_files, { desc = "Find Files in current project" })
 vim.keymap.set("n", "<leader>fw", telescope_bi.grep_string, { desc = "Find using current word under cursor" })
 vim.keymap.set("n", "<leader>fg", telescope_bi.live_grep, { desc = "Find with grep" })
