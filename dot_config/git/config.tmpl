@@ -7,12 +7,12 @@
 [core]
     autocrlf = false
     pager = delta
+    editor = vim
+{{- if eq .chezmoi.os "windows" }}
+    sshCommand = "C:/Windows/System32/OpenSSH/ssh.exe"
+{{- end }}
 [credential]
     helper = store
-[core]
-    autocrlf = false
-    editor = vim
-    editor = vim
 [http]
     postBuffer = 157286400
 [pull]
