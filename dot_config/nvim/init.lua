@@ -10,6 +10,7 @@ require('config.keymaps')
 require('config.formatting')
 require('config.harpoon')
 require('config.ui')
+require('config.shell')
 
 -- vim.cmd.colorscheme "solarized"
 -- vim.cmd.colorscheme "rose-pine"
