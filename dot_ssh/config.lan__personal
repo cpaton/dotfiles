@@ -7,10 +7,12 @@ Host storage
 Host bee
 	Hostname bee.lan
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/lan
+	IdentityFile ~/.ssh/craig-lan__personal.pub
+    ForwardAgent yes
 
 Host bee-root
 	Hostname bee.lan
 	User root
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/lan
+	IdentityFile ~/.ssh/craig-lan__personal.pub
+    ForwardAgent yes
