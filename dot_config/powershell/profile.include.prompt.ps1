@@ -1,7 +1,7 @@
 . __ProfileCachedInitialization "prompt" {
     # oh-my-posh --init --shell pwsh --config ( Join-Path $MachineConfiguration.ConfigRoot "oh-my-posh/shell.omp.json" ) | Out-String
     $ohMyPosh = Get-Command oh-my-posh -ErrorAction SilentlyContinue
-    $ohMyPoshConfigPath = Join-Path $MachineConfiguration.ConfigRoot "oh-my-posh/shell.omp.json"
+    $ohMyPoshConfigPath = Join-Path $MachineConfiguration.ConfigRoot "oh-my-posh/shell.omp.yaml"
     & $ohMyPosh.Definition init pwsh --config=$ohMyPoshConfigPath --print | Out-String
 }
 

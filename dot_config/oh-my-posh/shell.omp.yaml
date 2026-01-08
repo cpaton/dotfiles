@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json
+version: 4
+final_space: false
+console_title_template: "{{ .Folder }}"
+blocks:
+  - type: prompt
+    alignment: left
+    segments:
+      - type: os
+        style: plain
+        template: "{{ .Icon }} "
+      - type: shell
+        style: plain
+        template: "{{ .Name }} "
+        options:
+          mapped_shell_names:
+            bash: ""
+            pwsh: ""
+      - type: path
+        style: plain
+        template: "{{ .Path }} "
+        foreground: "#0CA0D8"
+        options:
+          style: full
+      - type: git
+        style: plain
+        template: "{{ .HEAD }}{{ .BranchStatus }}{{ if .Working.Changed }} \uf044 {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#ef5350> \uf046 {{ .Staging.String }}</>{{ end }} "
+        foreground: "#F14C4C"
+        options:
+          fetch_status: true
+          fetch_push_status: false
+          fetch_upstream_icon: true
+          fetch_bare_info: false
+          fetch_user: false
+          disable_with_jj: false
+          branch_icon:  
+          branch_identical_icon: ≡
+          branch_ahead_icon: ↑
+          branch_behind_icon: ↓
+          branch_gone_icon: ≢
+          commit_icon: 
+          tag_icon: 
+          rebase_icon: 
+          cherry_pick_icon: 
+          revert_icon: 
+          merge_icon: 
+          no_commits_icon: 
+          github_icon: 
+          gitlab_icon: 
+          bitbucket_icon: 
+          azure_devops_icon: 
+          codecommit_icon: 
+          codeberg_icon: 
+          git_icon: 
+          native_fallback: false
+  - type: prompt
+    alignment: left
+    segments:
+      - type: root
+        style: plain
+        template: "\uf037 "
+        foreground: "#cd5e42"
+      - type: text
+        style: plain
+        template: "# "
+        foreground: "#CD4277"
+ 
