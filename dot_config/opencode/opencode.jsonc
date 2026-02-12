@@ -13,7 +13,14 @@
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_DOCUMENTATION_PARTITION": "aws",
         "MCP_USER_AGENT": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-      },
+      }
     },
-  },
+    // Trigger OAuth flow with
+    // opencode mcp auth atlassian-mcp-server
+    // on headless environments need to copy the redirect URL with the code and invoke on the machine with curl / Invoke-WebRequest
+    "atlassian-mcp-server": {
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "type": "remote"
+    }
+  }
 }
