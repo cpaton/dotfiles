@@ -3,6 +3,11 @@
 -- see if something is mapped
 -- :verbose imap <key sequence>
 
+-- This file is a module in addition to setting up keymaps as its inlcuded.
+-- This allows functions here to be called from other files in callbacks where keymaps are setup e.g. plugin
+--
+local M = {}
+
 -- <Ctrl+/> in Visual mode to toggle comment
 vim.keymap.set("x", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = "Toggle comment selection" })
 
@@ -87,8 +92,97 @@ vim.keymap.set("n", "<leader>fs",
     { desc = "Find with grep and allow second filtering" }
 )
 
-vim.keymap.set("n", "<leader>gg", ":LazyGit <CR>", { noremap = true, silent = true, desc = "Open LazyGit" })
+--
+-- G - git / source related operations
+--
 
+vim.keymap.set("n", "<leader>gg", ":LazyGit <CR>", { noremap = true, silent = true, desc = "Open LazyGit" })
+-- function to setup gitsigns keymaps, called from gitsigns config when it attaches to a buffer
+function M.gitsigns(bufnr)
+    local gitsigns = require('gitsigns')
+
+    local function map(mode, l, r, opts)
+        opts = opts or {}
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    ---@type Gitsigns.NavOpts
+    local navigation_options = {
+        wrap = true,
+        foldopen = true,
+        navigation_message = false,
+        count = 1,
+        greedy = true,
+        target = 'all'
+    }
+
+    -- map('n', ']c', function()
+    --     if vim.wo.diff then
+    --         vim.cmd.normal({ ']c', bang = true })
+    --     else
+    --         gitsigns.nav_hunk('next', navigation_options)
+    --     end
+    -- end)
+    --
+    -- map('n', '[c', function()
+    --     if vim.wo.diff then
+    --         vim.cmd.normal({ '[c', bang = true })
+    --     else
+    --         gitsigns.nav_hunk('prev', navigation_options)
+    --     end
+    -- end)
+    map('n', '<leader>gn',
+        function()
+            gitsigns.nav_hunk('next', navigation_options)
+        end,
+        { desc = "Navigate to next change / hunk" }
+    )
+    map('n', '<leader>gp',
+        function()
+            gitsigns.nav_hunk('prev', navigation_options)
+        end,
+        { desc = "Navigate to previous change / hunk" }
+    )
+
+    -- Actions
+    map('n', '<leader>ghs', gitsigns.stage_hunk)
+    map('n', '<leader>ghr', gitsigns.reset_hunk)
+
+    map('v', '<leader>ghs', function()
+        gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('v', '<leader>ghr', function()
+        gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+    end)
+
+    map('n', '<leader>ga', gitsigns.stage_buffer)
+    -- map('n', '<leader>gr', gitsigns.reset_buffer)
+    map('n', '<leader>ghp', gitsigns.preview_hunk)
+    map('n', '<leader>ghi', gitsigns.preview_hunk_inline)
+
+    map('n', '<leader>gbl', function()
+        gitsigns.blame_line({ full = true })
+    end)
+
+    map('n', '<leader>gd', gitsigns.diffthis)
+
+    map('n', '<leader>gD', function()
+        gitsigns.diffthis('~')
+    end)
+
+    map('n', '<leader>gQ', function() gitsigns.setqflist('all') end)
+    map('n', '<leader>gq', gitsigns.setqflist)
+
+    -- Toggles
+    map('n', '<leader>gbt', gitsigns.toggle_current_line_blame)
+    -- map('n', '<leader>tw', gitsigns.toggle_word_diff)
+
+    -- Text object
+    map({ 'o', 'x' }, '<leader>ghs', gitsigns.select_hunk)
+end
 
 -- code completion
 -- vim.keymap.set('i', '<C-l>', '<C-x><C-o>', { noremap = true, desc = "Trigger completion" })
@@ -235,3 +329,5 @@ vim.keymap.set("n", "<leader>w<Up>", "<C-w><Up>", { noremap = false, desc = "Sel
 vim.keymap.set("n", "<leader>w<Down>", "<C-w><Down>", { noremap = false, desc = "Select window below" })
 vim.keymap.set("n", "<leader>w<Left>", "<C-w><Left>", { noremap = false, desc = "Select window to the left" })
 vim.keymap.set("n", "<leader>w<Right>", "<C-w><Right>", { noremap = false, desc = "Select window to the right" })
+
+return M
