@@ -67,8 +67,70 @@ local lua_ls_config = vim.lsp.config("lua_ls", {
         },
     },
 })
-
 vim.lsp.enable("lua_ls")
+
+local powershell_global_script_analyzer_settings = vim.fn.expand("~/.config/powershell/PSScriptAnalyzerSettings.psd1")
+local function resolve_pssa_settings_path(root_dir)
+    -- prefer repo-local file (exact name PSES looks for)
+    local found = vim.fs.find("PSScriptAnalyzerSettings.psd1", { path = root_dir, upward = false })[1]
+    if found then
+        -- many clients use a path relative to the workspace root here
+        return "PSScriptAnalyzerSettings.psd1"
+    end
+    return powershell_global_script_analyzer_settings
+end
+
+
+vim.lsp.config("powershell_es", {
+    settings = {
+        powershell = {
+            enableProfileLoading = false,
+            -- https://github.com/PowerShell/PowerShellEditorServices/blob/main/src/PowerShellEditorServices/Services/Workspace/LanguageServerSettings.cs
+            codeFormatting = {
+                addWhitespaceAroundPipe = true,
+                autoCorrectAliases = false,
+                avoidSemicolonsAsLineTerminators = true,
+                useConstantStrings = true,
+                preset = "Custom", -- Custom, Allman, OTBS, Stroustrup
+                openBraceOnSameLine = true,
+                newLineAfterOpenBrace = true,
+                newLineAfterCloseBrace = true,
+                pipelineIndentationStyle = "IncreaseIndentationForFirstPipeline", -- IncreaseIndentationForFirstPipeline, IncreaseIndentationAfterEveryPipeline, , NoIndentation, None
+                trimWhitespaceAroundPipe = true,
+                whitespaceBeforeOpenBrace = true,
+                whitespaceBeforeOpenParen = true,
+                whitespaceAroundOperator = true,
+                whitespaceAfterSeparator = true,
+                WhitespaceBetweenParameters = true,
+                whitespaceInsideBrace = true,
+                ignoreOneLineBlock = false,
+                alignPropertyValuePairs = true,
+                useCorrectCasing = true
+            },
+            codeFolding = {
+                enable = true,
+                showLastLine = true,
+            },
+            -- separate knob (analysis/settings file path):
+            scriptAnalysis = {
+                settingsPath = "PSScriptAnalyzerSettings.psd1",
+            },
+            enableReferencesCodeLens = true,
+            analyzeOpenDocumentsOnly = false,
+        },
+    },
+    on_init = function(client)
+        local root = client.config.root_dir
+        local settings_path = resolve_pssa_settings_path(root)
+        client.config.settings = client.config.settings or {}
+        client.config.settings.powershell = client.config.settings.powershell or {}
+        client.config.settings.powershell.scriptAnalysis = client.config.settings.powershell.scriptAnalysis or {}
+        client.config.settings.powershell.scriptAnalysis.settingsPath = settings_path
+
+        -- optional but commonly needed to force-apply immediately:
+        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+    end,
+})
 
 -- go templates ending in tmpl should use their main filetype for their filetype
 vim.filetype.add({

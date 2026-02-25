@@ -28,7 +28,7 @@ return {
         opts = {
             signs_staged_enable = true,
             signcolumn = true,
-            word_diff = true,
+            word_diff = false, -- Whether the line shows changes from the base after any edit (background highlight)
             auto_attach = true,
             attach_to_untracked = false,
             current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
