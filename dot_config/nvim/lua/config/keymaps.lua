@@ -137,40 +137,38 @@ function M.gitsigns(bufnr)
         function()
             gitsigns.nav_hunk('next', navigation_options)
         end,
-        { desc = "Navigate to next change / hunk" }
+        { desc = "Navigate to next hunk / change" }
     )
     map('n', '<leader>gp',
         function()
             gitsigns.nav_hunk('prev', navigation_options)
         end,
-        { desc = "Navigate to previous change / hunk" }
+        { desc = "Navigate to previous hunk /  change" }
     )
 
-    -- Actions
-    map('n', '<leader>ghs', gitsigns.stage_hunk)
-    map('n', '<leader>ghr', gitsigns.reset_hunk)
-
-    map('v', '<leader>ghs', function()
+    -- Add / Reset
+    map('n', '<leader>gha', gitsigns.stage_hunk, { desc = "Add(Stage) hunk (toggle)" })
+    map('n', '<leader>ghr', gitsigns.reset_hunk, { desc = "Reset(Undo) hunk / change" })
+    map('v', '<leader>gha', function()
         gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-    end)
-
+    end, { desc = "Add(Stage) hunk (toggle)" })
     map('v', '<leader>ghr', function()
         gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-    end)
-
-    map('n', '<leader>ga', gitsigns.stage_buffer)
+    end, { desc = "Reset(Undo) hunk / change" })
+    map('n', '<leader>ga', gitsigns.stage_buffer, { desc = "Add(Stage) file (toggle)" })
     -- map('n', '<leader>gr', gitsigns.reset_buffer)
-    map('n', '<leader>ghp', gitsigns.preview_hunk)
-    map('n', '<leader>ghi', gitsigns.preview_hunk_inline)
+
+    -- Diff
+    map('n', '<leader>ghp', gitsigns.preview_hunk, { desc = "Diff change / hunk in a popup preview window" })
+    map('n', '<leader>ghd', gitsigns.preview_hunk, { desc = "Diff change / hunk in a popup preview window" })
+    map('n', '<leader>ghi', gitsigns.preview_hunk_inline, { desc = "Diff change / hunk inline" })
+    map('n', '<leader>gd', gitsigns.diffthis, { desc = "Diff this file with index" })
+    map('n', '<leader>gD', function()
+        gitsigns.diffthis('~')
+    end, { desc = "Diff this file with last commit" })
 
     map('n', '<leader>gbl', function()
         gitsigns.blame_line({ full = true })
-    end)
-
-    map('n', '<leader>gd', gitsigns.diffthis)
-
-    map('n', '<leader>gD', function()
-        gitsigns.diffthis('~')
     end)
 
     map('n', '<leader>gQ', function() gitsigns.setqflist('all') end)
