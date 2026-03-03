@@ -2,20 +2,19 @@ if (-not (Test-Path 'C:\Program Files (x86)\SolAdmin')) {
     return
 }
 
-function Start-SolAdmin()
-{
+function Start-SolAdmin() {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $false)]
         [ArgumentCompleter( {
-            param ( $commandName,
+                param ( $commandName,
                     $parameterName,
                     $wordToComplete,
                     $commandAst,
                     $fakeBoundParameters )
-            $soaFiles = Get-ChildItem -Path E:\Settings -Filter *.soa
-            $soaFiles | Foreach-Object { [System.IO.Path]::GetFileNameWithoutExtension($_.Name) } | Where-Object { $_ -like "*$($wordToComplete)*" }
-        } )]
+                $soaFiles = Get-ChildItem -Path E:\Settings -Filter *.soa
+                $soaFiles | ForEach-Object { [System.IO.Path]::GetFileNameWithoutExtension($_.Name) } | Where-Object { $_ -like "*$($wordToComplete)*" }
+            } )]
         [string]
         $Environment
     )
@@ -23,18 +22,15 @@ function Start-SolAdmin()
     $solAdminPath = 'C:\Program Files (x86)\SolAdmin'
 
     Push-Location $solAdminPath
-    try
-    {
+    try {
         $command = "& '$solAdminPath\bin\run.bat'"
-        if ($Environment)
-        {
-            $command +=  " -soa 'E:\Settings\$($Environment).soa'"
+        if ($Environment) {
+            $command += " -soa 'E:\Settings\$($Environment).soa'"
         }
         Write-Verbose $command
         Invoke-Expression $command
     }
-    finally
-    {
+    finally {
         Pop-Location
     }
 }

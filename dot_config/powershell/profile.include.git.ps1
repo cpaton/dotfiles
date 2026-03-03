@@ -10,7 +10,7 @@ function dotfiles {
     )
 
     $homeDirectory = Resolve-Path ~
-    $dotFilesGitDirectory = Join-Path $homeDirectory "dotfiles\.git"
+    $dotFilesGitDirectory = Join-Path $homeDirectory 'dotfiles\.git'
     git --git-dir $dotFilesGitDirectory --work-tree $homeDirectory $Args
 }
 
@@ -25,4 +25,6 @@ function cmt() {
     }
 }
 
-function gpr() { git pull --rebase }
+function gpr() {
+    git pull --rebase 
+}

@@ -1,6 +1,5 @@
-. __ProfileCachedInitialization "zoxide" {
-    if ($null -ne (Get-Command zoxide -ErrorAction SilentlyContinue))
-    {
+. __ProfileCachedInitialization 'zoxide' {
+    if ($null -ne (Get-Command zoxide -ErrorAction SilentlyContinue)) {
         zoxide init powershell | Out-String
         # zoxide init powershell --no-cmd | Out-String
     }

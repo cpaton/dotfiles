@@ -214,7 +214,10 @@ vim.keymap.set("n", "<leader>lf",
         local clients = vim.lsp.get_clients({ bufnr = 0 })
         if #clients > 0 then
             -- LSP formatting
-            vim.lsp.buf.format({ async = true })
+            vim.lsp.buf.format({
+                async = true,
+                timeout_ms = 10000,
+            })
         else
             -- Built-in reindent whole file
             vim.cmd("normal! gg=G")

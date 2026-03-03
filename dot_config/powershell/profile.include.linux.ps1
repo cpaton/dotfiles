@@ -1,9 +1,7 @@
-if (-not $IsLinux)
-{
+if (-not $IsLinux) {
     return
 }
 
-function ls
-{
+function ls {
     /bin/ls --color=auto @args
 }

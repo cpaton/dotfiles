@@ -5,9 +5,9 @@ function Invoke-DevOpsLocal() {
         $DevOpsArgs
     )
 
-    $devopsBinary = "devops"
+    $devopsBinary = 'devops'
     if ($IsWindows) {
-        $devopsBinary = "devops.exe"
+        $devopsBinary = 'devops.exe'
     }
 
     $devOpsPath = Join-Path $machineConfig.GitRoot "devops/cli/$($devopsBinary)"
@@ -26,9 +26,9 @@ function Invoke-DevOpsOneDeployLocal() {
         $DevOpsArgs
     )
 
-    $devopsBinary = "devops"
+    $devopsBinary = 'devops'
     if ($IsWindows) {
-        $devopsBinary = "devops.exe"
+        $devopsBinary = 'devops.exe'
     }
 
     $devOpsPath = Join-Path $machineConfig.GitRoot "devops/cli/$($devopsBinary)"
@@ -88,9 +88,9 @@ function Invoke-DevOps() {
         $DevOpsArgs
     )
 
-    $devopsBinary = "devops"
+    $devopsBinary = 'devops'
     if ($IsWindows) {
-        $devopsBinary = "devops.exe"
+        $devopsBinary = 'devops.exe'
     }
 
     & $devopsBinary $DevOpsArgs
@@ -103,9 +103,9 @@ function Invoke-DevOpsOneDeploy() {
         $DevOpsArgs
     )
 
-    $devopsBinary = "devops"
+    $devopsBinary = 'devops'
     if ($IsWindows) {
-        $devopsBinary = "devops.exe"
+        $devopsBinary = 'devops.exe'
     }
 
     & $devopsBinary onedeploy $DevOpsArgs

@@ -1,4 +1,4 @@
-. __ProfileCachedInitialization "kubernetes" {
+. __ProfileCachedInitialization 'kubernetes' {
     $kubeCtl = Get-Command kubectl -ErrorAction SilentlyContinue
     if ($null -ne $kubeCtl) {
         "New-Alias -Name k -Value $($kubeCtl.Definition) -Scope Global"
@@ -10,13 +10,13 @@
         foreach ($line in $kubectlCompletion) {
             if ($insideArgumentCompleter) {
                 $argumentCompleterForAlias += $line
-                if ($line -match "^}") {
+                if ($line -match '^}') {
                     break
                 }
             }
             if ($line -match "Register-ArgumentCompleter -CommandName 'kubectl'") {
                 $insideArgumentCompleter = $true
-                $argumentCompleterForAlias += $line -replace 'kubectl','k'
+                $argumentCompleterForAlias += $line -replace 'kubectl', 'k'
             }
         }
 
@@ -28,31 +28,30 @@
     }
 }
 
-function eks()
-{
+function eks() {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, Position = 1)]
         [ArgumentCompleter( {
-            param ( $commandName,
+                param ( $commandName,
                     $parameterName,
                     $wordToComplete,
                     $commandAst,
                     $fakeBoundParameters )
-            $eksClusters = & ( Join-Path $PSScriptRoot "eks-clusters.ps1" )
-            $eksClusters.Keys | Where-Object { $_ -like "*$($wordToComplete)*" }
-        } )]
+                $eksClusters = & ( Join-Path $PSScriptRoot 'eks-clusters.ps1' )
+                $eksClusters.Keys | Where-Object { $_ -like "*$($wordToComplete)*" }
+            } )]
         [string]
         $Cluster,
         [Parameter(Position = 2)]
-        [ValidateSet("DevOps", "AdministratorAccess", "ViewOnlyAccess")]
+        [ValidateSet('DevOps', 'AdministratorAccess', 'ViewOnlyAccess')]
         [string]
-        $Role = $("AdministratorAccess")
+        $Role = $('AdministratorAccess')
     )
 
-    $ErrorActionPreference = "Stop"
+    $ErrorActionPreference = 'Stop'
 
-    $eksClusters = & ( Join-Path $PSScriptRoot "eks-clusters.ps1" )
+    $eksClusters = & ( Join-Path $PSScriptRoot 'eks-clusters.ps1' )
     $clusterDefinition = $eksClusters[$Cluster]
 
     $kubeCtlContextName = "$($Cluster)-$($Role)"
@@ -62,13 +61,11 @@ function eks()
     aws eks update-kubeconfig --region $clusterDefinition.AwsRegion --name $clusterDefinition.ClusterName --alias $kubeCtlContextName --user-alias $awsProfileName --profile $awsProfileName
 
     $titleToRestore = $Host.UI.RawUI.WindowTitle
-    try
-    {
+    try {
         $Host.UI.RawUI.WindowTitle = "EKS: $($Cluster)"
         k9s --context $kubeCtlContextName
     }
-    finally
-    {
+    finally {
         $Host.UI.RawUI.WindowTitle = $titleToRestore
     }
 }

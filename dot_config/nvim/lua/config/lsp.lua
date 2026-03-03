@@ -72,10 +72,12 @@ vim.lsp.enable("lua_ls")
 local powershell_global_script_analyzer_settings = vim.fn.expand("~/.config/powershell/PSScriptAnalyzerSettings.psd1")
 local function resolve_pssa_settings_path(root_dir)
     -- prefer repo-local file (exact name PSES looks for)
-    local found = vim.fs.find("PSScriptAnalyzerSettings.psd1", { path = root_dir, upward = false })[1]
-    if found then
-        -- many clients use a path relative to the workspace root here
+    local workspace_script_analyzer_settings = vim.fs.find("PSScriptAnalyzerSettings.psd1",
+        { path = root_dir, upward = false })[1]
+    if workspace_script_analyzer_settings then
         return "PSScriptAnalyzerSettings.psd1"
+        -- local absolute_path = vim.fs.normalize(workspace_script_analyzer_settings)
+        -- return absolute_path
     end
     return powershell_global_script_analyzer_settings
 end
@@ -112,11 +114,11 @@ vim.lsp.config("powershell_es", {
                 showLastLine = true,
             },
             -- separate knob (analysis/settings file path):
-            scriptAnalysis = {
-                settingsPath = "PSScriptAnalyzerSettings.psd1",
-            },
+            -- scriptAnalysis = {
+            --     settingsPath = "PSScriptAnalyzerSettings.psd1",
+            -- },
             enableReferencesCodeLens = true,
-            analyzeOpenDocumentsOnly = false,
+            analyzeOpenDocumentsOnly = true,
         },
     },
     on_init = function(client)

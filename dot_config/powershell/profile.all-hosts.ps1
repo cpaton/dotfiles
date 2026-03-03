@@ -1,6 +1,6 @@
 # Configuration
-$machineConfig = . ( Join-Path $PSScriptRoot "machine-config.ps1" )
-New-Variable -Name "MachineConfiguration" -Value $machineConfig -Scope Global -Force
+$machineConfig = . ( Join-Path $PSScriptRoot 'machine-config.ps1' )
+New-Variable -Name 'MachineConfiguration' -Value $machineConfig -Scope Global -Force
 
 # $env:POWERSHELL_PROFILE_DEBUG = 1
 
@@ -11,7 +11,7 @@ if ($env:POWERSHELL_PROFILE_DEBUG) {
     }
     Add-Content `
         -Path $MachineConfiguration.Powershell.ProfileLogPath `
-        -Value "[$([datetime]::Now.ToString("o"))] Profile starting..."
+        -Value "[$([datetime]::Now.ToString('o'))] Profile starting..."
 }
 
 # XDG Environment setup
@@ -19,7 +19,7 @@ if (-not (Test-Path -Path env:XDG_CONFIG_HOME)) {
     $env:XDG_CONFIG_HOME = $MachineConfiguration.ConfigRoot
 }
 if (-not (Test-Path -Path env:XDG_DATA_HOME)) {
-   $env:XDG_DATA_HOME = $MachineConfiguration.LocalAppDataRoot
+    $env:XDG_DATA_HOME = $MachineConfiguration.LocalAppDataRoot
 }
 if (-not (Test-Path -Path env:XDG_CACHE_HOME)) {
     $env:XDG_CACHE_HOME = $MachineConfiguration.CacheRoot
@@ -93,31 +93,31 @@ function __ProfileCachedInitialization {
     # Given scriptblock should return strings representing the script to run during normal profile initialization
     # We store this output into a file to run next time
     $wrapper = [scriptblock]::Create({
-        param(
-            [Parameter(Mandatory, Position = 0)]
-            [string]
-            $CacheKey,
-            [Parameter(Mandatory, Position = 1)]
-            [string]
-            $CachePath,
-            [Parameter(Mandatory, Position = 2)]
-            [string]
-            $initialization,
-            [Parameter(Mandatory, Position = 3)]
-            [string]
-            $ProfileLogPath
-        )
+            param(
+                [Parameter(Mandatory, Position = 0)]
+                [string]
+                $CacheKey,
+                [Parameter(Mandatory, Position = 1)]
+                [string]
+                $CachePath,
+                [Parameter(Mandatory, Position = 2)]
+                [string]
+                $initialization,
+                [Parameter(Mandatory, Position = 3)]
+                [string]
+                $ProfileLogPath
+            )
 
-        try {
-            $results = Invoke-Expression $initialization
-            $results | Out-File -FilePath $cachePath -Encoding UTF8 -Force
-        }
-        catch {
-            Add-Content `
-                -Path $ProfileLogPath `
-                -Value "[$([datetime]::Now.ToString("o"))] Error caching profile initialization for key $($CacheKey) : $_"
-        }
-    })
+            try {
+                $results = Invoke-Expression $initialization
+                $results | Out-File -FilePath $cachePath -Encoding UTF8 -Force
+            }
+            catch {
+                Add-Content `
+                    -Path $ProfileLogPath `
+                    -Value "[$([datetime]::Now.ToString('o'))] Error caching profile initialization for key $($CacheKey) : $_"
+            }
+        })
 
     # Run the script block in the background
     $ps = [powershell]::Create()
@@ -125,7 +125,7 @@ function __ProfileCachedInitialization {
     $ps.AddScript($wrapper.ToString()).AddArgument($CacheKey).AddArgument($cachePath).AddArgument($ScriptBlock.ToString()).AddArgument($MachineConfiguration.PowerShell.ProfileLogPath) | Out-Null
     $handle = $ps.BeginInvoke()
     $jobRecord = [PSCustomObject]@{
-        CacheKey            = $CacheKey
+        CacheKey           = $CacheKey
         PowerShellInstance = $ps
         Handle             = $handle
     }
@@ -160,10 +160,10 @@ function __ProfileOnIdleInitialization() {
         }
 "@)
 
-    Register-EngineEvent -SourceIdentifier "PowerShell.OnIdle" -MaxTriggerCount 1 -SupportEvent -Action $wrapped | Out-Null
+    Register-EngineEvent -SourceIdentifier 'PowerShell.OnIdle' -MaxTriggerCount 1 -SupportEvent -Action $wrapped | Out-Null
 }
 
-. ( Join-Path $PSScriptRoot "profile.all-hosts.core.ps1" )
+. ( Join-Path $PSScriptRoot 'profile.all-hosts.core.ps1' )
 
 # if we didn't run any background jobs no need for the more complicated logic below
 if ($script:asyncScripts.Length -le 0) {
@@ -207,7 +207,7 @@ function prompt {
     if ($script:asyncScripts.Count -eq 0) {
         try {
             if ($env:POWERSHELL_PROFILE_DEBUG) {
-                Write-Warning "Restoring original prompt function..."
+                Write-Warning 'Restoring original prompt function...'
             }
             Copy-Item function:\__OriginalPrompt function:\prompt -Force
 

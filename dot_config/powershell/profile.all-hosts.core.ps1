@@ -5,17 +5,17 @@ Main logic of all hosts profile
 
 # Core bootstrap
 if (-not (Test-Path env:HOME)) {
-    Write-Verbose "Setting HOME environment variable..."
+    Write-Verbose 'Setting HOME environment variable...'
     $env:HOME = Resolve-Path ~
 }
 
 if (-not (Test-Path $MachineConfiguration.PowerShell.LocalModulesRoot)) {
-    Write-Verbose "Creating PowerShell local modules root"
+    Write-Verbose 'Creating PowerShell local modules root'
     New-Item -Path $MachineConfiguration.PowerShell.LocalModulesRoot -ItemType Directory -Force | Out-Null
 }
-$environmentVariablePathSeparator = ";"
+$environmentVariablePathSeparator = ';'
 if ($IsLinux) {
-    $environmentVariablePathSeparator = ":"
+    $environmentVariablePathSeparator = ':'
 }
 if (-not ($env:PSModulePath.StartsWith($MachineConfiguration.PowerShell.LocalModulesRoot))) {
     $env:PSModulePath = "$($MachineConfiguration.PowerShell.LocalModulesRoot)$($environmentVariablePathSeparator)$($env:PSModulePath)"
@@ -32,13 +32,13 @@ $includes = Get-ChildItem -Path $PSScriptRoot -File -Filter profile.include.*.ps
 foreach ( $script in $includes ) {
     if ($env:POWERSHELL_PROFILE_DEBUG) {
         $sw = [System.Diagnostics.Stopwatch]::StartNew()
-        Write-Host "[$([datetime]::Now.ToString("o"))] Importing $($script.FullName)..."
+        Write-Host "[$([datetime]::Now.ToString('o'))] Importing $($script.FullName)..."
     }
     # . Invoke-Expression ( [io.file]::ReadAllText($script.FullName) )
     . $script.FullName
     if ($env:POWERSHELL_PROFILE_DEBUG) {
         $sw.Stop()
-        Write-Host "[$([datetime]::Now.ToString("o"))] Imported $($script.FullName) ($($sw.ElapsedMilliseconds.ToString("#,#")))"
+        Write-Host "[$([datetime]::Now.ToString('o'))] Imported $($script.FullName) ($($sw.ElapsedMilliseconds.ToString('#,#')))"
     }
 }
 

@@ -21,6 +21,6 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+s,c' `
     -BriefDescription 'copy path' `
     -Description 'Copy current path'
 
-$env:VISUAL="nvim"
+$env:VISUAL = 'nvim'
 Set-PSReadLineKeyHandler -Key 'Ctrl+s,e' -Function ViEditVisually
 

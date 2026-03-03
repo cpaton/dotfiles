@@ -29,12 +29,11 @@
 .SYNOPSIS
 Wraps TabExpansion2 to provide fuzzy selection via fzf when multiple completions are available.
 #>
-function Invoke-FuzzyTabExpansion2
-{
+function Invoke-FuzzyTabExpansion2 {
     [CmdletBinding()]
     param()
 
-    $line   = $null
+    $line = $null
     $cursor = 0
     [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState(
         [ref]$line,
@@ -47,19 +46,16 @@ function Invoke-FuzzyTabExpansion2
     $completion = TabExpansion2 $line $cursor
 
     $completionMatches = $completion.CompletionMatches
-    if (-not $completionMatches -or $completionMatches.Count -eq 0)
-    {
+    if (-not $completionMatches -or $completionMatches.Count -eq 0) {
         return
     }
 
-    if ($completionMatches.Count -eq 1)
-    {
+    if ($completionMatches.Count -eq 1) {
         $choice = $completionMatches[0].CompletionText
-    } else
-    {
+    }
+    else {
         $choice = $completionMatches.CompletionText | fzf "--height=~$([Math]::Max(10, $completionMatches.Count))" --min-height=10 --reverse --prompt="$line> "
-        if (-not $choice)
-        {
+        if (-not $choice) {
             return
         }
     }
@@ -83,15 +79,14 @@ function Invoke-FuzzyTabExpansion2
     # [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($newCursor)
 }
 
-if ($IsLinux)
-{
-    Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"
-} else
-{
+if ($IsLinux) {
+    Set-PSReadLineKeyHandler -Key Ctrl+Spacebar -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription 'Fuzzy Tab Completion' -Description 'Invoke Fuzzy Tab Completion using fzf'
+}
+else {
     # On windows when run through PSReadline keyhandler input and output is redirected
     # This means fzf defaults to its fallback behavior and uses the full screen which can be a jarring experience
     # So use alternative keybinding to offer both experiences
     Set-PSReadLineKeyHandler -Chord Ctrl+Spacebar -Function MenuComplete
 }
-Set-PSReadLineKeyHandler -Chord Ctrl+. -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"
-Set-PSReadLineKeyHandler -Chord Ctrl+OemPeriod -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription "Fuzzy Tab Completion" -Description "Invoke Fuzzy Tab Completion using fzf"
+Set-PSReadLineKeyHandler -Chord Ctrl+. -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription 'Fuzzy Tab Completion' -Description 'Invoke Fuzzy Tab Completion using fzf'
+Set-PSReadLineKeyHandler -Chord Ctrl+OemPeriod -ScriptBlock { Invoke-FuzzyTabExpansion2 } -BriefDescription 'Fuzzy Tab Completion' -Description 'Invoke Fuzzy Tab Completion using fzf'

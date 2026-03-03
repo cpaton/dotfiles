@@ -1,11 +1,11 @@
-__ProfileOnIdleInitialization "fuzzy" {
+__ProfileOnIdleInitialization 'fuzzy' {
     Import-Module PSFzf -ErrorAction SilentlyContinue -Global
     Set-PsFzfOption -PSReadlineChordReverseHistory Ctrl+r
 }
 
-. __ProfileCachedInitialization "fuzzy-tab-completion" {
+. __ProfileCachedInitialization 'fuzzy-tab-completion' {
     if ($null -ne (Get-Command fzf -ErrorAction SilentlyContinue)) {
-        ". $(Join-Path $MachineConfiguration.PowerShell.ConfigRoot "fuzzy-tab-expansion.ps1")"
+        ". $(Join-Path $MachineConfiguration.PowerShell.ConfigRoot 'fuzzy-tab-expansion.ps1')"
     }
 }
 
@@ -14,7 +14,7 @@ function Set-LocationFuzzy() {
     param(
         [Parameter()]
         [string]
-        $Directory = "~",
+        $Directory = '~',
         [Parameter()]
         [switch]
         $All
@@ -38,7 +38,7 @@ function Find-FuzzyDirectory() {
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($selection)
     }
     else {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Insert("")
+        [Microsoft.PowerShell.PSConsoleReadLine]::Insert('')
     }
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+f,d' -ScriptBlock { Find-FuzzyDirectory } -BriefDescription 'fzf directory' -Description 'Find Fuzzy Directory'
@@ -52,7 +52,7 @@ function Find-FuzzyFile() {
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($selection)
     }
     else {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Insert("")
+        [Microsoft.PowerShell.PSConsoleReadLine]::Insert('')
     }
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+f,f' -ScriptBlock { Find-FuzzyFile } -BriefDescription 'fzf file' -Description 'Find Fuzzy File'
@@ -66,7 +66,7 @@ function Find-FuzzyFileHome() {
         [Microsoft.PowerShell.PSConsoleReadLine]::Insert($selection)
     }
     else {
-        [Microsoft.PowerShell.PSConsoleReadLine]::Insert("")
+        [Microsoft.PowerShell.PSConsoleReadLine]::Insert('')
     }
 }
 Set-PSReadLineKeyHandler -Chord 'Ctrl+f,h' -ScriptBlock { Find-FuzzyFileHome } -BriefDescription 'fzf file ~' -Description 'Find Fuzzy File under home'
