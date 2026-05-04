@@ -281,7 +281,7 @@ vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
 vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
 vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
 vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
-
+vim.keymap.set("n", "<leader>rr", vim.lsp.buf.rename, { desc = "Rename symbol" })
 
 -- buffer navigation, with bufferline line these look like tabs along the top of the window
 vim.keymap.set("n", "<leader><right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
