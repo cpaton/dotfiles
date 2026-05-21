@@ -20,6 +20,7 @@ vim.keymap.set("x", "<C-_>", "<Plug>(comment_toggle_linewise_visual)", { desc = 
 -- h - harpoon
 -- l - language of file stuff
 -- r - refactoring
+-- s - shell / terminal
 -- t - buffers - but more thought of as tabs from other tools
 -- w - windows / panes
 
@@ -272,6 +273,18 @@ vim.keymap.set("n", "<Esc>", function()
 end, { noremap = true, silent = true, desc = "Clear Copilot + search highlight + Esc" })
 
 vim.keymap.set("n", "<M-I>", ":CopilotChatToggle <CR>", { noremap = true, silent = true, desc = "Toggle Copilot Chat" })
+
+-- shell / terminal
+vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]],
+    { noremap = true, silent = true, desc = "Exit terminal mode" })
+vim.keymap.set("n", "<leader>ss", "<cmd>ToggleTerm direction=float<CR>",
+    { noremap = true, silent = true, desc = "Toggle shell float" })
+vim.keymap.set("n", "<leader>sh", "<cmd>ToggleTerm direction=horizontal<CR>",
+    { noremap = true, silent = true, desc = "Toggle shell horizontal" })
+vim.keymap.set("n", "<leader>sv", "<cmd>ToggleTerm direction=vertical<CR>",
+    { noremap = true, silent = true, desc = "Toggle shell vertical" })
+vim.keymap.set("n", "<leader>st", "<cmd>ToggleTerm direction=tab<CR>",
+    { noremap = true, silent = true, desc = "Toggle shell tab" })
 
 -- refactoring
 vim.keymap.set("x", "<leader>re", ":Refactor extract ")
