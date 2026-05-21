@@ -42,6 +42,7 @@ return {
         -- https://github.com/zbirenbaum/copilot-cmp
         -- turn copilot suggestions into nvim-cmp suggestions
         "zbirenbaum/copilot-cmp",
+        enabled = false,
         dependencies = {
             "zbirenbaum/copilot.lua"
         },
