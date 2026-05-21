@@ -1,3 +1,4 @@
 {
-  "chat.defaultAgent": "kiro_planner"
+  "mcp.loadedBefore": true,
+  "toolSearch.enabled": true
 }

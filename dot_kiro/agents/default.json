@@ -1,0 +1,86 @@
+{
+    "name": "default",
+    "description": "Default agent",
+    "prompt": "file://./default.md",
+    "mcpServers": {
+        "grafana": {
+            "__comment": "https://github.com/grafana/mcp-grafana",
+            "url": "https://grafana-mcp.non-prod.emea.observability.tpicapcloud.com/mcp",
+            "type": "remote"
+        }
+    },
+        "tools": [
+        "*"
+    ],
+    "toolsSettings": {
+        "shell": {
+            "allowedCommands": [
+                "git status",
+                "git fetch",
+                "awk .*",
+                "ls .*",
+                "find .*",
+                "grep .*",
+                "cat .*",
+                "sort .*",
+                "tail .*",
+                "head .*"
+            ],
+            "deniedCommands": [
+                "git push .*"
+            ],
+            "autoAllowReadonly": true
+        },
+        "read": {
+            "allowedPaths": [
+                "./**",
+                "~/.config/**",
+                "~/git/**"
+            ],
+            "deniedPaths": [
+                "~/.aws/credentials"
+            ]
+        },
+        "glob": {
+            "allowedPaths": [
+                "./**"
+            ],
+            "deniedPaths": [],
+            "allowReadOnly": true
+        },
+        "grep": {
+            "allowReadOnly": true
+        },
+        "write": {
+            "allowedPaths": [
+                "./**"
+            ]
+        },
+        "aws": {
+            "autoAllowReadonly": true
+        }
+    },
+    "toolAliases": {},
+    "allowedTools": [
+        "code",
+        "introspect",
+        "knowledge",
+        "web_fetch",
+        "web_search",
+        "subagent",
+        "todo_list",
+        "tool_search",
+        "report",
+        "switch_to_execution"
+    ],
+
+    "resources": [
+        "file://AGENTS.md",
+        "file://README.md",
+        "skill://.kiro/skills/*/SKILL.md",
+        "skill://~/.kiro/skills/*/SKILL.md"
+    ],
+    "hooks": {},
+    "includeMcpJson": false,
+    "model": null
+}
