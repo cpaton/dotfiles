@@ -26,7 +26,10 @@ function Sync-DotFiles() {
         param(
             [Parameter(Mandatory)]
             [string]
-            $Name
+            $Name,
+            [Parameter()]
+            [hashtable]
+            $ConfigProfileMap = @{}
         )
 
         $profileRegex = '^.+__(?<profile>[^\.]+)(\.|$)'
@@ -34,7 +37,31 @@ function Sync-DotFiles() {
         if ($profileMatch.Success) {
             return $profileMatch.Groups['profile'].Value
         }
+        if ($ConfigProfileMap.ContainsKey($Name)) {
+            return $ConfigProfileMap[$Name]
+        }
         return $null
+    }
+
+    function Read-DotfilesProfileConfig() {
+        [CmdletBinding()]
+        param(
+            [Parameter(Mandatory)]
+            [string]
+            $Directory
+        )
+
+        $configPath = Join-Path $Directory '.dotfiles-profile'
+        $map = @{}
+        if (Test-Path -Path $configPath) {
+            Get-Content -Path $configPath | ForEach-Object {
+                $line = $_.Trim()
+                if ($line -and $line -match '^(?<name>.+):(?<profile>.+)$') {
+                    $map[$Matches['name'].Trim()] = $Matches['profile'].Trim()
+                }
+            }
+        }
+        return $map
     }
 
     function Should-Sync() {
@@ -42,10 +69,13 @@ function Sync-DotFiles() {
         param(
             [Parameter(Mandatory)]
             [string]
-            $Name
+            $Name,
+            [Parameter()]
+            [hashtable]
+            $ConfigProfileMap = @{}
         )
 
-        $assignedProfile = Get-Profile -Name $Name
+        $assignedProfile = Get-Profile -Name $Name -ConfigProfileMap $ConfigProfileMap
         if ([string]::IsNullOrWhiteSpace($assignedProfile)) {
             return $true
         }
@@ -68,10 +98,13 @@ function Sync-DotFiles() {
             New-Item -ItemType Directory -Path $SyncDestination -Verbose:$VerbosePreference | Out-Null
         }
 
-        $sourceFiles = Get-ChildItem -File -Path $SyncSource -Force
+        $profileMap = Read-DotfilesProfileConfig -Directory $SyncSource
+        $ignoredFiles = @( '.dotfiles-profile' )
+
+        $sourceFiles = Get-ChildItem -File -Path $SyncSource -Force | Where-Object { $ignoredFiles -notcontains $_.Name }
         $sourceFileNames = $sourceFiles.Name
         foreach ($file in $sourceFiles) {
-            if (-not (Should-Sync -Name $file.Name)) {
+            if (-not (Should-Sync -Name $file.Name -ConfigProfileMap $profileMap)) {
                 Write-Host "Skipping file '$($file.Name)' as it is not included in the profile"
                 continue
             }
@@ -88,7 +121,7 @@ function Sync-DotFiles() {
                 continue
             }
 
-            if (-not (Should-Sync -Name $directory.Name)) {
+            if (-not (Should-Sync -Name $directory.Name -ConfigProfileMap $profileMap)) {
                 Write-Verbose "Skipping directory '$($directory.Name)' as it is not included in the profile"
                 continue
             }
@@ -98,7 +131,7 @@ function Sync-DotFiles() {
         }
 
         $targetFileNames = ( Get-ChildItem -File -Path $SyncDestination -Force ).Name
-        $filesToRemove = $targetFileNames | Where-Object { $sourceFileNames -notcontains $_ -and ( Should-Sync -Name $_ ) }
+        $filesToRemove = $targetFileNames | Where-Object { $sourceFileNames -notcontains $_ -and ( Should-Sync -Name $_ -ConfigProfileMap $profileMap ) }
         foreach ($file in $filesToRemove) {
             Remove-Item -Path (Join-Path $SyncDestination $file) -Force -Verbose:$VerbosePreference
         }
