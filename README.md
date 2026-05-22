@@ -30,4 +30,6 @@ data:
     avante_provider: copilot
   feature_flags:
     github_copilot: true
+    neovim-amazonq: false
+    neovim-avante: false
 ```
