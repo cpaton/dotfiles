@@ -46,11 +46,6 @@ function Sync-DotFiles() {
             $ConfigProfileMap = @{}
         )
 
-        $profileRegex = '^.+__(?<profile>[^\.]+)(\.|$)'
-        $profileMatch = [regex]::Match($Name, $profileRegex)
-        if ($profileMatch.Success) {
-            return $profileMatch.Groups['profile'].Value
-        }
         if ($ConfigProfileMap.ContainsKey($Name)) {
             return $ConfigProfileMap[$Name]
         }
