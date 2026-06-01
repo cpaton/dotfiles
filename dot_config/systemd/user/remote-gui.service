@@ -1,0 +1,18 @@
+# systemctl --user enable remote-gui
+# loginctl enable-linger $env:USER
+# check under /var/lib/systemd/linger/
+
+[Unit]
+Description=Remote GUI (Xvfb + fluxbox + x11vnc + noVNC)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/remote-gui.sh
+Restart=on-failure
+RestartSec=5
+Environment=NOVNC_PORT=6080
+Environment=DISPLAY_NUM=99
+
+[Install]
+WantedBy=default.target

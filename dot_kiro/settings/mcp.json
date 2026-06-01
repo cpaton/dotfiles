@@ -1,29 +1,22 @@
 {
   "mcpServers": {
-    "awslabs.aws-documentation-mcp-server": {
-      "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "AWS_DOCUMENTATION_PARTITION": "aws",
-        "MCP_USER_AGENT": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-      },
-      "disabled": false,
-      "autoApprove": []
+    "ent-gitlab": {
+      "command": "ent-gitlab-mcp",
+      "timeout": 120000
     },
-    "atlassian-mcp-server": {
-      "url": "https://mcp.atlassian.com/v1/mcp",
-      "type": "remote"
-    },
-    "aws-mcp": {
-      "command": "uvx",
-      "timeout": 100000,
-      "transport": "stdio",
+    "gitlab": {
+      "__comment": "https://github.com/zereight/gitlab-mcp",
       "args": [
-        "mcp-proxy-for-aws@latest",
-        "https://aws-mcp.us-east-1.api.aws/mcp",
-        "--metadata", "AWS_REGION=eu-west-1"
-      ]
+        "-y",
+        "@zereight/mcp-gitlab"
+      ],
+      "command": "npx",
+      "env": {
+        "GITLAB_API_URL": "https://scm.tpicapcloud.com/api/v4",
+        "GITLAB_OAUTH_CLIENT_ID": "f65139ee21c22e436a3297901413499ea213b059ee93c1bc1009e455abeb33a0",
+        "GITLAB_OAUTH_REDIRECT_URI": "http://127.0.0.1:8888/callback",
+        "GITLAB_USE_OAUTH": "true"
+      }
     }
   }
 }

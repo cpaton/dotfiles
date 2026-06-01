@@ -1,0 +1,15 @@
+[Unit]
+Description=Chrome on remote GUI with debug port
+After=remote-gui.service
+Requires=remote-gui.service
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/remote-chrome.sh
+Restart=on-failure
+RestartSec=5
+Environment=DISPLAY_NUM=99
+Environment=DEBUG_PORT=9222
+
+[Install]
+WantedBy=default.target

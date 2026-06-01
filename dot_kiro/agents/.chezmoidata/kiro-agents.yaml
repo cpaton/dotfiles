@@ -1,0 +1,283 @@
+kiro:
+  base_tools:
+    read_only:
+      - code
+      - glob
+      - grep
+      - introspect
+      - knowledge
+      - read
+      - report
+      - shell
+      - subagent
+      - switch_to_execution
+      - todo_list
+      - tool_search
+      - web_fetch
+      - web_search
+    write:
+      - shell
+      - use_aws
+      - write
+    delete: []
+
+  tool_settings:
+    base:
+      shell:
+        allowedCommands:
+          - "awk .*"
+          - "cat .*"
+          - "find .*"
+          - "git fetch"
+          - "git status"
+          - "grep .*"
+          - "head .*"
+          - "helm get"
+          - "kubectl get"
+          - "ls .*"
+          - "sed .*"
+          - "sort .*"
+          - "tail .*"
+          - "which .*"
+        deniedCommands:
+          - "git push .*"
+        autoAllowReadonly: true
+      read:
+        allowedPaths:
+          - "./**"
+          - "~/.config/**"
+          - "~/git/**"
+        deniedPaths:
+          - "~/.aws/credentials"
+      glob:
+        allowedPaths:
+          - "./**"
+        deniedPaths: []
+        allowReadOnly: true
+      grep:
+        allowReadOnly: true
+      write:
+        allowedPaths:
+          - "./**"
+      aws:
+        autoAllowReadonly: true
+
+    write_docs:
+      write:
+        allowedPaths:
+          - "./docs/**"
+
+  mcp_servers:
+    ent_gitlab:
+      name: ent-gitlab
+      config:
+        command: ent-gitlab-mcp
+        timeout: 120000
+      allowed_tools:
+        read_only:
+          - gitlab___list_services
+          - gitlab___call_api
+          - gitlab___download_repository
+        write:
+          - gitlab___call_api_mutate
+          - gitlab___run_script
+        delete:
+          - gitlab___call_api_delete
+
+    gitlab:
+      name: gitlab
+      config:
+        __comment: "https://github.com/zereight/gitlab-mcp"
+        command: npx
+        args:
+          - "-y"
+          - "@zereight/mcp-gitlab"
+        env:
+          GITLAB_USE_OAUTH: "true"
+          GITLAB_OAUTH_CLIENT_ID: "f65139ee21c22e436a3297901413499ea213b059ee93c1bc1009e455abeb33a0"
+          GITLAB_OAUTH_REDIRECT_URI: "http://127.0.0.1:8888/callback"
+          GITLAB_API_URL: "https://scm.tpicapcloud.com/api/v4"
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []
+
+    atlassian:
+      name: atlassian
+      config:
+        url: "https://mcp.atlassian.com/v1/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get*"
+          - "search*"
+          - "atlassianUserInfo"
+          - "fetch"
+          - "search"
+        write:
+          - "add*"
+          - "create*"
+          - "edit*"
+          - "update*"
+          - "transition*"
+        delete: []
+
+    chrome:
+      name: chrome
+      config_linux:
+        command: ~/.config/mcp/chrome-mcp.sh
+      config_windows:
+        command: pwsh
+        args:
+          - -NoProfile
+          - -Command
+          - "& $HOME/.config/mcp/chrome-mcp.ps1"
+      allowed_tools:
+        read_only:
+          - "*"
+        write: []
+        delete: []
+
+    grafana_non_prod:
+      name: grafana_non_prod
+      config:
+        command: pwsh
+        args:
+          - -NoProfile
+          - -Command
+          - "& $HOME/.config/mcp/grafana-non-prod.ps1"
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+        write:
+          - "create_*"
+          - "update_*"
+        delete: []
+
+    grafana_prod:
+      name: grafana_prod
+      config:
+        command: pwsh
+        args:
+          - -NoProfile
+          - -Command
+          - "& $HOME/.config/mcp/grafana-prod.ps1"
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+        write:
+          - "create_*"
+          - "update_*"
+        delete: []
+
+    grafana_non_prod_remote:
+      name: grafana-non-prod-remote
+      config:
+        __comment: "https://github.com/grafana/mcp-grafana"
+        url: "https://grafana-mcp.non-prod.emea.observability.tpicapcloud.com/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+        write:
+          - "create_*"
+          - "update_*"
+        delete: []
+
+    grafana_prod_remote:
+      name: grafana-prod-remote
+      config:
+        __comment: "https://github.com/grafana/mcp-grafana"
+        url: "https://grafana-mcp.prod.emea.observability.tpicapcloud.com/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+        write: []
+        delete: []
+
+    aws:
+      name: aws
+      config:
+        _comment: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/mcp-server.html"
+        command: uvx
+        timeout: 100000
+        transport: stdio
+        args:
+          - "mcp-proxy-for-aws@latest"
+          - "https://aws-mcp.eu-central-1.api.aws/mcp"
+          - "--metadata"
+          - "AWS_REGION=eu-west-1"
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "read_*"
+          - "recommend"
+          - "retrieve_skill"
+          - "search_*"
+          - "suggest_*"
+        write:
+          - "call_aws"
+          - "run_script"
+        delete: []
+
+    aws_iac:
+      name: awslabs.aws-iac-mcp-server
+      config:
+        __comment: "https://github.com/awslabs/mcp/tree/main/src/aws-iac-mcp-server"
+        command: uvx
+        args:
+          - "awslabs.aws-iac-mcp-server@latest"
+        env:
+          FASTMCP_LOG_LEVEL: ERROR
+        disabled: false
+        autoApprove: []
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []
+
+    aws_eks:
+      name: awslabs.eks-mcp-server
+      config:
+        __comment: "https://github.com/awslabs/mcp/tree/main/src/eks-mcp-server"
+        command: uvx
+        args:
+          - "awslabs.eks-mcp-server@latest"
+          - "--allow-write"
+          - "--allow-sensitive-data-access"
+        env:
+          FASTMCP_LOG_LEVEL: ERROR
+        disabled: false
+        autoApprove: []
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []
+
+  resources:
+    - "file://AGENTS.md"
+    - "file://README.md"
+    - "skill://.kiro/skills/*/SKILL.md"
+    - "skill://~/.kiro/skills/*/SKILL.md"

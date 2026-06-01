@@ -24,3 +24,4 @@ terraform-docs 0.20.0
 tmux 3.5a
 trivy 0.57.0
 uv 0.9.15
+gopass 1.16.1
