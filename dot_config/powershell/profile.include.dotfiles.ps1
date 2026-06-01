@@ -18,7 +18,7 @@ function Sync-DotFiles() {
         throw "Target path '$Target' does not exist."
     }
 
-    # Auto-detect profiles from .dotfiles-include-* marker files in target root
+    # Auto-detect profiles from .dotfiles-include-* marker files
     $TargetProfiles = @('global')
     $markerFiles = Get-ChildItem -File -Path $Target -Filter '.dotfiles-include-*' -Force
     foreach ($marker in $markerFiles) {
@@ -27,7 +27,6 @@ function Sync-DotFiles() {
     }
     Write-Verbose "Target profiles: $($TargetProfiles -join ', ')"
 
-    # Auto-detect profiles from .dotfiles-include-* marker files in source root
     $SourceProfiles = @('global')
     $markerFiles = Get-ChildItem -File -Path $Source -Filter '.dotfiles-include-*' -Force
     foreach ($marker in $markerFiles) {
@@ -58,7 +57,7 @@ function Sync-DotFiles() {
         return $null
     }
 
-    function Read-DotfilesProfileConfig() {
+    function Read-ProfileMap() {
         [CmdletBinding()]
         param(
             [Parameter(Mandatory)]
@@ -66,53 +65,16 @@ function Sync-DotFiles() {
             $Directory
         )
 
-        $configPath = Join-Path $Directory '.dotfiles-profile'
         $map = @{}
-        if (Test-Path -Path $configPath) {
-            Get-Content -Path $configPath | ForEach-Object {
-                $line = $_.Trim()
-                if ($line -and $line -match '^(?<name>.+):(?<profile>.+)$') {
-                    $map[$Matches['name'].Trim()] = $Matches['profile'].Trim()
-                }
+        $profileFiles = Get-ChildItem -File -Path $Directory -Filter '.dotfiles-profile-*' -Force
+        foreach ($file in $profileFiles) {
+            $profile = $file.Name -replace '^\.dotfiles-profile-', ''
+            Get-Content -Path $file.FullName | ForEach-Object {
+                $entry = $_.Trim()
+                if ($entry) { $map[$entry] = $profile }
             }
         }
         return $map
-    }
-
-    function Should-Sync() {
-        [CmdletBinding()]
-        param(
-            [Parameter(Mandatory)]
-            [string]
-            $Name,
-            [Parameter()]
-            [hashtable]
-            $ConfigProfileMap = @{}
-        )
-
-        $assignedProfile = Get-Profile -Name $Name -ConfigProfileMap $ConfigProfileMap
-        if ([string]::IsNullOrWhiteSpace($assignedProfile)) {
-            return $true
-        }
-        return $TargetProfiles -contains $assignedProfile
-    }
-
-    function Is-SourceManaged() {
-        [CmdletBinding()]
-        param(
-            [Parameter(Mandatory)]
-            [string]
-            $Name,
-            [Parameter()]
-            [hashtable]
-            $ConfigProfileMap = @{}
-        )
-
-        $assignedProfile = Get-Profile -Name $Name -ConfigProfileMap $ConfigProfileMap
-        if ([string]::IsNullOrWhiteSpace($assignedProfile)) {
-            return $true
-        }
-        return $SourceProfiles -contains $assignedProfile
     }
 
     function Sync-Directory() {
@@ -130,20 +92,37 @@ function Sync-DotFiles() {
             New-Item -ItemType Directory -Path $SyncDestination -Verbose:$VerbosePreference | Out-Null
         }
 
-        $profileMap = Read-DotfilesProfileConfig -Directory $SyncSource
-        $ignoredFiles = @( '.dotfiles-profile' )
+        # Merge profile maps from both sides
+        $profileMap = Read-ProfileMap -Directory $SyncSource
+        $targetProfileMap = Read-ProfileMap -Directory $SyncDestination
+        foreach ($key in $targetProfileMap.Keys) {
+            if (-not $profileMap.ContainsKey($key)) {
+                $profileMap[$key] = $targetProfileMap[$key]
+            }
+        }
+
         $ignoredDirectories = @( '.git' )
 
-        # Sync files
+        # Sync .dotfiles-profile-* files only if target has that profile
+        $sourceProfileFiles = Get-ChildItem -File -Path $SyncSource -Filter '.dotfiles-profile-*' -Force
+        foreach ($file in $sourceProfileFiles) {
+            $profile = $file.Name -replace '^\.dotfiles-profile-', ''
+            if ($TargetProfiles -contains $profile) {
+                Copy-Item -Path $file.FullName -Destination $SyncDestination -Force -Verbose:$VerbosePreference
+            }
+        }
+
+        # Sync regular files
         $sourceFiles = Get-ChildItem -File -Path $SyncSource -Force | Where-Object {
-            $ignoredFiles -notcontains $_.Name -and $_.Name -notmatch '^\.dotfiles-include-'
+            $_.Name -notmatch '^\.dotfiles-include-' -and $_.Name -notmatch '^\.dotfiles-profile-'
         }
         foreach ($file in $sourceFiles) {
-            if (-not (Should-Sync -Name $file.Name -ConfigProfileMap $profileMap)) {
+            $assignedProfile = Get-Profile -Name $file.Name -ConfigProfileMap $profileMap
+            if ([string]::IsNullOrWhiteSpace($assignedProfile) -or ($TargetProfiles -contains $assignedProfile)) {
+                Copy-Item -Path $file.FullName -Destination $SyncDestination -Force -Verbose:$VerbosePreference
+            } else {
                 Write-Host "Skipping file '$($file.Name)' as it is not included in the profile"
-                continue
             }
-            Copy-Item -Path $file.FullName -Destination $SyncDestination -Force -Verbose:$VerbosePreference
         }
 
         # Sync directories
@@ -153,7 +132,8 @@ function Sync-DotFiles() {
                 Write-Verbose "Skipping directory '$($directory.Name)' as it is ignored"
                 continue
             }
-            if (-not (Should-Sync -Name $directory.Name -ConfigProfileMap $profileMap)) {
+            $assignedProfile = Get-Profile -Name $directory.Name -ConfigProfileMap $profileMap
+            if (-not [string]::IsNullOrWhiteSpace($assignedProfile) -and $TargetProfiles -notcontains $assignedProfile) {
                 Write-Verbose "Skipping directory '$($directory.Name)' as it is not included in the profile"
                 continue
             }
@@ -161,34 +141,47 @@ function Sync-DotFiles() {
             Sync-Directory -SyncSource $directory.FullName -SyncDestination $dstPath -Verbose:$VerbosePreference
         }
 
-        # Cleanup target: only remove files whose profile is managed by source.
-        # If source doesn't manage the profile, leave the file alone.
-        $syncedSourceFileNames = @($sourceFiles | Where-Object { Should-Sync -Name $_.Name -ConfigProfileMap $profileMap } | ForEach-Object { $_.Name })
-        $targetFiles = Get-ChildItem -File -Path $SyncDestination -Force | Where-Object { $_.Name -notmatch '^\.dotfiles-include-' }
+        # Cleanup target files: only remove if source manages that profile
+        $syncedSourceFileNames = @()
+        foreach ($file in $sourceFiles) {
+            $p = Get-Profile -Name $file.Name -ConfigProfileMap $profileMap
+            if ([string]::IsNullOrWhiteSpace($p) -or ($TargetProfiles -contains $p)) {
+                $syncedSourceFileNames += $file.Name
+            }
+        }
+
+        $targetFiles = Get-ChildItem -File -Path $SyncDestination -Force | Where-Object {
+            $_.Name -notmatch '^\.dotfiles-include-' -and $_.Name -notmatch '^\.dotfiles-profile-'
+        }
         foreach ($file in $targetFiles) {
-            if (-not (Is-SourceManaged -Name $file.Name -ConfigProfileMap $profileMap)) {
+            $assignedProfile = Get-Profile -Name $file.Name -ConfigProfileMap $profileMap
+            # Skip files whose profile isn't managed by source
+            if (-not [string]::IsNullOrWhiteSpace($assignedProfile) -and $SourceProfiles -notcontains $assignedProfile) {
                 continue
             }
-            if (-not (Should-Sync -Name $file.Name -ConfigProfileMap $profileMap)) {
-                Remove-Item -Path $file.FullName -Force -Verbose:$VerbosePreference
-            } elseif ($syncedSourceFileNames -notcontains $file.Name) {
+            if ($syncedSourceFileNames -notcontains $file.Name) {
                 Remove-Item -Path $file.FullName -Force -Verbose:$VerbosePreference
             }
         }
 
         # Cleanup target directories
-        $syncedSourceDirNames = @($sourceDirectories | Where-Object {
-            $ignoredDirectories -notcontains $_.Name -and (Should-Sync -Name $_.Name -ConfigProfileMap $profileMap)
-        } | ForEach-Object { $_.Name })
+        $syncedSourceDirNames = @()
+        foreach ($dir in $sourceDirectories) {
+            if ($ignoredDirectories -contains $dir.Name) { continue }
+            $p = Get-Profile -Name $dir.Name -ConfigProfileMap $profileMap
+            if ([string]::IsNullOrWhiteSpace($p) -or ($TargetProfiles -contains $p)) {
+                $syncedSourceDirNames += $dir.Name
+            }
+        }
+
         $targetDirectories = Get-ChildItem -Directory -Path $SyncDestination -Force
         foreach ($directory in $targetDirectories) {
             if ($ignoredDirectories -contains $directory.Name) { continue }
-            if (-not (Is-SourceManaged -Name $directory.Name -ConfigProfileMap $profileMap)) {
+            $assignedProfile = Get-Profile -Name $directory.Name -ConfigProfileMap $profileMap
+            if (-not [string]::IsNullOrWhiteSpace($assignedProfile) -and $SourceProfiles -notcontains $assignedProfile) {
                 continue
             }
-            if (-not (Should-Sync -Name $directory.Name -ConfigProfileMap $profileMap)) {
-                Remove-Item -Path $directory.FullName -Force -Recurse -Verbose:$VerbosePreference
-            } elseif ($syncedSourceDirNames -notcontains $directory.Name) {
+            if ($syncedSourceDirNames -notcontains $directory.Name) {
                 Remove-Item -Path $directory.FullName -Force -Recurse -Verbose:$VerbosePreference
             }
         }
