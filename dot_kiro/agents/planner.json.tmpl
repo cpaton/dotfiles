@@ -47,7 +47,11 @@
     "toolAliases" (dict)
     "allowedTools" $tools
     "resources" $k.resources
-    "hooks" (dict)
+    "hooks" (dict
+      "userPromptSubmit" (list
+        (dict "command" "echo 'REMINDER: You are in PLAN MODE. Do NOT write code, create files, or implement anything. Only analyze, explore, ask questions, and produce a plan.'")
+      )
+    )
     "includeMcpJson" false
     "model" nil
     "welcomeMessage" "Read only planning agent"
