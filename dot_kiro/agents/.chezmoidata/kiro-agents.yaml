@@ -141,43 +141,59 @@ kiro:
     grafana_non_prod:
       name: grafana_non_prod
       config:
-        command: pwsh
+        command: uvx
         args:
-          - -NoProfile
-          - -Command
-          - "& $HOME/.config/mcp/grafana-non-prod.ps1"
+          - "--with"
+          - "fastmcp"
+          - "--quiet"
+          - "python"
+          - "~/.config/mcp/mcp-prefix-proxy.py"
+          - "non_prod"
+          - "--"
+          - "pwsh"
+          - "-NoProfile"
+          - "-File"
+          - "~/.config/mcp/grafana-non-prod.ps1"
       allowed_tools:
         read_only:
-          - "get_*"
-          - "list_*"
-          - "search_*"
-          - "find_*"
-          - "query_*"
-          - "generate_deeplink"
+          - "non_prod_get_*"
+          - "non_prod_list_*"
+          - "non_prod_search_*"
+          - "non_prod_find_*"
+          - "non_prod_query_*"
+          - "non_prod_generate_deeplink"
         write:
-          - "create_*"
-          - "update_*"
+          - "non_prod_create_*"
+          - "non_prod_update_*"
         delete: []
 
     grafana_prod:
       name: grafana_prod
       config:
-        command: pwsh
+        command: uvx
         args:
-          - -NoProfile
-          - -Command
-          - "& $HOME/.config/mcp/grafana-prod.ps1"
+          - "--with"
+          - "fastmcp"
+          - "--quiet"
+          - "python"
+          - "~/.config/mcp/mcp-prefix-proxy.py"
+          - "prod"
+          - "--"
+          - "pwsh"
+          - "-NoProfile"
+          - "-File"
+          - "~/.config/mcp/grafana-prod.ps1"
       allowed_tools:
         read_only:
-          - "get_*"
-          - "list_*"
-          - "search_*"
-          - "find_*"
-          - "query_*"
-          - "generate_deeplink"
+          - "prod_get_*"
+          - "prod_list_*"
+          - "prod_search_*"
+          - "prod_find_*"
+          - "prod_query_*"
+          - "prod_generate_deeplink"
         write:
-          - "create_*"
-          - "update_*"
+          - "prod_create_*"
+          - "prod_update_*"
         delete: []
 
     grafana_non_prod_remote:
@@ -230,16 +246,16 @@ kiro:
           - "AWS_REGION=eu-west-1"
       allowed_tools:
         read_only:
-          - "get_*"
-          - "list_*"
-          - "read_*"
-          - "recommend"
-          - "retrieve_skill"
-          - "search_*"
-          - "suggest_*"
+          - "aws___get_*"
+          - "aws___list_*"
+          - "aws___read_*"
+          - "aws___recommend"
+          - "aws___retrieve_skill"
+          - "aws___search_*"
+          - "aws___suggest_*"
         write:
-          - "call_aws"
-          - "run_script"
+          - "aws___call_aws"
+          - "aws___run_script"
         delete: []
 
     aws_iac:

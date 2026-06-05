@@ -1,6 +1,11 @@
 {{- $k := .kiro -}}
-{{- $mcps := list "grafana_non_prod" "atlassian" "aws" "gitlab" "chrome" -}}
-{{- $tool_groups := list "read_only" -}}
+{{- $mcps := list
+    (dict "key" "grafana_non_prod" "groups" (list "read_only"))
+    (dict "key" "atlassian" "groups" (list "read_only"))
+    (dict "key" "aws" "groups" (list "read_only"))
+    (dict "key" "gitlab" "groups" (list "read_only"))
+    (dict "key" "chrome" "groups" (list "read_only"))
+-}}
 {{- $tool_setting_layers := list "base" "write_docs" -}}
 {{- $toolsSettings := dict -}}
 {{- range $tool_setting_layers -}}
@@ -8,11 +13,11 @@
 {{- end -}}
 {{- $servers := dict -}}
 {{- $tools := list -}}
-{{- range $group := $tool_groups -}}
+{{- range $group := list "read_only" -}}
 {{-   $tools = concat $tools (index $k.base_tools $group) -}}
 {{- end -}}
 {{- range $mcps -}}
-{{-   $mcp := index $k.mcp_servers . -}}
+{{-   $mcp := index $k.mcp_servers .key -}}
 {{-   $config := dict -}}
 {{-   if hasKey $mcp "config" -}}
 {{-     $config = $mcp.config -}}
@@ -22,7 +27,7 @@
 {{-     $config = $mcp.config_linux -}}
 {{-   end -}}
 {{-   $_ := set $servers $mcp.name $config -}}
-{{-   range $group := $tool_groups -}}
+{{-   range $group := .groups -}}
 {{-     range $tool := index $mcp.allowed_tools $group -}}
 {{-       $tools = append $tools (printf "@%s/%s" $mcp.name $tool) -}}
 {{-     end -}}
@@ -43,4 +48,4 @@
     "model" nil
     "welcomeMessage" "Read only planning agent"
 -}}
-{{ toPrettyJson $config }}
+{{ toPrettyJson $config | replace "~/" (printf "%s/" .chezmoi.homeDir) }}

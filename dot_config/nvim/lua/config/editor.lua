@@ -30,3 +30,10 @@ vim.opt.mouse = "a" -- Enable mouse support in all modes
 
 vim.opt.spell = true
 vim.opt.spelllang = { "en_gb" }
+
+-- Auto-reload files changed externally (e.g. by AI agents editing on disk).
+-- Without this, format-on-save can corrupt buffers that are stale relative to disk.
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold"}, {
+    command = "checktime",
+})
