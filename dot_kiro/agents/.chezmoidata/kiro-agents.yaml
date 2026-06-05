@@ -68,6 +68,76 @@ kiro:
           - "./docs/**"
 
   mcp_servers:
+    ent_a2rm:
+      name: ent-a2rm
+      config:
+        command: ent-a2rm-mcp
+        timeout: 120000
+      allowed_tools:
+        read_only:
+          - "a2rm___call_api"
+          - "a2rm___list_*"
+          - "a2rm___query_*"
+          - "a2rm___retrieve_*"
+          - "a2rm___run_script"
+        write:
+          - "a2rm___call_api_mutate"
+        delete:
+          - "a2rm___call_api_delete"
+
+    ent_confluence:
+      name: ent-confluence
+      config:
+        command: ent-confluence-mcp
+      allowed_tools:
+        read_only:
+          - "download_*"
+          - "get_*"
+          - "list_*"
+          - "search_*"
+        write:
+          - "add_*"
+          - "create_*"
+          - "highlight_*"
+          - "move_*"
+          - "patch_*"
+          - "update_*"
+          - "upload_*"
+          - "revert_*"
+        delete:
+          - "delete_*"
+
+    ent_jira:
+      name: ent-jira
+      config:
+        command: ent-jira-mcp
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "lookup_*"
+          - "search_*"
+        write:
+          - "add_*"
+          - "create_*"
+          - "edit_*"
+          - "transition_*"
+        delete: []
+
+    ent_msgraph:
+      name: ent-msgraph
+      config:
+        command: ent-msgraph-mcp
+      allowed_tools:
+        read_only:
+          - "download_*"
+          - "get_*"
+          - "list_*"
+          - "read_*"
+          - "search_*"
+        write: []
+        delete: []
+
     ent_gitlab:
       name: ent-gitlab
       config:
@@ -134,8 +204,29 @@ kiro:
           - "& $HOME/.config/mcp/chrome-mcp.ps1"
       allowed_tools:
         read_only:
-          - "*"
-        write: []
+          - "get_*"
+          - "list_*"
+          - "take_*"
+          - "lighthouse_*"
+          - "performance_*"
+        write:
+          - "click"
+          - "close_*"
+          - "drag"
+          - "emulate"
+          - "evaluate_*"
+          - "fill"
+          - "fill_*"
+          - "handle_*"
+          - "hover"
+          - "navigate_*"
+          - "new_*"
+          - "press_*"
+          - "resize_*"
+          - "select_*"
+          - "type_*"
+          - "upload_*"
+          - "wait_*"
         delete: []
 
     grafana_non_prod:

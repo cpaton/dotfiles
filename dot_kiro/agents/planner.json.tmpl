@@ -1,10 +1,14 @@
 {{- $k := .kiro -}}
 {{- $mcps := list
     (dict "key" "grafana_non_prod" "groups" (list "read_only"))
-    (dict "key" "atlassian" "groups" (list "read_only"))
+    (dict "key" "grafana_prod" "groups" (list "read_only"))
     (dict "key" "aws" "groups" (list "read_only"))
-    (dict "key" "gitlab" "groups" (list "read_only"))
-    (dict "key" "chrome" "groups" (list "read_only"))
+    (dict "key" "ent_a2rm" "groups" (list "read_only"))
+    (dict "key" "ent_confluence" "groups" (list "read_only"))
+    (dict "key" "ent_jira" "groups" (list "read_only"))
+    (dict "key" "ent_msgraph" "groups" (list "read_only"))
+    (dict "key" "ent_gitlab" "groups" (list "read_only"))
+    (dict "key" "chrome" "groups" (list "read_only" "write"))
 -}}
 {{- $tool_setting_layers := list "base" "write_docs" -}}
 {{- $toolsSettings := dict -}}

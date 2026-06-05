@@ -1,22 +1,4 @@
 {
   "mcpServers": {
-    "ent-gitlab": {
-      "command": "ent-gitlab-mcp",
-      "timeout": 120000
-    },
-    "gitlab": {
-      "__comment": "https://github.com/zereight/gitlab-mcp",
-      "args": [
-        "-y",
-        "@zereight/mcp-gitlab"
-      ],
-      "command": "npx",
-      "env": {
-        "GITLAB_API_URL": "https://scm.tpicapcloud.com/api/v4",
-        "GITLAB_OAUTH_CLIENT_ID": "f65139ee21c22e436a3297901413499ea213b059ee93c1bc1009e455abeb33a0",
-        "GITLAB_OAUTH_REDIRECT_URI": "http://127.0.0.1:8888/callback",
-        "GITLAB_USE_OAUTH": "true"
-      }
-    }
   }
 }
