@@ -1,6 +1,14 @@
+{{- $localAppDataRoot := "" -}}
+{{- if and (hasKey . "paths") (hasKey .paths "local_app_data_root") -}}
+  {{- $localAppDataRoot = get .paths "local_app_data_root" -}}
+{{- else if eq .chezmoi.os "windows" -}}
+  {{- $localAppDataRoot = printf "%s\\AppData\\Local" .chezmoi.homeDir -}}
+{{- else -}}
+  {{- $localAppDataRoot = printf "%s/.local/share" .chezmoi.homeDir -}}
+{{- end -}}
 [wsl2]
 swap=8GB
-swapFile={{ .paths.local_app_data_root | replace "\\" "\\\\" }}\\wsl\\swapFile.vhdx
+swapFile={{ $localAppDataRoot | replace "\\" "\\\\" }}\\wsl\\swapFile.vhdx
 localhostForwarding=true
 nestedVirtualization=true
 guiApplications=true

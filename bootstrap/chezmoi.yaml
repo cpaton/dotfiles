@@ -1,0 +1,32 @@
+sourceDir: '__source-dir__'
+mode: symlink
+
+cd:
+  command: pwsh
+  args:
+    - -NoProfile
+    - -NoLogo
+
+data:
+  full_name: Craig Paton
+  email: '__e-mail__'
+
+  paths: {}
+    # local_data_root: '~'
+    # local_app_data_root: '~\AppData\Local'
+    # roaming_app_data_root: ''
+    # shell_initial_directory: '~'
+    # cache_root: '~/.cache'
+    # state_root: '~/.local/state'
+
+  neovim:
+    avante_provider: bedrock
+
+  feature_flags:
+    github_copilot: false
+    neovim-amazonq: false
+    neovim-avante: false
+
+  aws:
+    sso_start_url: 'https://view.awsapps.com/start'
+    bedrock_profile: ''
