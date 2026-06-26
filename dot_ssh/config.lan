@@ -2,17 +2,17 @@ Host storage
     Hostname storage.lan
 	Port 60022
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/craig-lan__personal.pub
+	IdentityFile ~/.ssh/craig-lan.pub
 
 Host bee
 	Hostname bee.lan
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/craig-lan__personal.pub
+	IdentityFile ~/.ssh/craig-lan.pub
     ForwardAgent yes
 
 Host bee-root
 	Hostname bee.lan
 	User root
 	IdentitiesOnly true
-	IdentityFile ~/.ssh/craig-lan__personal.pub
+	IdentityFile ~/.ssh/craig-lan.pub
     ForwardAgent yes
