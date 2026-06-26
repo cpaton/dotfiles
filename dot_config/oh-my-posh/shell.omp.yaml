@@ -58,7 +58,7 @@ blocks:
     segments:
       - type: root
         style: plain
-        template: "\uf037 "
+        template: "🔥 "
         foreground: "#cd5e42"
       - type: text
         style: plain
