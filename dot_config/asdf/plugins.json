@@ -50,6 +50,11 @@
     "Ref": "7cec9181a9b7871b5c213dc4a806080ac90b9bb7"
   },
   {
+    "Name": "gopass",
+    "Url": "https://github.com/trallnag/asdf-gopass.git",
+    "Ref": "64d70d3f63028a440faa726ada8e33199e4c3074"
+  },
+  {
     "Name": "helm",
     "Url": "https://github.com/Antiarchitect/asdf-helm.git",
     "Ref": "00b6ead39b97536304042241f31242811ca39f74"
@@ -103,6 +108,11 @@
     "Name": "opencode",
     "Url": "https://github.com/bitfrost/asdf-opencode.git",
     "Ref": "1fa0e6a87283dd7a9b44718e1095539dabf81bf1"
+  },
+  {
+    "Name": "pulumi",
+    "Url": "https://github.com/canha/asdf-pulumi.git",
+    "Ref": "99d675b5e5ed50fd722b7a939e553c9802356767"
   },
   {
     "Name": "python",
