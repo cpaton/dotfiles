@@ -10,6 +10,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         "*.tf",
     },
     callback = function()
+        vim.cmd("checktime")
         vim.lsp.buf.format({
             async = false,
             timeout_ms = 10000
