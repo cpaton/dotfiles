@@ -311,3 +311,26 @@ function Test-GoPassVaultLocked() {
 
     return $true
 }
+
+function Get-SecretIntoCredential() {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)]
+        [ArgumentCompleter({
+            param($cmd, $param, $wordToComplete)
+            gopass list --flat | Where-Object { $_ -like "$wordToComplete*" }
+        })]
+        $SecretName
+    )
+
+    $ErrorActionPreference = 'Stop'
+    $PSNativeCommandUseErrorActionPreference = $true
+
+    $secretValue = gopass show --password $SecretName
+    if ($secretValue -contains '/') {
+        [pscredential]::new($secretValue.Substring(0, $secretValue.IndexOf('/')), (ConvertTo-SecureString -String $secretValue.Substring($secretValue.IndexOf('/') + 1) -AsPlainText -Force))
+    }
+    else {
+        [pscredential]::new('not-used', (ConvertTo-SecureString -String $secretValue -AsPlainText -Force))
+    }
+}
