@@ -50,6 +50,11 @@
     "Ref": "7cec9181a9b7871b5c213dc4a806080ac90b9bb7"
   },
   {
+    "Name": "golangci-lint",
+    "Url": "https://github.com/hypnoglow/asdf-golangci-lint.git",
+    "Ref": "f02f2ee73bd6d1bc4d69d6aad583cf05879fc9ea"
+  },
+  {
     "Name": "gopass",
     "Url": "https://github.com/trallnag/asdf-gopass.git",
     "Ref": "64d70d3f63028a440faa726ada8e33199e4c3074"
@@ -58,6 +63,11 @@
     "Name": "helm",
     "Url": "https://github.com/Antiarchitect/asdf-helm.git",
     "Ref": "00b6ead39b97536304042241f31242811ca39f74"
+  },
+  {
+    "Name": "helmfile",
+    "Url": "https://github.com/nwiizo/asdf-helmfile.git",
+    "Ref": "d58d7df9d4893455930d3ae5815247d997955d22"
   },
   {
     "Name": "java",
@@ -158,5 +168,10 @@
     "Name": "uv",
     "Url": "https://github.com/asdf-community/asdf-uv.git",
     "Ref": "1d44a50b8006921f3cb55b4e4d14b1d90472b201"
+  },
+  {
+    "Name": "vals",
+    "Url": "https://github.com/dex4er/asdf-vals.git",
+    "Ref": "f805cebdd4d2b7b2e943b7183f3da8a935f725fd"
   }
 ]

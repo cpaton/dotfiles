@@ -1,0 +1,2 @@
+GOPRIVATE=scm.tpicapcloud.com
+GOFLAGS=-p=2

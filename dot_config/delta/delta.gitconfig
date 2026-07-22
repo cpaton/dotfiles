@@ -6,14 +6,11 @@
     line-numbers = true
     hyperlinks = true
     dark = true
-    features = side-by-side catppuccin-frappe
+    features = catppuccin-frappe
 
     # delta detects terminal colors automatically; set one of these to disable auto-detection
     # dark = true
     # light = true
-
-[delta "no-side-by-side"]
-    side-by-side = false
 
 [delta "side-by-side"]
     side-by-side = true
