@@ -1,76 +1,36 @@
 ---
 name: to-prd
-description: Turn the current conversation context into a PRD and publish it to the project issue tracker. Use when user wants to create a PRD from the current context.
+description: Turn the current conversation context into a canonical feature/PRD and publish it to the repository tracker data store. Use after plan-work-item reaches shared understanding or when user wants to create a PRD from current context.
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.
+This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know. If more discussion is needed, stop and recommend `plan-work-item` first.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Load and use the canonical feature/PRD structure from the `prd` skill before writing. Read repo-specific conventions from `docs/agents/` before writing.
 
 ## Process
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
+1. Read repo-specific conventions when present:
 
-2. Sketch out the major modules you will need to build or modify to complete the implementation. Actively look for opportunities to extract deep modules that can be tested in isolation.
+   - `docs/agents/work-items.md`
+   - `docs/agents/tracker.md`
+   - `docs/agents/triage-labels.md`
+   - `docs/agents/domain.md`
 
-A deep module (as opposed to a shallow module) is one which encapsulates a lot of functionality in a simple, testable interface which rarely changes.
+2. Explore the repo to understand the current state of the codebase, if you haven't already. Use `docs/context.md` vocabulary throughout the PRD, and respect ADRs in the area you're touching.
 
-Check with the user that these modules match their expectations. Check with the user which modules they want tests written for.
+3. Write the PRD using the canonical structure from the `prd` skill.
 
-3. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+4. Publish it to the tracker-defined data store from `docs/agents/tracker.md`. For local markdown defaults, create an `item.md` file under the appropriate `docs/work-items/` folder.
 
-<prd-template>
+5. Set `Status:` to the correct value from `docs/agents/triage-labels.md`. Use `ready-for-agent` only if the PRD is clear enough to convert into a detailed implementation plan.
 
-## Problem Statement
+## Canonical output
 
-The problem that the user is facing, from the user's perspective.
+Follow the `prd` skill template exactly:
 
-## Solution
+- Title as the first line.
+- `## Metadata` immediately after the title.
+- `Status:`, `Type: feature`, and `Created:` metadata.
+- The PRD body sections from `prd`.
 
-The solution to the problem, from the user's perspective.
-
-## User Stories
-
-A LONG, numbered list of user stories. Each user story should be in the format of:
-
-1. As an <actor>, I want a <feature>, so that <benefit>
-
-<user-story-example>
-1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
-</user-story-example>
-
-This list of user stories should be extremely extensive and cover all aspects of the feature.
-
-## Implementation Decisions
-
-A list of implementation decisions that were made. This can include:
-
-- The modules that will be built/modified
-- The interfaces of those modules that will be modified
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
-
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
-
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
-
-## Testing Decisions
-
-A list of testing decisions that were made. Include:
-
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
-- Prior art for the tests (i.e. similar types of tests in the codebase)
-
-## Out of Scope
-
-A description of the things that are out of scope for this PRD.
-
-## Further Notes
-
-Any further notes about the feature.
-
-</prd-template>
+Do not create a detailed implementation plan in this skill. That is a separate step after the PRD is accepted or marked ready for agent.
