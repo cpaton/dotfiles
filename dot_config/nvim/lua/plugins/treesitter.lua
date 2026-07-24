@@ -1,71 +1,64 @@
--- https://github.com/nvim-treesitter/nvim-treesitte
+-- https://github.com/nvim-treesitter/nvim-treesitter
 -- syntax highlighting, code navigation, and more
--- treesitter is a component built into Neovim.  On its own its not very useful
--- nvim-treesitter hooks into this component and makes it easier to configure language support e.g. installing parsers
+-- treesitter is a component built into Neovim. On its own its not very useful
+-- nvim-treesitter provides parser management and queries for tree-sitter features
 --
--- custom stuff required for windows support see https://github.com/nvim-treesitter/nvim-treesitter/wiki/Windows-support
--- c compiler is required - I went with scoop install mingw which gives you gcc on your path
+-- Requirements (main branch):
+--   neovim 0.12+
+--   tree-sitter-cli 0.26.1+ (installed via mise)
+--   a C compiler (gcc/clang)
 return {
     {
         "nvim-treesitter/nvim-treesitter",
-        enabled = true,
+        branch = "main",
+        build = ":TSUpdate",
         config = function()
-            local install = require("nvim-treesitter.install")
-            -- docs suggest uing curl+tar but this doesn't work within the enterprise network - suspect due to certificates
-            install.prefer_git = true
+            -- Install parsers (no-op if already installed)
+            require('nvim-treesitter').install {
+                'bash',
+                'c_sharp',
+                'css',
+                'csv',
+                'dockerfile',
+                'editorconfig',
+                'git_config',
+                'git_rebase',
+                'gitattributes',
+                'gitcommit',
+                'gitignore',
+                'go',
+                'gomod',
+                'gosum',
+                'gotmpl',
+                'groovy',
+                'hcl',
+                'helm',
+                'html',
+                'javascript',
+                'json',
+                'lua',
+                'markdown',
+                'markdown_inline',
+                'powershell',
+                'python',
+                'regex',
+                'requirements',
+                'sql',
+                'ssh_config',
+                'terraform',
+                'typescript',
+                'vim',
+                'yaml',
+            }
 
-            local configs = require("nvim-treesitter.configs")
-            configs.setup({
-                ensure_installed                  = {
-                    "bash",
-                    "c_sharp",
-                    "css",
-                    "csv",
-                    "dockerfile",
-                    "editorconfig",
-                    "git_config",
-                    "git_rebase",
-                    "gitattributes",
-                    "gitcommit",
-                    "gitignore",
-                    "go",
-                    "gomod",
-                    "gosum",
-                    "gotmpl",
-                    "groovy",
-                    "hcl",
-                    "helm",
-                    "html",
-                    "javascript",
-                    "json",
-                    "lua",
-                    "markdown",
-                    "markdown_inline",
-                    "powershell",
-                    "python",
-                    "regex",
-                    "requirements",
-                    "sql",
-                    "ssh_config",
-                    "terraform",
-                    "tmux",
-                    "typescript",
-                    "vim",
-                    "yaml"
-                },
-                sync_install                      = false,
-                auto_install                      = true,
-                highlight                         = { enable = true },
-                indent                            = { enable = true },
-                additional_vim_regex_highlighting = false,
-                incremental_selection             = {
-                    enable = true
-                }
+            -- Enable highlighting and indentation for all filetypes with a parser
+            vim.api.nvim_create_autocmd('FileType', {
+                callback = function(args)
+                    if pcall(vim.treesitter.start, args.buf) then
+                        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
+                end,
             })
-        end,
-        build = function()
-            -- when the module is installed or updated ensure the language parsers are updated also
-            vim.cmd("TSUpdate")
         end
     }
 }

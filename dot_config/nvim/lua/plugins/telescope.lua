@@ -42,7 +42,8 @@ return {
     },
     {
         "nvim-telescope/telescope.nvim",
-        branch = '0.1.x', -- recommend not using master branch for stability
+        -- branch = '0.1.x', -- removed: 0.1.x doesn't support Neovim 0.12
+        version = "*",
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-fzy-native.nvim",

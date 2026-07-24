@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 ]]
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls`
-local lua_ls_config = vim.lsp.config("lua_ls", {
+vim.lsp.config("lua_ls", {
     cmd = { "lua-language-server" },
     settings = {
         Lua = {
@@ -130,9 +130,10 @@ vim.lsp.config("powershell_es", {
         client.config.settings.powershell.scriptAnalysis.settingsPath = settings_path
 
         -- optional but commonly needed to force-apply immediately:
-        client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
+        client:notify("workspace/didChangeConfiguration", { settings = client.config.settings })
     end,
 })
+vim.lsp.enable("powershell_es")
 
 -- go templates ending in tmpl should use their main filetype for their filetype
 vim.filetype.add({

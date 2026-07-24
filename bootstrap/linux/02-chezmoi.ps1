@@ -2,89 +2,44 @@
 
 <#
 .SYNOPSIS
-Installs chezmoi through asdf using the version pinned in dot_tool-versions.
+Installs chezmoi through mise and configures it for this dotfiles repo.
 #>
 
 [CmdletBinding()]
 param(
-    # Path to the asdf .tool-versions source file in this dotfiles repo.
+    # Version of chezmoi to install.
     [Parameter()]
     [string]
-    $ToolVersionsPath = ( Join-Path $PSScriptRoot '../../dot_tool-versions' ),
+    $ChezmoiVersion = '2.65.1',
 
-    # Path to the asdf binary installed by bootstrap-asdf.ps1.
+    # Path to the mise binary installed by 01-mise.ps1.
     [Parameter()]
     [string]
-    $AsdfPath = ( Join-Path $HOME '.local/bin/asdf' )
+    $MisePath = ( Join-Path $HOME '.local/bin/mise' )
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-function Assert-FileExists {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory)]
-        [string]
-        $Path
-    )
-
-    if (-not (Test-Path -Path $Path -PathType Leaf)) {
-        throw "Required file not found: $Path"
+if (-not (Test-Path -Path $MisePath -PathType Leaf)) {
+    # Try finding mise on PATH (e.g. Windows/Scoop install)
+    $miseCommand = Get-Command -Name 'mise' -ErrorAction SilentlyContinue
+    if ($null -eq $miseCommand) {
+        throw "mise not found at $MisePath or on PATH. Run 01-mise.ps1 first."
     }
+    $MisePath = $miseCommand.Source
 }
 
-function Get-ToolVersion {
-    [CmdletBinding()]
-    param(
-        [Parameter(Mandatory)]
-        [string]
-        $Path,
+Write-Host "Installing chezmoi $ChezmoiVersion via mise..."
+& $MisePath install "chezmoi@$ChezmoiVersion"
+& $MisePath use --global "chezmoi@$ChezmoiVersion"
 
-        [Parameter(Mandatory)]
-        [string]
-        $ToolName
-    )
-
-    if (-not (Test-Path -Path $Path)) {
-        throw "Tool versions file not found: $Path"
-    }
-
-    $escapedToolName = [regex]::Escape($ToolName)
-    $match = Get-Content -Path $Path |
-        Where-Object { $_ -match "^\s*$escapedToolName\s+(?<version>\S+)" } |
-        Select-Object -First 1
-
-    if ($null -eq $match) {
-        throw "Could not find $ToolName version in $Path"
-    }
-
-    if ($match -notmatch "^\s*$escapedToolName\s+(?<version>\S+)") {
-        throw "Could not parse $ToolName version from: $match"
-    }
-
-    $Matches.version
+$chezmoiPath = (& $MisePath which chezmoi)
+if (-not $chezmoiPath -or -not (Test-Path -Path $chezmoiPath -PathType Leaf)) {
+    throw "chezmoi binary not found after mise install."
 }
 
-Assert-FileExists -Path $AsdfPath
-
-$chezmoiVersion = Get-ToolVersion -Path $ToolVersionsPath -ToolName 'chezmoi'
-
-$plugins = @(& $AsdfPath plugin list)
-if ($plugins -notcontains 'chezmoi') {
-    & $AsdfPath plugin add chezmoi
-}
-
-& $AsdfPath install chezmoi $chezmoiVersion
-& $AsdfPath set --home chezmoi $chezmoiVersion
-
-$chezmoiInstallDirectory = & $AsdfPath where chezmoi $chezmoiVersion
-$chezmoiBinaryName = 'chezmoi'
-$chezmoiPath = Join-Path $chezmoiInstallDirectory "bin/$chezmoiBinaryName"
-if (-not (Test-Path -Path $chezmoiPath -PathType Leaf)) {
-    $chezmoiPath = Join-Path $chezmoiInstallDirectory $chezmoiBinaryName
-}
+Write-Host "chezmoi installed at: $chezmoiPath"
 
 & (Join-Path $PSScriptRoot '../chezmoi-config.ps1') -ChezmoiPath $chezmoiPath
-
