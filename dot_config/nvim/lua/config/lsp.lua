@@ -151,3 +151,5 @@ vim.filetype.add({
         end,
     },
 })
+
+vim.lsp.enable("terraformls")

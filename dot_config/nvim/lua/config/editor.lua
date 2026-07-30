@@ -6,6 +6,7 @@ vim.opt.scrolloff = 10        -- Minimal number of screen lines to keep above an
 vim.opt.wrap = false          -- Do not wrap long lines
 vim.opt.signcolumn = "yes"    -- always show sign information e.g. lines which have changed
 vim.opt.colorcolumn = "220"   -- line length marker at 200 characters
+vim.opt.termsync = false      -- disable termsync codes as not supported by tmux
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -34,6 +35,7 @@ vim.opt.spelllang = { "en_gb" }
 -- Auto-reload files changed externally (e.g. by AI agents editing on disk).
 -- Without this, format-on-save can corrupt buffers that are stale relative to disk.
 vim.opt.autoread = true
-vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold"}, {
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
     command = "checktime",
 })
+
