@@ -1,0 +1,44 @@
+{{- $k := .kiro -}}
+{{- $mcps := list
+    (dict "key" "grafana_nextgen_remote" "groups" (list "read_only" "write"))
+-}}
+{{- $permission_layers := list "base" -}}
+{{- $rules := list -}}
+{{- range $permission_layers -}}
+{{-   $rules = concat $rules (index $k.permission_rules .) -}}
+{{- end -}}
+{{- $servers := dict -}}
+{{- $mcpAllowPatterns := list -}}
+{{- range $mcps -}}
+{{-   $mcp := index $k.mcp_servers .key -}}
+{{-   $config := dict -}}
+{{-   if hasKey $mcp "config" -}}
+{{-     $config = $mcp.config -}}
+{{-   else if eq $.chezmoi.os "windows" -}}
+{{-     $config = $mcp.config_windows -}}
+{{-   else -}}
+{{-     $config = $mcp.config_linux -}}
+{{-   end -}}
+{{-   $_ := set $servers $mcp.name $config -}}
+{{-   range $group := .groups -}}
+{{-     range $tool := index $mcp.allowed_tools $group -}}
+{{-       $mcpAllowPatterns = append $mcpAllowPatterns (printf "%s/%s" $mcp.name $tool) -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+{{- $rules = append $rules (dict "capability" "mcp" "match" $mcpAllowPatterns "effect" "allow") -}}
+{{- $frontmatter := dict
+    "name" "mcp-test"
+    "description" "MCP test agent"
+    "tools" (list "*")
+    "includeMcpJson" false
+    "includePowers" false
+    "mcpServers" $servers
+    "resources" $k.resources
+    "permissions" (dict "rules" $rules)
+-}}
+---
+{{ toYaml $frontmatter | replace "~/" (printf "%s/" .chezmoi.homeDir) -}}
+---
+
+You are the default Kiro CLI agent. Beyond development tasks, you help with writing, analysis, planning, research, and any other professional work the user needs.

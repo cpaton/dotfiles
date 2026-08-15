@@ -1,47 +1,71 @@
-kiro:
-  permission_rules:
+kiro_v2:
+  base_tools:
+    read_only:
+      - code
+      - glob
+      - grep
+      - introspect
+      - knowledge
+      - read
+      - report
+      - shell
+      - subagent
+      - switch_to_execution
+      - todo_list
+      - tool_search
+      - web_fetch
+      - web_search
+    write:
+      - shell
+      - use_aws
+      - write
+    delete: []
+
+  tool_settings:
     base:
-      - capability: shell
-        match:
-          - "awk *"
-          - "cat *"
-          - "find *"
+      shell:
+        allowedCommands:
+          - "awk .*"
+          - "cat .*"
+          - "find .*"
           - "git fetch"
           - "git status"
-          - "grep *"
-          - "head *"
-          - "helm get*"
-          - "kubectl get*"
-          - "ls *"
-          - "sed *"
-          - "sort *"
-          - "tail *"
-          - "which *"
-        effect: allow
-      - capability: shell
-        match:
-          - "git push*"
-        effect: ask
-      - capability: fs_read
-        match:
+          - "grep .*"
+          - "head .*"
+          - "helm get"
+          - "kubectl get"
+          - "ls .*"
+          - "sed .*"
+          - "sort .*"
+          - "tail .*"
+          - "which .*"
+        deniedCommands:
+          - "git push .*"
+        autoAllowReadonly: true
+      read:
+        allowedPaths:
           - "./**"
           - "~/.config/**"
           - "~/git/**"
-        effect: allow
-      - capability: fs_read
-        match:
+        deniedPaths:
           - "~/.aws/credentials"
-        effect: deny
-      - capability: fs_write
-        match:
+      glob:
+        allowedPaths:
           - "./**"
-        effect: allow
+        deniedPaths: []
+        allowReadOnly: true
+      grep:
+        allowReadOnly: true
+      write:
+        allowedPaths:
+          - "./**"
+      aws:
+        autoAllowReadonly: true
 
-    planner_readonly:
-      - capability: fs_write
-        exclude:
+    write_docs:
+      write:
+        allowedPaths:
           - "./docs/**"
-        effect: deny
 
   mcp_servers:
     ent_a2rm:

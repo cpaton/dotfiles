@@ -48,6 +48,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 ]]
 
+vim.lsp.codelens.enable(true)
+vim.lsp.inlay_hint.enable()
+
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#lua_ls`
 vim.lsp.config("lua_ls", {
     cmd = { "lua-language-server" },

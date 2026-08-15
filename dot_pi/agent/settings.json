@@ -1,0 +1,11 @@
+{
+  "lastChangelogVersion": "0.84.2",
+  "theme": "dark",
+  "packages": [
+    "npm:pi-provider-kiro"
+  ],
+  "defaultProvider": "kiro",
+  "defaultModel": "claude-opus-4-6",
+  "defaultThinkingLevel": "high",
+  "hideThinkingBlock": true
+}

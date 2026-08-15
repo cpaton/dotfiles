@@ -820,6 +820,45 @@ checksum = "sha256:814dae5724dfa396a43b6408703d0929625483e2fac135623f10f0fa8db04
 url = "https://github.com/anomalyco/opencode/releases/download/v1.18.4/opencode-windows-x64.zip"
 url_api = "https://api.github.com/repos/anomalyco/opencode/releases/assets/483585385"
 
+[[tools.pi]]
+version = "0.84.1"
+backend = "aqua:earendil-works/pi"
+
+[tools.pi."platforms.linux-arm64"]
+checksum = "sha256:ab95c058a4651b5ff5d8c878e524edfb776263c7a444f325505f247c056eecfc"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727596"
+
+[tools.pi."platforms.linux-arm64-musl"]
+checksum = "sha256:ab95c058a4651b5ff5d8c878e524edfb776263c7a444f325505f247c056eecfc"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727596"
+
+[tools.pi."platforms.linux-x64"]
+checksum = "sha256:5634d7ebd18274b63af3371e942f342d74bea012389575c1d1ff15ce6ca80c2f"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727598"
+
+[tools.pi."platforms.linux-x64-musl"]
+checksum = "sha256:5634d7ebd18274b63af3371e942f342d74bea012389575c1d1ff15ce6ca80c2f"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727598"
+
+[tools.pi."platforms.macos-arm64"]
+checksum = "sha256:683c84261f40b870b4a7ccf181a48ad6ecd71853b0112d1bb617539530c6121d"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727600"
+
+[tools.pi."platforms.macos-x64"]
+checksum = "sha256:f9060962b9cca5438d7fb97b60adae9c9302503d39b68d8aea8b891e2eb3e786"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727599"
+
+[tools.pi."platforms.windows-x64"]
+checksum = "sha256:20dd3a07cfe0bdc6919dfbc479c694798ec5ea88a9c60f6e12678cecae1e5dfa"
+url = "https://github.com/earendil-works/pi/releases/download/v0.84.1/pi-windows-x64.zip"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/504727619"
+
 [[tools.pulumi]]
 version = "3.254.0"
 backend = "aqua:pulumi/pulumi"

@@ -1,4 +1,4 @@
-{{- $k := .kiro -}}
+{{- $k := .kiro_v2 -}}
 {{- $mcps := list
     (dict "key" "grafana_non_prod" "groups" (list "read_only" "write"))
     (dict "key" "grafana_prod" "groups" (list "read_only"))
@@ -38,9 +38,9 @@
 {{-   end -}}
 {{- end -}}
 {{- $config := dict
-    "name" "default"
+    "name" "general"
     "description" "Default agent"
-    "prompt" "file://./default.md"
+    "prompt" "file://./general.md"
     "mcpServers" $servers
     "tools" (list "*")
     "toolsSettings" $toolsSettings

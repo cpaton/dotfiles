@@ -5,6 +5,7 @@ require('config.lazy') -- Load the lazy plugin manager and plugins
 require('config.clipboard')
 require('config.editor')
 require('config.lsp')
+require('config.dotnet')
 require('config.completion')
 require('config.keymaps')
 require('config.formatting')

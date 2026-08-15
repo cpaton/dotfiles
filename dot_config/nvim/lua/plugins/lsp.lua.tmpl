@@ -26,6 +26,11 @@ return {
                 "lua_ls",
                 "powershell_es"
             },
+            automatic_enable = {
+                exclude = {
+                    "roslyn_ls",
+                },
+            }
         },
         dependencies = {
             "mason-org/mason.nvim",
