@@ -1,0 +1,116 @@
+# Herdr configuration
+# Mapped from tmux.conf to match existing workflow
+
+onboarding = false
+
+[theme]
+name = "catppuccin"
+
+# Catppuccin Frappé overrides to match tmux theme
+[theme.custom]
+sidebar_bg = "#303446"
+active_row_bg = "#414559"
+selection_bg = "#51576d"
+accent = "#babbf1"
+
+[terminal]
+# Match tmux: set -g default-command 'pwsh -NoLogo'
+default_shell = "pwsh"
+shell_mode = "non_login"
+
+# Inherit CWD from focused pane (like tmux split-window -c "#{pane_current_path}")
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+b"
+
+# Splits: | for right, - for down (matching tmux binds)
+split_vertical = ["prefix+|", "prefix+v"]
+split_horizontal = ["prefix+-", "prefix+minus"]
+
+# Pane navigation: Alt+arrows without prefix (matching tmux bind -n M-<arrow>)
+focus_pane_left = ["prefix+h", "alt+left"]
+focus_pane_right = ["prefix+l", "alt+right"]
+focus_pane_up = ["prefix+k", "alt+up"]
+focus_pane_down = ["prefix+j", "alt+down"]
+
+# Tab navigation: Ctrl+Alt+arrows without prefix (matching tmux bind -n M-C-<arrow>)
+previous_tab = ["prefix+p", "ctrl+alt+left"]
+next_tab = ["prefix+n", "ctrl+alt+right"]
+
+# Tab management: prefix+t group (replaces tmux prefix+t submenu)
+new_tab = ["prefix+c", "prefix+t"]
+rename_tab = "prefix+shift+t"
+close_tab = "prefix+ctrl+t"
+
+# Switch tabs by number
+switch_tab = "prefix+1..9"
+
+# Workspace navigation (replaces tmux session switching)
+workspace_picker = "prefix+w"
+new_workspace = "prefix+shift+n"
+rename_workspace = "prefix+shift+w"
+
+# Pane management
+close_pane = "prefix+x"
+zoom = "prefix+z"
+resize_mode = "prefix+r"
+
+# Reload config (matching tmux prefix+Ctrl+c)
+reload_config = "prefix+ctrl+c"
+
+# Detach
+detach = "prefix+q"
+
+# Goto picker (replaces tmux-fzf for session/pane switching)
+goto = "prefix+g"
+
+# Toggle sidebar
+toggle_sidebar = "prefix+b"
+
+# Lazygit popup (common workflow shortcut)
+[[keys.command]]
+key = "prefix+alt+g"
+type = "popup"
+command = "lazygit"
+description = "lazygit"
+width = "90%"
+height = "90%"
+
+[ui]
+# Status bar at bottom (matching tmux status-position bottom)
+tab_bar_position = "bottom"
+
+# Status bar right side: date and time (matching tmux status-right)
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "datetime", format = "󰭦 %-d %b 󰅐 %H:%M" },
+]
+tab_bar_right_separator = " · "
+
+# Don't prompt for tab names - create immediately like tmux
+prompt_new_tab_name = false
+
+# Show pane borders
+pane_borders = true
+pane_gaps = true
+
+# Accent colour from catppuccin frappe lavender
+accent = "#babbf1"
+
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1
+
+[ui.toast.herdr]
+position = "bottom-right"
+
+[ui.sound]
+enabled = true
+
+[session]
+resume_agents_on_restore = true
+
+[advanced]
+# Match tmux history-limit 50000 (roughly 15MB at ~300 bytes/line)
+scrollback_limit_bytes = 15000000
