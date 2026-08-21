@@ -1,4 +1,17 @@
 {
-  "mcp.loadedBefore": true,
-  "toolSearch.enabled": true
+    "mcp.loadedBefore": true,
+    "toolSearch.enabled": true,
+    "telemetry.enabled": true,
+    "chat.enableThinking": true,
+    "chat.enableKnowledge": true,
+    "chat.greeting.enabled": true,
+    "chat.enableNotifications": true,
+    "chat.notificationMethod": "auto",
+    "chat.ui": "tui",
+    "chat.autoExpandToolOutput": false,
+    "chat.disableWrap": true,
+    "chat.allowAnimations": true,
+    "chat.allowAsciiArt": true,
+    "chat.allowIcons": true,
+    "chat.agentEngine": "v3"
 }

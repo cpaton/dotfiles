@@ -5,13 +5,29 @@ kiro:
         match:
           - "awk *"
           - "cat *"
+          - "echo *"
           - "find *"
           - "git fetch"
           - "git status"
           - "grep *"
           - "head *"
           - "helm get*"
-          - "kubectl get*"
+          - "kubectl get *"
+          - "kubectl describe *"
+          - "kubectl --context * get *"
+          - "kubectl --context * describe *"
+          - "kubectl logs *"
+          - "kubectl --context * logs *"
+          - "date *"
+          - "sleep *"
+          - "cd *"
+          - "dotnet restore *"
+          - "dotnet build *"
+          - "dotnet watch *"
+          - "dotnet run *"
+          - "env *"
+          - "wc *"
+          - "base64 *"
           - "ls *"
           - "sed *"
           - "sort *"
@@ -26,7 +42,9 @@ kiro:
         match:
           - "./**"
           - "~/.config/**"
+          - "~/.local/share/apex/**"
           - "~/git/**"
+          - "~/external/**"
         effect: allow
       - capability: fs_read
         match:
@@ -35,6 +53,22 @@ kiro:
       - capability: fs_write
         match:
           - "./**"
+        effect: allow
+      - capability: subagent
+        effect: allow
+      - capability: web_fetch
+        match:
+          - "*"
+        effect: allow
+      - capability: web_search
+        effect: allow
+      - capability: skill
+        effect: allow
+      - capability: power
+        effect: allow
+      - capability: context
+        effect: allow
+      - capability: diagnostics
         effect: allow
 
     planner_readonly:
@@ -322,14 +356,19 @@ kiro:
       name: aws
       config:
         _comment: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/mcp-server.html"
-        command: uvx
+        command: uv
         timeout: 100000
         transport: stdio
         args:
-          - "mcp-proxy-for-aws@latest"
+          - --directory
+          - /home/cpaton/external/aws/mcp-proxy-for-aws
+          - run
+          - mcp-proxy-for-aws
           - "https://aws-mcp.eu-central-1.api.aws/mcp"
           - "--metadata"
           - "AWS_REGION=eu-west-1"
+        env:
+          AWS_MCP_PROXY_PROFILES: "*"
       allowed_tools:
         read_only:
           - "aws___get_*"
