@@ -1,25 +1,26 @@
 . __ProfileCachedInitialization 'zoxide' {
     if ($null -ne (Get-Command zoxide -ErrorAction SilentlyContinue)) {
-        zoxide init powershell | Out-String
+        zoxide init --cmd zz powershell | Out-String
         # zoxide init powershell --no-cmd | Out-String
     }
 }
 
-# function __fuzzy_zoxide_z{
-#     [CmdletBinding()]
-#     param(
-#         [Parameter(Position = 0)]
-#         [ArgumentCompleter( {
-#             param ( $commandName,
-#                 $parameterName,
-#                 $wordToComplete,
-#                 $commandAst,
-#                 $fakeBoundParameters )
-#             zoxide query --list | Where-Object { $_ -like "*$($wordToComplete)*" }
-#         } )]
-#         [string]
-#         $Directory
-#     )
-#
-#     z $Directory
-# }
+function ZoxideWrapper {
+    [cmdletbinding()]
+    param(
+        [parameter(position = 0)]
+        [argumentcompleter( {
+                param ( $commandname,
+                    $parametername,
+                    $wordtocomplete,
+                    $commandast,
+                    $fakeboundparameters )
+                zoxide query --list $wordtocomplete
+            } )]
+        [string]
+        $directory
+    )
+
+    __zoxide_z $directory
+}
+New-Alias -Name z -Value ZoxideWrapper -Force

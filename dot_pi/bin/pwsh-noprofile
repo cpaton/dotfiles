@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /opt/microsoft/powershell/7/pwsh -NoProfile "$@"

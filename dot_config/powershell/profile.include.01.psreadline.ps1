@@ -1,3 +1,7 @@
+if (-not [Environment]::UserInteractive -or [Console]::IsInputRedirected) {
+    return
+}
+
 Import-Module CompletionPredictor -ErrorAction SilentlyContinue
 
 # Import-Module PSReadline
@@ -22,7 +26,6 @@ Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineOption -MaximumHistoryCount 10000
 Set-PSReadLineOption -AddToHistoryHandler { param([string]$line) return $true }
-
 
 $VTEnabled = ($PSStyle.OutputRendering -ne 'PlainText')
 $OutRedirected = [Console]::IsOutputRedirected

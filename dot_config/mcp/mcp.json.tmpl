@@ -1,0 +1,74 @@
+{
+    "mcpServers": {
+        "aws": {
+            "_comment": "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/mcp-server.html",
+            "args": [
+                "--directory",
+                "{{ .chezmoi.homeDir }}/external/aws/mcp-proxy-for-aws",
+                "run",
+                "mcp-proxy-for-aws",
+                "https://aws-mcp.eu-central-1.api.aws/mcp",
+                "--metadata",
+                "AWS_REGION=eu-west-1"
+            ],
+            "command": "uv",
+            "env": {
+                "AWS_MCP_PROXY_PROFILES": "*"
+            },
+            "timeout": 100000,
+            "transport": "stdio"
+        },
+        "chrome": {
+            "command": "{{ .chezmoi.homeDir }}/.config/mcp/chrome-mcp.sh"
+        },
+        "ent-a2rm": {
+            "command": "ent-a2rm-mcp",
+            "timeout": 120000
+        },
+        "ent-confluence": {
+            "command": "ent-confluence-mcp"
+        },
+        "ent-gitlab": {
+            "command": "ent-gitlab-mcp",
+            "timeout": 120000
+        },
+        "ent-jira": {
+            "command": "ent-jira-mcp"
+        },
+        "ent-msgraph": {
+            "command": "ent-msgraph-mcp"
+        },
+        "grafana_non_prod": {
+            "args": [
+                "--with",
+                "fastmcp",
+                "--quiet",
+                "python",
+                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-prefix-proxy.py",
+                "non_prod",
+                "--",
+                "pwsh",
+                "-NoProfile",
+                "-File",
+                "{{ .chezmoi.homeDir }}/.config/mcp/grafana-non-prod.ps1"
+            ],
+            "command": "uvx"
+        },
+        "grafana_prod": {
+            "args": [
+                "--with",
+                "fastmcp",
+                "--quiet",
+                "python",
+                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-prefix-proxy.py",
+                "prod",
+                "--",
+                "pwsh",
+                "-NoProfile",
+                "-File",
+                "{{ .chezmoi.homeDir }}/.config/mcp/grafana-prod.ps1"
+            ],
+            "command": "uvx"
+        }
+    }
+}

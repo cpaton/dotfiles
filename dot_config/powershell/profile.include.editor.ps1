@@ -9,3 +9,8 @@ if (Test-Path C:\_cp\apps\nvim\bin\nvim.exe) {
 if (Test-Path 'C:\_cp\apps\npp.8.3.3.portable.x64\notepad++.exe') {
     New-Alias -Name npp -Value 'C:\_cp\apps\npp.8.3.3.portable.x64\notepad++.exe'
 }
+
+if ($null -ne (Get-Command nvim -ErrorAction SilentlyContinue)) {
+    $env:VISUAL = 'nvim'
+    $env:EDITOR = 'nvim'
+}

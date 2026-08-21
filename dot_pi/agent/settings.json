@@ -1,11 +1,34 @@
 {
   "lastChangelogVersion": "0.84.2",
-  "theme": "dark",
+  "theme": "catppuccin-tui-frappe",
   "packages": [
-    "npm:pi-provider-kiro"
+    "npm:pi-provider-kiro",
+    "npm:pi-mcp-adapter",
+    "npm:pi-web-access",
+    "npm:pi-lens",
+    "npm:@gkzhb/pi-roles",
+    "npm:pi-subagents",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-memory",
+    "npm:pi-catppuccin-tui"
   ],
   "defaultProvider": "kiro",
   "defaultModel": "claude-opus-4-6",
   "defaultThinkingLevel": "high",
-  "hideThinkingBlock": true
+  "hideThinkingBlock": true,
+  "showCacheMissNotices": true,
+  "outputPad": 0,
+  "shellPath": "/opt/microsoft/powershell/7/pwsh",
+  "defaultTools": [
+    "read",
+    "bash",
+    "edit",
+    "write",
+    "grep",
+    "find",
+    "ls"
+  ],
+  "skills": [
+    "~/.pi/skills"
+  ]
 }
