@@ -1,0 +1,26 @@
+[Unit]
+Description=Kiro Crew Gateway
+Documentation=https://github.com/kirodotdev/KiroCrew
+After=network-online.target
+Wants=network-online.target
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+[Service]
+Type=simple
+WorkingDirectory=%h
+ExecStartPre=/bin/loginctl enable-linger %u
+ExecStart=%h/.kiro/crew-venv/bin/kirocrew gateway --no-open
+Restart=always
+RestartSec=10
+TimeoutStopSec=35
+LimitNOFILE=65536
+Environment="HOME=%h"
+Environment="PATH=%h/.local/bin:%h/.kiro/crew-venv/bin:%h/.local/share/mise/shims:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="LANG=C.UTF-8"
+Environment="LC_ALL=C.UTF-8"
+Environment="KIROCREW_SERVICE_MANAGED=1"
+# Environment="KIROCREW_PORT=5476"
+
+[Install]
+WantedBy=default.target

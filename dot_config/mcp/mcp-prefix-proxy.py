@@ -30,6 +30,7 @@ def main():
             "default": {
                 "command": command_args[0],
                 "args": command_args[1:],
+                "env": {**os.environ},
             }
         }
     }
