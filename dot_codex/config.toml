@@ -1,0 +1,22 @@
+# ~/.codex/config.toml
+approval_policy = "on-request"
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+
+[projects.'c:\_cp\git\youtube-playlists']
+trust_level = "trusted"
+
+[projects.'c:\_cp\git\dotfiles']
+trust_level = "trusted"
+
+[projects.'c:\users\craig\.codex']
+trust_level = "trusted"
+
+[windows]
+sandbox = "elevated"
+
+[desktop]
+conversationDetailMode = "STEPS_COMMANDS"
+
+[tui.model_availability_nux]
+gpt-6-astra = 4

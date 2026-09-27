@@ -1,0 +1,23 @@
+prefix_rule(
+    pattern = ["mise"],
+    decision = "allow",
+)
+prefix_rule(
+    pattern = ["docker"],
+    decision = "allow",
+)
+prefix_rule(
+    pattern = ["go"],
+    decision = "allow",
+)
+prefix_rule(
+    pattern = ["gofmt"],
+    decision = "allow",
+)
+
+
+prefix_rule(pattern=["rg", "-n", "PlaylistVideoListContinuation|continuationContents|playlistVideoListContinuation", "experiments/innertube-progress/node_modules/youtubei.js/dist/src/parser", "-g", "*.js"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- node experiments/innertube-progress/.local/inspect-playlist.mjs experiments/innertube-progress/.local/cookie.txt PLMzVqW0evPg4"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- yarn --cwd experiments/innertube-progress test"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- node experiments/innertube-progress/src/cli.js --cookie-file experiments/innertube-progress/.local/cookie.txt --playlist PLMzVqW0evPg4 --page-limit 5"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- openspec status --change validate-innertube-playback-progress --json"], decision="allow")
