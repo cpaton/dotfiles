@@ -1,0 +1,2 @@
+[tools]
+herdr = { version = "latest", os = ["linux", "macos"] }

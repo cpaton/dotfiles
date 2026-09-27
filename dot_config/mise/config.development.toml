@@ -1,0 +1,15 @@
+[tools]
+dotnet = "10"
+go = "1"
+golangci-lint = "latest"
+java = "temurin-11.0.24+8"
+node = "lts"
+pulumi = "3"
+python = "3.14"
+rust = "1"
+terraform-docs = "latest"
+trivy = "latest"
+uv = "latest"
+
+
+

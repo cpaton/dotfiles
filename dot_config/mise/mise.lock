@@ -708,6 +708,16 @@ conda_deps = [
     "libgomp-15.2.0-he0feb66_19",
 ]
 
+[tools.make."platforms.macos-arm64"]
+checksum = "sha256:36c769a71cfd0222de8114a6016f1def3d0411a6202aa811bca50e581450f71f"
+url = "https://conda.anaconda.org/conda-forge/osx-arm64/make-4.4.1-h84a0fba_3.conda"
+conda_deps = []
+
+[tools.make."platforms.macos-x64"]
+checksum = "sha256:2665f49ec3ea9c3097fc2f09a778d68428ced9a07586701801bddcdec3b28622"
+url = "https://conda.anaconda.org/conda-forge/osx-64/make-4.4.1-ha1e9b39_3.conda"
+conda_deps = []
+
 [tools.make."platforms.windows-x64"]
 checksum = "sha256:a810cdca3d5fa50d562cda23c0c1195b45ff5f9b0c41e0d4c8c2dd3c043ff4f2"
 url = "https://conda.anaconda.org/conda-forge/win-64/make-4.4.1-h0e40799_2.conda"
@@ -1348,3 +1358,42 @@ url_api = "https://api.github.com/repos/helmfile/vals/releases/assets/478591843"
 checksum = "sha256:9fbd24714b4117f6fac9b96476e2d2aee0d979f7e0b4297b69c996f8ee67b299"
 url = "https://github.com/helmfile/vals/releases/download/v0.44.5/vals_0.44.5_windows_amd64.tar.gz"
 url_api = "https://api.github.com/repos/helmfile/vals/releases/assets/478591877"
+
+[[tools.zoxide]]
+version = "0.10.0"
+backend = "aqua:ajeetdsouza/zoxide"
+
+[tools.zoxide."platforms.linux-arm64"]
+checksum = "sha256:f1f16c5d6298d63dee467eedea1cdcd8490e43e493bea43acd416dc9033ef641"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316402"
+
+[tools.zoxide."platforms.linux-arm64-musl"]
+checksum = "sha256:f1f16c5d6298d63dee467eedea1cdcd8490e43e493bea43acd416dc9033ef641"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316402"
+
+[tools.zoxide."platforms.linux-x64"]
+checksum = "sha256:2d93385b99f3e82cf2701609a1bffcad863fbeb75aa3fe7eb6be4d29be68b1ae"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316293"
+
+[tools.zoxide."platforms.linux-x64-musl"]
+checksum = "sha256:2d93385b99f3e82cf2701609a1bffcad863fbeb75aa3fe7eb6be4d29be68b1ae"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316293"
+
+[tools.zoxide."platforms.macos-arm64"]
+checksum = "sha256:b55ae6f2f5f23d0a6ccb3bd4eeb2af9c7e0a6556e5255c82100e40305129bbb0"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316174"
+
+[tools.zoxide."platforms.macos-x64"]
+checksum = "sha256:18ab7ae2633ad6e2ab79a4e665cbba1e95b7c872d44523326efb793202451dad"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316167"
+
+[tools.zoxide."platforms.windows-x64"]
+checksum = "sha256:f465ae548f8754c8e7edbc60b45fbf58c92bfe123db83d790252d6810fa5daf1"
+url = "https://github.com/ajeetdsouza/zoxide/releases/download/v0.10.0/zoxide-0.10.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/ajeetdsouza/zoxide/releases/assets/466316769"

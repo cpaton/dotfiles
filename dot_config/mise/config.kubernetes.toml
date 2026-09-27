@@ -1,0 +1,6 @@
+[tools]
+helm = "3"
+helmfile = "1"
+k9s = "latest"
+kubectl = "latest"
+ 
