@@ -1,71 +1,83 @@
-kiro_v2:
-  base_tools:
-    read_only:
-      - code
-      - glob
-      - grep
-      - introspect
-      - knowledge
-      - read
-      - report
-      - shell
-      - subagent
-      - switch_to_execution
-      - todo_list
-      - tool_search
-      - web_fetch
-      - web_search
-    write:
-      - shell
-      - use_aws
-      - write
-    delete: []
-
-  tool_settings:
+kiro:
+  permission_rules:
     base:
-      shell:
-        allowedCommands:
-          - "awk .*"
-          - "cat .*"
-          - "find .*"
+      - capability: shell
+        match:
+          - "awk *"
+          - "cat *"
+          - "echo *"
+          - "find *"
           - "git fetch"
           - "git status"
-          - "grep .*"
-          - "head .*"
-          - "helm get"
-          - "kubectl get"
-          - "ls .*"
-          - "sed .*"
-          - "sort .*"
-          - "tail .*"
-          - "which .*"
-        deniedCommands:
-          - "git push .*"
-        autoAllowReadonly: true
-      read:
-        allowedPaths:
+          - "grep *"
+          - "head *"
+          - "helm get*"
+          - "kubectl get *"
+          - "kubectl describe *"
+          - "kubectl --context * get *"
+          - "kubectl --context * describe *"
+          - "kubectl logs *"
+          - "kubectl --context * logs *"
+          - "date *"
+          - "sleep *"
+          - "cd *"
+          - "dotnet restore *"
+          - "dotnet build *"
+          - "dotnet watch *"
+          - "dotnet run *"
+          - "env *"
+          - "wc *"
+          - "base64 *"
+          - "jq *"
+          - "diff *"
+          - "ls *"
+          - "sed *"
+          - "sort *"
+          - "tail *"
+          - "which *"
+        effect: allow
+      - capability: shell
+        match:
+          - "git push*"
+        effect: ask
+      - capability: fs_read
+        match:
           - "./**"
           - "~/.config/**"
+          - "~/.local/share/apex/**"
           - "~/git/**"
-        deniedPaths:
+          - "~/external/**"
+        effect: allow
+      - capability: fs_read
+        match:
           - "~/.aws/credentials"
-      glob:
-        allowedPaths:
+        effect: deny
+      - capability: fs_write
+        match:
           - "./**"
-        deniedPaths: []
-        allowReadOnly: true
-      grep:
-        allowReadOnly: true
-      write:
-        allowedPaths:
-          - "./**"
-      aws:
-        autoAllowReadonly: true
+        effect: allow
+      - capability: subagent
+        effect: allow
+      - capability: web_fetch
+        match:
+          - "*"
+        effect: allow
+      - capability: web_search
+        effect: allow
+      - capability: skill
+        effect: allow
+      - capability: power
+        effect: allow
+      - capability: context
+        effect: allow
+      - capability: diagnostics
+        effect: allow
 
-    write_docs:
-      write:
-        allowedPaths:
+    planner_readonly:
+      - capability: fs_write
+        exclude:
           - "./docs/**"
+        effect: deny
 
   mcp_servers:
     ent_a2rm:
@@ -346,14 +358,19 @@ kiro_v2:
       name: aws
       config:
         _comment: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/mcp-server.html"
-        command: uvx
+        command: uv
         timeout: 100000
         transport: stdio
         args:
-          - "mcp-proxy-for-aws@latest"
+          - --directory
+          - /home/cpaton/external/aws/mcp-proxy-for-aws
+          - run
+          - mcp-proxy-for-aws
           - "https://aws-mcp.eu-central-1.api.aws/mcp"
           - "--metadata"
           - "AWS_REGION=eu-west-1"
+        env:
+          AWS_MCP_PROXY_PROFILES: "*"
       allowed_tools:
         read_only:
           - "aws___get_*"

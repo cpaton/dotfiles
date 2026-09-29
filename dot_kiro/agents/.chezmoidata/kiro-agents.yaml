@@ -1,82 +1,6 @@
-kiro:
-  permission_rules:
-    base:
-      - capability: shell
-        match:
-          - "awk *"
-          - "cat *"
-          - "echo *"
-          - "find *"
-          - "git fetch"
-          - "git status"
-          - "grep *"
-          - "head *"
-          - "helm get*"
-          - "kubectl get *"
-          - "kubectl describe *"
-          - "kubectl --context * get *"
-          - "kubectl --context * describe *"
-          - "kubectl logs *"
-          - "kubectl --context * logs *"
-          - "date *"
-          - "sleep *"
-          - "cd *"
-          - "dotnet restore *"
-          - "dotnet build *"
-          - "dotnet watch *"
-          - "dotnet run *"
-          - "env *"
-          - "wc *"
-          - "base64 *"
-          - "ls *"
-          - "sed *"
-          - "sort *"
-          - "tail *"
-          - "which *"
-        effect: allow
-      - capability: shell
-        match:
-          - "git push*"
-        effect: ask
-      - capability: fs_read
-        match:
-          - "./**"
-          - "~/.config/**"
-          - "~/.local/share/apex/**"
-          - "~/git/**"
-          - "~/external/**"
-        effect: allow
-      - capability: fs_read
-        match:
-          - "~/.aws/credentials"
-        effect: deny
-      - capability: fs_write
-        match:
-          - "./**"
-        effect: allow
-      - capability: subagent
-        effect: allow
-      - capability: web_fetch
-        match:
-          - "*"
-        effect: allow
-      - capability: web_search
-        effect: allow
-      - capability: skill
-        effect: allow
-      - capability: power
-        effect: allow
-      - capability: context
-        effect: allow
-      - capability: diagnostics
-        effect: allow
+kiro_agents:
 
-    planner_readonly:
-      - capability: fs_write
-        exclude:
-          - "./docs/**"
-        effect: deny
-
+  # ── Shared: MCP servers ────────────────────────────────────────────────
   mcp_servers:
     ent_a2rm:
       name: ent-a2rm
@@ -245,7 +169,7 @@ kiro:
         command: uvx
         args:
           - "--with"
-          - "fastmcp"
+          - "fastmcp<4"
           - "--quiet"
           - "python"
           - "~/.config/mcp/mcp-prefix-proxy.py"
@@ -274,7 +198,7 @@ kiro:
         command: uvx
         args:
           - "--with"
-          - "fastmcp"
+          - "fastmcp<4"
           - "--quiet"
           - "python"
           - "~/.config/mcp/mcp-prefix-proxy.py"
@@ -417,8 +341,152 @@ kiro:
         write: []
         delete: []
 
+  # ── Shared: resources ──────────────────────────────────────────────────
   resources:
     - "file://AGENTS.md"
     - "file://README.md"
     - "skill://.kiro/skills/*/SKILL.md"
     - "skill://~/.kiro/skills/*/SKILL.md"
+
+  # ── Shared: permissions (intent-based, templates map to v2/v3 format) ─
+  permissions:
+    shell:
+      allow:
+        - "awk *"
+        - "cat *"
+        - "echo *"
+        - "find *"
+        - "git fetch"
+        - "git status"
+        - "grep *"
+        - "head *"
+        - "helm get*"
+        - "kubectl get *"
+        - "kubectl describe *"
+        - "kubectl --context * get *"
+        - "kubectl --context * describe *"
+        - "kubectl logs *"
+        - "kubectl --context * logs *"
+        - "date *"
+        - "sleep *"
+        - "cd *"
+        - "dotnet restore *"
+        - "dotnet build *"
+        - "dotnet watch *"
+        - "dotnet run *"
+        - "env *"
+        - "wc *"
+        - "base64 *"
+        - "jq *"
+        - "diff *"
+        - "ls *"
+        - "sed *"
+        - "sort *"
+        - "tail *"
+        - "which *"
+      ask:
+        - "git push*"
+
+    fs_read:
+      allow:
+        - "./**"
+        - "~/.config/**"
+        - "~/.local/share/apex/**"
+        - "~/git/**"
+        - "~/external/**"
+      deny:
+        - "~/.aws/credentials"
+
+    fs_write:
+      allow:
+        - "./**"
+
+    # Simple capability allows (some with match patterns, some bare)
+    capability_allows:
+      - capability: subagent
+      - capability: web_fetch
+        match:
+          - "*"
+      - capability: web_search
+      - capability: skill
+      - capability: power
+      - capability: context
+      - capability: diagnostics
+
+  # ── Shared: permission layers (additive rule sets for agent profiles) ──
+  permission_layers:
+    planner_readonly:
+      - capability: fs_write
+        exclude:
+          - "./docs/**"
+        effect: deny
+
+  # ── v2-only: base tool whitelist (v3 doesn't use this) ─────────────────
+  v2_base_tools:
+    read_only:
+      - code
+      - glob
+      - grep
+      - introspect
+      - knowledge
+      - read
+      - report
+      - shell
+      - subagent
+      - switch_to_execution
+      - todo_list
+      - tool_search
+      - web_fetch
+      - web_search
+    write:
+      - shell
+      - use_aws
+      - write
+    delete: []
+
+  # ── v2-only: tool settings (v3 uses permission_rules instead) ──────────
+  v2_tool_settings:
+    base:
+      shell:
+        allowedCommands:
+          - "awk .*"
+          - "cat .*"
+          - "find .*"
+          - "git fetch"
+          - "git status"
+          - "grep .*"
+          - "head .*"
+          - "helm get"
+          - "kubectl get"
+          - "ls .*"
+          - "sed .*"
+          - "sort .*"
+          - "tail .*"
+          - "which .*"
+        deniedCommands:
+          - "git push .*"
+        autoAllowReadonly: true
+      read:
+        allowedPaths:
+          - "./**"
+          - "~/.config/**"
+          - "~/git/**"
+        deniedPaths:
+          - "~/.aws/credentials"
+      glob:
+        allowedPaths:
+          - "./**"
+        deniedPaths: []
+        allowReadOnly: true
+      grep:
+        allowReadOnly: true
+      write:
+        allowedPaths:
+          - "./**"
+      aws:
+        autoAllowReadonly: true
+
+    write_docs:
+      write:
+        allowedPaths:
+          - "./docs/**"

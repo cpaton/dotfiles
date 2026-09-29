@@ -1,7 +1,6 @@
 {
     "mcp.loadedBefore": true,
     "toolSearch.enabled": true,
-    "chat.defaultAgent": "general",
     "telemetry.enabled": true,
     "chat.enableThinking": true,
     "chat.enableKnowledge": true,
@@ -13,5 +12,6 @@
     "chat.disableWrap": true,
     "chat.allowAnimations": true,
     "chat.allowAsciiArt": true,
-    "chat.allowIcons": true
+    "chat.allowIcons": true,
+    "chat.agentEngine": "v3"
 }

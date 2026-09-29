@@ -1,0 +1,59 @@
+{{- $k := .kiro_agents -}}
+{{- $mcps := list
+    (dict "key" "grafana_non_prod" "groups" (list "read_only"))
+    (dict "key" "grafana_prod" "groups" (list "read_only"))
+    (dict "key" "aws" "groups" (list "read_only"))
+    (dict "key" "ent_a2rm" "groups" (list "read_only"))
+    (dict "key" "ent_confluence" "groups" (list "read_only"))
+    (dict "key" "ent_jira" "groups" (list "read_only"))
+    (dict "key" "ent_msgraph" "groups" (list "read_only"))
+    (dict "key" "ent_gitlab" "groups" (list "read_only"))
+    (dict "key" "chrome" "groups" (list "read_only" "write"))
+-}}
+{{- $tool_setting_layers := list "base" "write_docs" -}}
+{{- $toolsSettings := dict -}}
+{{- range $tool_setting_layers -}}
+{{-   $toolsSettings = mustMergeOverwrite $toolsSettings (index $k.v2_tool_settings .) -}}
+{{- end -}}
+{{- $servers := dict -}}
+{{- $tools := list -}}
+{{- range $group := list "read_only" -}}
+{{-   $tools = concat $tools (index $k.v2_base_tools $group) -}}
+{{- end -}}
+{{- range $mcps -}}
+{{-   $mcp := index $k.mcp_servers .key -}}
+{{-   $config := dict -}}
+{{-   if hasKey $mcp "config" -}}
+{{-     $config = $mcp.config -}}
+{{-   else if eq $.chezmoi.os "windows" -}}
+{{-     $config = $mcp.config_windows -}}
+{{-   else -}}
+{{-     $config = $mcp.config_linux -}}
+{{-   end -}}
+{{-   $_ := set $servers $mcp.name $config -}}
+{{-   range $group := .groups -}}
+{{-     range $tool := index $mcp.allowed_tools $group -}}
+{{-       $tools = append $tools (printf "@%s/%s" $mcp.name $tool) -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+{{- $config := dict
+    "name" "planner"
+    "description" "Specialized planning agent that helps break down ideas into implementation plans"
+    "prompt" "file://./planner-prompt.md"
+    "mcpServers" $servers
+    "tools" (list "*")
+    "toolsSettings" $toolsSettings
+    "toolAliases" (dict)
+    "allowedTools" $tools
+    "resources" $k.resources
+    "hooks" (dict
+      "userPromptSubmit" (list
+        (dict "command" "echo 'REMINDER: You are in PLAN MODE. Do NOT write code, create files, or implement anything. Only analyze, explore, ask questions, and produce a plan.'")
+      )
+    )
+    "includeMcpJson" false
+    "model" nil
+    "welcomeMessage" "Read only planning agent"
+-}}
+{{ toPrettyJson $config | replace "~/" (printf "%s/" .chezmoi.homeDir) }}

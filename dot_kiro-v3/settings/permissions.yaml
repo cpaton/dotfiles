@@ -1,0 +1,10 @@
+rules:
+  - capability: fs_write
+    match: ["~/temp/**"]
+    effect: allow
+  - capability: fs_read
+    match: ["./**", "~/temp/**"]
+    effect: allow
+  - capability: fs_read
+    match: ["~/.aws/credentials"]
+    effect: ask

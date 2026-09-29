@@ -1,0 +1,54 @@
+{{- $k := .kiro_agents -}}
+{{- $mcps := list
+    (dict "key" "grafana_non_prod" "groups" (list "read_only" "write"))
+    (dict "key" "grafana_prod" "groups" (list "read_only"))
+    (dict "key" "aws" "groups" (list "read_only" "write"))
+    (dict "key" "ent_a2rm" "groups" (list "read_only"))
+    (dict "key" "ent_confluence" "groups" (list "read_only"))
+    (dict "key" "ent_jira" "groups" (list "read_only"))
+    (dict "key" "ent_msgraph" "groups" (list "read_only"))
+    (dict "key" "ent_gitlab" "groups" (list "read_only" "write"))
+    (dict "key" "chrome" "groups" (list "read_only" "write"))
+-}}
+{{- $tool_setting_layers := list "base" -}}
+{{- $toolsSettings := dict -}}
+{{- range $tool_setting_layers -}}
+{{-   $toolsSettings = mustMergeOverwrite $toolsSettings (index $k.v2_tool_settings .) -}}
+{{- end -}}
+{{- $servers := dict -}}
+{{- $tools := list -}}
+{{- range $group := list "read_only" "write" -}}
+{{-   $tools = concat $tools (index $k.v2_base_tools $group) -}}
+{{- end -}}
+{{- range $mcps -}}
+{{-   $mcp := index $k.mcp_servers .key -}}
+{{-   $config := dict -}}
+{{-   if hasKey $mcp "config" -}}
+{{-     $config = $mcp.config -}}
+{{-   else if eq $.chezmoi.os "windows" -}}
+{{-     $config = $mcp.config_windows -}}
+{{-   else -}}
+{{-     $config = $mcp.config_linux -}}
+{{-   end -}}
+{{-   $_ := set $servers $mcp.name $config -}}
+{{-   range $group := .groups -}}
+{{-     range $tool := index $mcp.allowed_tools $group -}}
+{{-       $tools = append $tools (printf "@%s/%s" $mcp.name $tool) -}}
+{{-     end -}}
+{{-   end -}}
+{{- end -}}
+{{- $config := dict
+    "name" "general"
+    "description" "Default agent"
+    "prompt" (printf "file://%s/.kiro/agents/general-prompt.md" .chezmoi.homeDir)
+    "mcpServers" $servers
+    "tools" (list "*")
+    "toolsSettings" $toolsSettings
+    "toolAliases" (dict)
+    "allowedTools" $tools
+    "resources" $k.resources
+    "hooks" (dict)
+    "includeMcpJson" false
+    "model" nil
+-}}
+{{ toPrettyJson $config | replace "~/" (printf "%s/" .chezmoi.homeDir) }}

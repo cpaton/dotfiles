@@ -1,4 +1,4 @@
-{{- $k := .kiro_agents -}}
+{{- $k := .kiro -}}
 {{- $mcps := list
     (dict "key" "grafana_non_prod" "groups" (list "read_only"))
     (dict "key" "grafana_prod" "groups" (list "read_only"))
@@ -10,23 +10,11 @@
     (dict "key" "ent_gitlab" "groups" (list "read_only"))
     (dict "key" "chrome" "groups" (list "read_only" "write"))
 -}}
-{{- /* Build v3 permission rules from shared permissions */ -}}
+{{- $permission_layers := list "base" "planner_readonly" -}}
 {{- $rules := list -}}
-{{- $rules = append $rules (dict "capability" "shell" "match" $k.permissions.shell.allow "effect" "allow") -}}
-{{- $rules = append $rules (dict "capability" "shell" "match" $k.permissions.shell.ask "effect" "ask") -}}
-{{- $rules = append $rules (dict "capability" "fs_read" "match" $k.permissions.fs_read.allow "effect" "allow") -}}
-{{- $rules = append $rules (dict "capability" "fs_read" "match" $k.permissions.fs_read.deny "effect" "deny") -}}
-{{- $rules = append $rules (dict "capability" "fs_write" "match" $k.permissions.fs_write.allow "effect" "allow") -}}
-{{- range $k.permissions.capability_allows -}}
-{{-   $rule := dict "capability" .capability "effect" "allow" -}}
-{{-   if hasKey . "match" -}}
-{{-     $rule = dict "capability" .capability "match" .match "effect" "allow" -}}
-{{-   end -}}
-{{-   $rules = append $rules $rule -}}
+{{- range $permission_layers -}}
+{{-   $rules = concat $rules (index $k.permission_rules .) -}}
 {{- end -}}
-{{- /* Apply planner_readonly layer */ -}}
-{{- $rules = concat $rules $k.permission_layers.planner_readonly -}}
-{{- /* Build MCP servers and MCP allow patterns */ -}}
 {{- $servers := dict -}}
 {{- $mcpAllowPatterns := list -}}
 {{- range $mcps -}}
