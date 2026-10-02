@@ -422,16 +422,6 @@ conda_deps = [
     "libgomp-15.2.0-he0feb66_19",
 ]
 
-[tools.make."platforms.macos-arm64"]
-checksum = "sha256:36c769a71cfd0222de8114a6016f1def3d0411a6202aa811bca50e581450f71f"
-url = "https://conda.anaconda.org/conda-forge/osx-arm64/make-4.4.1-h84a0fba_3.conda"
-conda_deps = []
-
-[tools.make."platforms.macos-x64"]
-checksum = "sha256:2665f49ec3ea9c3097fc2f09a778d68428ced9a07586701801bddcdec3b28622"
-url = "https://conda.anaconda.org/conda-forge/osx-64/make-4.4.1-ha1e9b39_3.conda"
-conda_deps = []
-
 [tools.make."platforms.windows-x64"]
 checksum = "sha256:8b1a30f3e6442ed4c161e7aabab396ce35c61a3c235ece53edf2a78c95d18fed"
 url = "https://conda.anaconda.org/conda-forge/win-64/make-4.4.1-hba3369d_3.conda"

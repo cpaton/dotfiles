@@ -1,4 +1,25 @@
 {
   "mcpServers": {
+    "ent-a2rm": {
+      "command": "ent-a2rm-mcp",
+      "timeout": 120000
+    },
+    "ent-aws": {
+      "command": "ent-aws-mcp",
+      "timeout": 100000
+    },
+    "ent-confluence": {
+      "command": "ent-confluence-mcp"
+    },
+    "ent-gitlab": {
+      "command": "ent-gitlab-mcp",
+      "timeout": 120000
+    },
+    "ent-jira": {
+      "command": "ent-jira-mcp"
+    },
+    "ent-msgraph": {
+      "command": "ent-msgraph-mcp"
+    }
   }
 }

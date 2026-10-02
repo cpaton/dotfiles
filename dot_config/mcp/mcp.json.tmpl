@@ -40,11 +40,7 @@
         },
         "grafana_non_prod": {
             "args": [
-                "--with",
-                "fastmcp",
-                "--quiet",
-                "python",
-                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-prefix-proxy.py",
+                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-stdio-prefix-proxy.py",
                 "non_prod",
                 "--",
                 "pwsh",
@@ -52,15 +48,11 @@
                 "-File",
                 "{{ .chezmoi.homeDir }}/.config/mcp/grafana-non-prod.ps1"
             ],
-            "command": "uvx"
+            "command": "python3"
         },
         "grafana_prod": {
             "args": [
-                "--with",
-                "fastmcp",
-                "--quiet",
-                "python",
-                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-prefix-proxy.py",
+                "{{ .chezmoi.homeDir }}/.config/mcp/mcp-stdio-prefix-proxy.py",
                 "prod",
                 "--",
                 "pwsh",
@@ -68,7 +60,7 @@
                 "-File",
                 "{{ .chezmoi.homeDir }}/.config/mcp/grafana-prod.ps1"
             ],
-            "command": "uvx"
+            "command": "python3"
         }
     }
 }

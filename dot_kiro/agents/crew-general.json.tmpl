@@ -1,5 +1,7 @@
 {{- $k := .kiro_agents -}}
 {{- $mcps := list
+    (dict "key" "kirocrew_core" "groups" (list "default"))
+    (dict "key" "kirocrew_cron" "groups" (list "default"))
     (dict "key" "grafana_non_prod" "groups" (list "read_only" "write"))
     (dict "key" "grafana_prod" "groups" (list "read_only"))
     (dict "key" "aws" "groups" (list "read_only" "write"))
@@ -38,15 +40,15 @@
 {{-   end -}}
 {{- end -}}
 {{- $config := dict
-    "name" "general"
-    "description" "Default agent"
-    "prompt" (printf "file://%s/.kiro/agents/general-prompt.md" .chezmoi.homeDir)
+    "name" "crew-general"
+    "description" "Default agent with Kiro Crew tools"
+    "prompt" (printf "file://%s/.kiro/agents/crew-general.md" .chezmoi.homeDir)
     "mcpServers" $servers
     "tools" (list "*")
     "toolsSettings" $toolsSettings
     "toolAliases" (dict)
     "allowedTools" $tools
-    "resources" (concat $k.resources $k.resources_cli_only)
+    "resources" $k.resources
     "hooks" (dict)
     "includeMcpJson" false
     "model" nil

@@ -56,7 +56,7 @@
     "permissions" (dict "rules" $rules)
 -}}
 ---
-{{ toYaml $frontmatter | replace "~/" (printf "%s/" .chezmoi.homeDir) -}}
+{{ toYaml $frontmatter | replace "~/" (printf "%s/" .chezmoi.homeDir) | replace "${sourceDir}" .chezmoi.sourceDir -}}
 ---
 
 You are the default Kiro CLI agent. Beyond development tasks, you help with writing, analysis, planning, research, and any other professional work the user needs.

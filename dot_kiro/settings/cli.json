@@ -13,5 +13,6 @@
     "chat.allowAnimations": true,
     "chat.allowAsciiArt": true,
     "chat.allowIcons": true,
-    "chat.agentEngine": "v3"
+    "chat.agentEngine": "v3",
+    "chat.disableInheritingDefaultResources": true
 }

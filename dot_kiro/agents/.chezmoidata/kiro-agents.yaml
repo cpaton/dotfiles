@@ -64,13 +64,14 @@ kiro_agents:
         command: ent-msgraph-mcp
       allowed_tools:
         read_only:
-          - "download_*"
-          - "get_*"
-          - "list_*"
-          - "read_*"
-          - "search_*"
-        write: []
-        delete: []
+          - "msgraph___call_api"
+          - "msgraph___download_file"
+          - "msgraph___list_services"
+          - "msgraph___run_script"
+        write:
+          - "msgraph___call_api_mutate"
+        delete:
+          - "msgraph___call_api_delete"
 
     ent_gitlab:
       name: ent-gitlab
@@ -166,13 +167,9 @@ kiro_agents:
     grafana_non_prod:
       name: grafana_non_prod
       config:
-        command: uvx
+        command: python3
         args:
-          - "--with"
-          - "fastmcp<4"
-          - "--quiet"
-          - "python"
-          - "~/.config/mcp/mcp-prefix-proxy.py"
+          - "~/.config/mcp/mcp-stdio-prefix-proxy.py"
           - "non_prod"
           - "--"
           - "pwsh"
@@ -195,13 +192,9 @@ kiro_agents:
     grafana_prod:
       name: grafana_prod
       config:
-        command: uvx
+        command: python3
         args:
-          - "--with"
-          - "fastmcp<4"
-          - "--quiet"
-          - "python"
-          - "~/.config/mcp/mcp-prefix-proxy.py"
+          - "~/.config/mcp/mcp-stdio-prefix-proxy.py"
           - "prod"
           - "--"
           - "pwsh"
@@ -276,6 +269,31 @@ kiro_agents:
         write: []
         delete: []
 
+    kirocrew_core:
+      name: kirocrew-core
+      config:
+        command: ~/.kiro/crew-venv-current/bin/kirocrew
+        args:
+          - mcp-core
+      allowed_tools:
+        default:
+          - "*"
+
+    kirocrew_cron:
+      name: kirocrew-cron
+      config:
+        command: ~/.kiro/crew-venv-current/bin/kirocrew
+        args:
+          - mcp-cron
+      allowed_tools:
+        default:
+          - "cron_list"
+          - "cron_pause"
+          - "cron_resume"
+          - "cron_trigger"
+          - "cron_remove"
+          - "cron_remove_all"
+
     aws:
       name: aws
       config:
@@ -342,11 +360,21 @@ kiro_agents:
         delete: []
 
   # ── Shared: resources ──────────────────────────────────────────────────
+  # Base resources safe for all agents including crew members.
+  # Crew members use V2 essential context which treats every file:// as
+  # mandatory — missing files are fatal.  Only list files guaranteed to
+  # exist, or use skill:// URIs (loaded on-demand, never fatal).
   resources:
+    - "file://~/.kiro/AGENTS.md"
+    - "skill://.kiro/skills/*/SKILL.md"
+    - "skill://${sourceDir}/dot_config/skills/*/SKILL.md"
+
+  # Extra resources for CLI / non-crew agents only.
+  # The older resource loader silently skips missing files, so these are
+  # safe even when the project lacks AGENTS.md or README.md.
+  resources_cli_only:
     - "file://AGENTS.md"
     - "file://README.md"
-    - "skill://.kiro/skills/*/SKILL.md"
-    - "skill://~/.kiro/skills/*/SKILL.md"
 
   # ── Shared: permissions (intent-based, templates map to v2/v3 format) ─
   permissions:

@@ -46,7 +46,7 @@
     "toolsSettings" $toolsSettings
     "toolAliases" (dict)
     "allowedTools" $tools
-    "resources" $k.resources
+    "resources" (concat $k.resources $k.resources_cli_only)
     "hooks" (dict
       "userPromptSubmit" (list
         (dict "command" "echo 'REMINDER: You are in PLAN MODE. Do NOT write code, create files, or implement anything. Only analyze, explore, ask questions, and produce a plan.'")
@@ -56,4 +56,4 @@
     "model" nil
     "welcomeMessage" "Read only planning agent"
 -}}
-{{ toPrettyJson $config | replace "~/" (printf "%s/" .chezmoi.homeDir) }}
+{{ toPrettyJson $config | replace "~/" (printf "%s/" .chezmoi.homeDir) | replace "${sourceDir}" .chezmoi.sourceDir }}
