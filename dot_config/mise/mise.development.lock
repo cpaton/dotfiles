@@ -3,28 +3,28 @@
 lockfile_version = 1
 
 [[tools.dotnet]]
-version = "10.0.302"
+version = "10.0.401"
 backend = "core:dotnet"
 specifiers = ["10"]
 
 [[tools.go]]
-version = "1.26.5"
+version = "1.27.1"
 backend = "core:go"
 specifiers = ["1"]
 
 [tools.go."platforms.windows-x64"]
-checksum = "sha256:97e6b2a833b6d89f9ff17d25419ac0a7e3b482a044e9ab18cdef834bd834fd38"
-url = "https://dl.google.com/go/go1.26.5.windows-amd64.zip"
+checksum = "sha256:a3911b5e0e1b1053f25ed0675f4c1c6aad1e2bfcf253df2b9be4caabd2edd95d"
+url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
 
 [[tools.golangci-lint]]
-version = "2.12.2"
+version = "2.14.0"
 backend = "aqua:golangci/golangci-lint"
 specifiers = ["latest"]
 
 [tools.golangci-lint."platforms.windows-x64"]
-checksum = "sha256:bd42e3ebc8cb4ececb86941983baaf1dc221bbb04d838e94ce63b49cc91e02bb"
-url = "https://github.com/golangci/golangci-lint/releases/download/v2.12.2/golangci-lint-2.12.2-windows-amd64.zip"
-url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/413471017"
+checksum = "sha256:b15f903d1649283a2ab6e8d2f0c317eaf1f9f6b3763950e7e8b7e72a43dd724f"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.14.0/golangci-lint-2.14.0-windows-amd64.zip"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/585813793"
 provenance = "github-attestations"
 
 [[tools.java]]
@@ -37,37 +37,37 @@ checksum = "sha256:e0181952006f9779551511d1f449ca33269a58b7b8802f001fd4ceeff2fd0
 url = "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%2B8/OpenJDK11U-jdk_x64_windows_hotspot_11.0.24_8.zip"
 
 [[tools.node]]
-version = "24.18.0"
+version = "24.21.0"
 backend = "core:node"
 specifiers = ["lts"]
 
 [tools.node."platforms.windows-x64"]
-checksum = "sha256:0ae68406b42d7725661da979b1403ec9926da205c6770827f33aac9d8f26e821"
-url = "https://nodejs.org/dist/v24.18.0/node-v24.18.0-win-x64.zip"
+checksum = "sha256:158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541"
+url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip"
 
 [[tools.pulumi]]
-version = "3.254.0"
+version = "3.267.0"
 backend = "aqua:pulumi/pulumi"
 specifiers = ["3"]
 
 [tools.pulumi."platforms.windows-x64"]
-checksum = "sha256:5d3da01c221d2eda489ce9452e534b32828ff3d789eb5f00b69f7007d74e31c9"
-url = "https://github.com/pulumi/pulumi/releases/download/v3.254.0/pulumi-v3.254.0-windows-x64.zip"
-url_api = "https://api.github.com/repos/pulumi/pulumi/releases/assets/487203250"
+checksum = "sha512:81a5d341efddc28959c174d1bd2c0f23310e9a47b10287d4d944e9f8f98b2e4f16f644418e4bbe34a60cc9e288462f7845c82a8bea6e27aa67c1996bc3d5b5d0"
+url = "https://github.com/pulumi/pulumi/releases/download/v3.267.0/pulumi-v3.267.0-windows-x64.zip"
+url_api = "https://api.github.com/repos/pulumi/pulumi/releases/assets/603044687"
 provenance = "cosign"
 
 [[tools.python]]
-version = "3.14.6"
+version = "3.14.8"
 backend = "core:python"
 specifiers = ["3.14"]
 
 [tools.python."platforms.windows-x64"]
-checksum = "sha256:ada613a2af32c04cf7c54726243c56d76f0e59f5f61d2f28371d3b9d8efad566"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260804/cpython-3.14.6+20260804-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+checksum = "blake3:7edbda3001d57b56f351b9e796a220a84b4f451543daab26de2e1fe1cde5584a"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261001/cpython-3.14.8+20261001-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.rust]]
-version = "1.97.1"
+version = "1.99.0"
 backend = "core:rust"
 specifiers = ["1"]
 
@@ -82,23 +82,23 @@ url = "https://github.com/terraform-docs/terraform-docs/releases/download/v0.24.
 url_api = "https://api.github.com/repos/terraform-docs/terraform-docs/releases/assets/416956245"
 
 [[tools.trivy]]
-version = "0.72.0"
+version = "0.75.0"
 backend = "aqua:aquasecurity/trivy"
 specifiers = ["latest"]
 
 [tools.trivy."platforms.windows-x64"]
-checksum = "sha256:ed3cf122060f61818fe1f735fd97557954e16e10bc8b058af9852271cf2e91b3"
-url = "https://github.com/aquasecurity/trivy/releases/download/v0.72.0/trivy_0.72.0_windows-64bit.zip"
-url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/462015116"
+checksum = "sha256:4e43bd71a30f51aee39525f60f2b47043af77eb8df8fe082aae4372b69c6660f"
+url = "https://github.com/aquasecurity/trivy/releases/download/v0.75.0/trivy_0.75.0_windows-64bit.zip"
+url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/603335433"
 provenance = "cosign"
 
 [[tools.uv]]
-version = "0.11.31"
+version = "0.12.21"
 backend = "aqua:astral-sh/uv"
 specifiers = ["latest"]
 
 [tools.uv."platforms.windows-x64"]
-checksum = "sha256:410c2fd3126ff621c9450a21cfc200002c7540dc48d130069a8f619cdb0a811b"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.31/uv-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/485371099"
+checksum = "sha256:5d223efa0bf00208c3853246af09420419dfbd352536aa6bb8163d6170e23890"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238008"
 provenance = "github-attestations"
