@@ -51,7 +51,7 @@ backend = "aqua:pulumi/pulumi"
 specifiers = ["3"]
 
 [tools.pulumi."platforms.windows-x64"]
-checksum = "sha512:81a5d341efddc28959c174d1bd2c0f23310e9a47b10287d4d944e9f8f98b2e4f16f644418e4bbe34a60cc9e288462f7845c82a8bea6e27aa67c1996bc3d5b5d0"
+checksum = "sha256:296f64cfc2b86471ee6274f0b15fc8e4a880f13886fe6cb2adbd6813fe75c326"
 url = "https://github.com/pulumi/pulumi/releases/download/v3.267.0/pulumi-v3.267.0-windows-x64.zip"
 url_api = "https://api.github.com/repos/pulumi/pulumi/releases/assets/603044687"
 provenance = "cosign"
@@ -62,7 +62,7 @@ backend = "core:python"
 specifiers = ["3.14"]
 
 [tools.python."platforms.windows-x64"]
-checksum = "blake3:7edbda3001d57b56f351b9e796a220a84b4f451543daab26de2e1fe1cde5584a"
+checksum = "sha256:b7ff8b700995379e425b39abce9b087d84a45aa265ea465c0069c2747ea5b2ea"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261001/cpython-3.14.8+20261001-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
