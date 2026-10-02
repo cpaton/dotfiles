@@ -12,6 +12,10 @@ version = "1.27.1"
 backend = "core:go"
 specifiers = ["1"]
 
+[tools.go."platforms.linux-x64"]
+checksum = "sha256:63d339f0da5ab53635a56f2490a7984dfe12dfcff22ad749f63edaf590168445"
+url = "https://dl.google.com/go/go1.27.1.linux-amd64.tar.gz"
+
 [tools.go."platforms.windows-x64"]
 checksum = "sha256:a3911b5e0e1b1053f25ed0675f4c1c6aad1e2bfcf253df2b9be4caabd2edd95d"
 url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
@@ -20,6 +24,12 @@ url = "https://dl.google.com/go/go1.27.1.windows-amd64.zip"
 version = "2.14.0"
 backend = "aqua:golangci/golangci-lint"
 specifiers = ["latest"]
+
+[tools.golangci-lint."platforms.linux-x64"]
+checksum = "sha256:ab90aeb7b066f92a33415b638a50fe5344bbb75a0d32ad30cc248d88f81032ab"
+url = "https://github.com/golangci/golangci-lint/releases/download/v2.14.0/golangci-lint-2.14.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/golangci/golangci-lint/releases/assets/585813815"
+provenance = "github-attestations"
 
 [tools.golangci-lint."platforms.windows-x64"]
 checksum = "sha256:b15f903d1649283a2ab6e8d2f0c317eaf1f9f6b3763950e7e8b7e72a43dd724f"
@@ -32,6 +42,10 @@ version = "temurin-11.0.24+8"
 backend = "core:java"
 specifiers = ["temurin-11.0.24+8"]
 
+[tools.java."platforms.linux-x64"]
+checksum = "sha256:0e71a01563a5c7b9988a168b0c4ce720a6dff966b3c27bb29d1ded461ff71d0e"
+url = "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%2B8/OpenJDK11U-jdk_x64_linux_hotspot_11.0.24_8.tar.gz"
+
 [tools.java."platforms.windows-x64"]
 checksum = "sha256:e0181952006f9779551511d1f449ca33269a58b7b8802f001fd4ceeff2fd01f3"
 url = "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.24%2B8/OpenJDK11U-jdk_x64_windows_hotspot_11.0.24_8.zip"
@@ -41,6 +55,10 @@ version = "24.21.0"
 backend = "core:node"
 specifiers = ["lts"]
 
+[tools.node."platforms.linux-x64"]
+checksum = "sha256:6e1db87ef58b8819e5d5402eff1536491b18edd8eb7bee5ef7897876e88dc5ff"
+url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.gz"
+
 [tools.node."platforms.windows-x64"]
 checksum = "sha256:158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541"
 url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip"
@@ -49,6 +67,12 @@ url = "https://nodejs.org/dist/v24.21.0/node-v24.21.0-win-x64.zip"
 version = "3.267.0"
 backend = "aqua:pulumi/pulumi"
 specifiers = ["3"]
+
+[tools.pulumi."platforms.linux-x64"]
+checksum = "sha256:527c1ce7c16cb38525a96d55422f221e819476e2b0743ae55c9862ad775ae10a"
+url = "https://github.com/pulumi/pulumi/releases/download/v3.267.0/pulumi-v3.267.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/pulumi/pulumi/releases/assets/603044166"
+provenance = "cosign"
 
 [tools.pulumi."platforms.windows-x64"]
 checksum = "sha256:296f64cfc2b86471ee6274f0b15fc8e4a880f13886fe6cb2adbd6813fe75c326"
@@ -60,6 +84,11 @@ provenance = "cosign"
 version = "3.14.8"
 backend = "core:python"
 specifiers = ["3.14"]
+
+[tools.python."platforms.linux-x64"]
+checksum = "sha256:b373a4a4e4e70fc05f368c9b53d7738bf37637682b650d96c742805d2da26c32"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261001/cpython-3.14.8+20261001-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+provenance = "github-attestations"
 
 [tools.python."platforms.windows-x64"]
 checksum = "sha256:b7ff8b700995379e425b39abce9b087d84a45aa265ea465c0069c2747ea5b2ea"
@@ -76,6 +105,11 @@ version = "0.24.0"
 backend = "aqua:terraform-docs/terraform-docs"
 specifiers = ["latest"]
 
+[tools.terraform-docs."platforms.linux-x64"]
+checksum = "sha256:9005daf969de0b50134493a2c00078b49f5f5b39d021cda7c89bf4d4f3d776d3"
+url = "https://github.com/terraform-docs/terraform-docs/releases/download/v0.24.0/terraform-docs-v0.24.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/terraform-docs/terraform-docs/releases/assets/416956208"
+
 [tools.terraform-docs."platforms.windows-x64"]
 checksum = "sha256:afc02cbdf63726d3e5fb26a077ca1f24acd4820d7e44c21b03a3e030f9266490"
 url = "https://github.com/terraform-docs/terraform-docs/releases/download/v0.24.0/terraform-docs-v0.24.0-windows-amd64.zip"
@@ -85,6 +119,12 @@ url_api = "https://api.github.com/repos/terraform-docs/terraform-docs/releases/a
 version = "0.75.0"
 backend = "aqua:aquasecurity/trivy"
 specifiers = ["latest"]
+
+[tools.trivy."platforms.linux-x64"]
+checksum = "sha256:c6e65abddb348e25f10549df887045629cf28cc72453cd1c63acb717316b3f3f"
+url = "https://github.com/aquasecurity/trivy/releases/download/v0.75.0/trivy_0.75.0_Linux-64bit.tar.gz"
+url_api = "https://api.github.com/repos/aquasecurity/trivy/releases/assets/603335432"
+provenance = "cosign"
 
 [tools.trivy."platforms.windows-x64"]
 checksum = "sha256:4e43bd71a30f51aee39525f60f2b47043af77eb8df8fe082aae4372b69c6660f"
@@ -96,6 +136,12 @@ provenance = "cosign"
 version = "0.12.21"
 backend = "aqua:astral-sh/uv"
 specifiers = ["latest"]
+
+[tools.uv."platforms.linux-x64"]
+checksum = "sha256:23f02075b652bb1df64178cfae41b5caf160822e720e2663568f3f5d63bc52c0"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238020"
+provenance = "github-attestations"
 
 [tools.uv."platforms.windows-x64"]
 checksum = "sha256:5d223efa0bf00208c3853246af09420419dfbd352536aa6bb8163d6170e23890"
