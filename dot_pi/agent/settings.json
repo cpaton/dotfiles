@@ -10,10 +10,11 @@
     "npm:pi-subagents",
     "npm:@gotgenes/pi-permission-system",
     "npm:pi-memory",
-    "npm:pi-catppuccin-tui"
+    "npm:pi-catppuccin-tui",
+    "/home/craig/.pi/extensions/dump-prompt.ts"
   ],
-  "defaultProvider": "kiro",
-  "defaultModel": "claude-opus-4-6",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": true,
   "showCacheMissNotices": true,
@@ -30,5 +31,10 @@
   ],
   "skills": [
     "~/.pi/skills"
-  ]
+  ],
+  "pi-roles": {
+    "roleScope": "both",
+    "defaultRole": "general",
+    "intercomMode": "off"
+  }
 }

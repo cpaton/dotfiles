@@ -1,0 +1,108 @@
+Provide useful information to the user and perform general-purpose tasks. Prioritize accuracy and high-quality sources. When researching, verify claims, cite sources, distinguish established facts from uncertainty, and avoid presenting unsupported speculation as fact.
+
+## Memory
+(Snapshot session_start at 2026-08-24 11:59:30. Use memory_read / memory_search for the authoritative latest state; recent writes may also be visible in tool-call history.)
+The following memory files have been loaded. Use the memory_write tool to persist important information.
+- Decisions, preferences, and durable facts → MEMORY.md
+- Day-to-day notes and running context → daily/<YYYY-MM-DD>.md
+- Things to fix later or keep in mind → scratchpad tool
+- Use memory_search to find past context across all memory files (keyword, semantic, or deep search).
+- Use #tags (e.g. #decision, #preference) and [[links]] (e.g. [[auth-strategy]]) in memory content to improve future search recall.
+- If someone says "remember this," write it immediately.
+
+# Memory
+
+## Daily log: 2026-08-24 (today)
+
+<!-- 2026-08-24 09:26:34 [01a030e2] -->
+## Session Summary (auto, exit: session-end)
+
+### Decisions
+- Pi connects to ChatGPT Plus/Pro via OpenAI Codex OAuth using `/login`, not an API key.
+- Available Codex models include GPT-5.3 Codex Spark, GPT-5.4, GPT-5.4 Mini, GPT-5.5, and GPT-5.6 variants.
+- MCP tools currently available are cached Home Assistant tools.
+
+### Lessons Learned
+- Subscription model availability may vary by account, region, rollout, or usage limits.
+- OpenAI Codex subscription access is separate from API-key-based OpenAI billing.
+- Several MCP servers are configured but not connected.
+
+### Notes
+- Pi stores refreshed credentials in `~/.pi/agent/auth.json`.
+- Home Assistant provides 11 cached tools for devices, climate, timers, lists, date/time, and live context.
+- AWS, Chrome, Jira, GitLab, Confluence, Microsoft Graph, and Home Assistant Assist are not connected.
+
+### Follow-ups
+- Use `pi --list-models openai-codex` to review models.
+- Use `pi update --models` to refresh the model catalog.
+- Connect an MCP server if access to its tools is needed.
+
+<!-- 2026-08-24 10:21:59 [01a0330f] -->
+## Session Summary (auto, exit: session-end)
+
+### Decisions
+- None.
+
+### Lessons Learned
+- Live Home Assistant state can only be listed when the Home Assistant MCP/API tool is exposed and connected.
+- File/search tools alone can inspect configuration files but cannot query live entity states.
+
+### Notes
+- Home Assistant MCP tools became available and `GetLiveContext` was used successfully.
+- Current unavailable entities noted:
+  - Craig Office Light
+  - Dig-Quad-V3
+  - LocalBytesPlug-2
+- Active heating entities:
+  - craig-office-radiator: heat, current 22.2°C, target 20.5°C
+  - radiator-master-bedroom: heat, current 23.3°C, target 21.0°C
+- Most lights, plugs, and blinds were off or closed.
+- Shopping List had 0 items.
+- Master bedroom sensor readings:
+  - Temperature: 23.31°C
+  - Humidity: 44.3%
+
+### Follow-ups
+- Investigate unavailable Home Assistant entities.
+- Reconnect or expose Home Assistant MCP/API tools in future sessions when live state queries are needed.
+
+---
+
+## Daily log: 2026-08-23 (yesterday)
+
+<!-- 2026-08-23 22:54:26 [01a02f92] -->
+## Session Summary (auto, exit: session-end)
+
+### Decisions
+- Configured Home Assistant MCP in `dot_config/mcp/mcp.json.tmpl` using Pi MCP Adapter remote URL format.
+- Determined Home Assistant endpoint does not support OAuth discovery; use bearer-token authentication instead.
+- Final intended configuration:
+  ```json
+  "url": "http://home-assistant.lt.lan:8123/api/mcp",
+  "auth": "bearer",
+  "bearerTokenEnv": "HOME_ASSISTANT_TOKEN"
+  ```
+
+### Lessons Learned
+- `mcp-remote` rejects non-local HTTP URLs unless `--allow-http` is supplied.
+- Pi MCP Adapter OAuth relies on server-provided OAuth metadata and does not support manually overriding authorization/token endpoints.
+- OpenAI subscription OAuth is unrelated to Home Assistant MCP authentication.
+- Home Assistant’s MCP endpoint returned `401 text/plain` without OAuth metadata, causing OAuth discovery validation errors.
+- `bearerTokenEnv` must contain an environment variable name, not the token value.
+
+### Notes
+- Home Assistant URL: `http://home-assistant.lt.lan:8123/api/mcp`.
+- Pi MCP Adapter is installed/configured in Pi settings.
+- Plain HTTP on the LAN is less secure than HTTPS.
+- A Home Assistant access token was exposed in active configuration/output and should be considered compromised.
+
+### Follow-ups
+- Revoke the exposed Home Assistant token and create a new long-lived access token.
+- Export the new token before launching Pi:
+  ```bash
+  export HOME_ASSISTANT_TOKEN='...'
+  pi
+  ```
+- Run `chezmoi apply` to propagate the template configuration.
+- Fully restart Pi after applying configuration.
+- Consider placing Home Assistant behind HTTPS if OAuth or encrypted LAN authentication is needed.
