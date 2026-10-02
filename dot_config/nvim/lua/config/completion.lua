@@ -87,7 +87,17 @@ cmp.setup({
                 fallback() -- behave like normal <CR>
             end
         end, { "i", "s" }),
-        ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            -- Having enter accept the intellisense suggestion was too agressive when enabled everywhere
+            -- But it was the natural key to use when explicitly selecting an item from the popup
+            -- This function attempts to use the best of both worlds and have enter only work when an item has been selecteed in the popup
+            if cmp.visible() and cmp.get_selected_entry() then
+                cmp.confirm({ select = false })
+            else
+                fallback() -- behave like normal <CR>
+            end
+        end, { "i", "s" }),
+        -- ["<Tab>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
         ["<S-Tab>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
         ['<C-y>'] = cmp.mapping.confirm({ select = true }),
         --['<Right>'] = cmp.mapping.confirm({ select = true }),
@@ -96,9 +106,9 @@ cmp.setup({
     sources = cmp.config.sources(
     -- each array acts as its own group
     -- if a group doesn't return anything it falls back to the next group
-        {
-            { name = 'nvim_lsp_signature_help' }
-        },
+    -- {
+    --     { name = 'nvim_lsp_signature_help' }
+    -- },
         {
             { name = 'copilot' },
             { name = "supermaven" },

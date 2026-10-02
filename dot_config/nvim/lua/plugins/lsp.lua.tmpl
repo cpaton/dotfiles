@@ -12,6 +12,16 @@ return {
         "neovim/nvim-lspconfig",
     },
     {
+        "folke/noice.nvim",
+        opts = {
+            lsp = {
+                signature = {
+                    enabled = false,
+                },
+            },
+        },
+    },
+    {
         -- Utility functions to connect mason and lspconfig.
         -- Since Neovim 0.11 this has less use, but does provide a couple of features
         -- LspInstall command, and auto-enabling lsp servers installed via mason, including translating the mason name to that known by nvim-lspconfig

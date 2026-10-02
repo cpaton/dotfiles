@@ -72,6 +72,16 @@ vim.lsp.config("lua_ls", {
 })
 vim.lsp.enable("lua_ls")
 
+vim.lsp.config("gopls", {
+    settings = {
+        gopls = {
+            hints = {
+                parameterNames = true,
+            },
+        },
+    },
+})
+
 local powershell_global_script_analyzer_settings = vim.fn.expand("~/.config/powershell/PSScriptAnalyzerSettings.psd1")
 local function resolve_pssa_settings_path(root_dir)
     -- prefer repo-local file (exact name PSES looks for)

@@ -1,6 +1,16 @@
 -- t - buffers (tabs)
 vim.keymap.set("n", "<leader><right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
+vim.keymap.set("t", "<leader><right>", [[<C-\><C-n><cmd>bnext<CR>]], {
+    noremap = true,
+    silent = true,
+    desc = "Next buffer",
+})
 vim.keymap.set("n", "<leader><left>", ":bprev <CR>", { noremap = true, silent = true, desc = "Previous buffer" })
+vim.keymap.set("t", "<leader><left>", [[<C-\><C-n><cmd>bprev<CR>]], {
+    noremap = true,
+    silent = true,
+    desc = "Previous buffer",
+})
 vim.keymap.set("n", "<leader>t<right>", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
 vim.keymap.set("n", "<leader>tl", ":bnext <CR>", { noremap = true, silent = true, desc = "Next buffer" })
 vim.keymap.set("n", "<leader>t<left>", ":bprev <CR>", { noremap = true, silent = true, desc = "Previous buffer" })
