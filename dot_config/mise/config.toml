@@ -15,6 +15,7 @@ shellcheck = "latest"
 shfmt = "latest"
 tmux = "3.7b"
 tree-sitter = "latest"
+uv = "latest"
 vals = "latest"
 zoxide = "latest"
 
