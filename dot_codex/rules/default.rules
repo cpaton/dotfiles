@@ -3,9 +3,28 @@ prefix_rule(
     decision = "allow",
 )
 prefix_rule(
+    pattern=[
+        "C:\\_cp\\Apps\\PowerShell\\pwsh.exe",
+        "-NoProfile",
+        "-Command",
+        "mise"
+    ],
+    decision="allow"
+)
+prefix_rule(
     pattern = ["docker"],
     decision = "allow",
 )
+prefix_rule(
+    pattern=[
+        "C:\\_cp\\Apps\\PowerShell\\pwsh.exe",
+        "-NoProfile",
+        "-Command",
+        "docker"
+    ], 
+    decision="allow"
+)
+
 prefix_rule(
     pattern = ["go"],
     decision = "allow",
@@ -21,3 +40,26 @@ prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Comm
 prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- yarn --cwd experiments/innertube-progress test"], decision="allow")
 prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- node experiments/innertube-progress/src/cli.js --cookie-file experiments/innertube-progress/.local/cookie.txt --playlist PLMzVqW0evPg4 --page-limit 5"], decision="allow")
 prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- openspec status --change validate-innertube-playback-progress --json"], decision="allow")
+prefix_rule(pattern=["docker", "version"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger init --help"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger init --sdk=go --name=playlist-populator-build .dagger -y --progress=plain"], decision="allow")
+prefix_rule(pattern=["docker", "buildx", "imagetools", "inspect"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger go-test --repository=. --progress=plain"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger source-snapshot --repository=. entries --path=/ --progress=plain"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger windows-binary --repository=. export --path=dist/playlist-populator-windows-amd64.exe --progress=plain"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger linux-binary --repository=. export --path=dist/playlist-populator-linux-amd64 --progress=plain"], decision="allow")
+prefix_rule(pattern=["docker", "build"], decision="allow")
+prefix_rule(pattern=["docker", "inspect"], decision="allow")
+prefix_rule(pattern=["docker", "run"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger image --repository=. export --path=dist/playlist-populator-linux-amd64.oci.tar --progress=plain"], decision="allow")
+prefix_rule(pattern=["docker", "load"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger image --repository=. export-image --name=playlist-populator:local --progress=plain"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger windows-binary --repository=. export --path=dist/.parent-check/playlist-populator-windows-amd64.exe --progress=plain"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- dagger call -m .dagger image --repository=. export-image --name=playlist-populator:local"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "docker run --rm --platform linux/amd64 --mount 'type=bind,source=C:/_cp/Git/youtube-playlists/dist/playlist-populator-linux-amd64,target=/tmp/playlist-populator,readonly' golang:1.26.5@sha256:55d3b3d8ea3ae125d21f528f392a7ae0efbd9c69cbac7a479921121af3c7b2a2 /tmp/playlist-populator --help"], decision="allow")
+prefix_rule(pattern=["Remove-Item", "-LiteralPath", "apps/playlist-populator/.pipeline-synthetic-fixtures", "-Recurse", "-Force"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- task --version"], decision="allow")
+prefix_rule(pattern=["docker", "info"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- task test"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- task build"], decision="allow")
+prefix_rule(pattern=["C:\\_cp\\Apps\\PowerShell\\pwsh.exe", "-NoProfile", "-Command", "mise exec -- task package"], decision="allow")

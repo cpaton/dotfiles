@@ -3,6 +3,7 @@ approval_policy = "on-request"
 model = "gpt-6-sol"
 model_reasoning_effort = "high"
 
+notify = [ "C:\\Users\\craig\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\cfb32733c877621e\\bin\\node_modules\\@oai\\sky\\bin\\windows\\codex-computer-use.exe", "turn-ended" ]
 [projects.'c:\_cp\git\youtube-playlists']
 trust_level = "trusted"
 
@@ -16,7 +17,71 @@ trust_level = "trusted"
 sandbox = "elevated"
 
 [desktop]
-conversationDetailMode = "STEPS_COMMANDS"
+conversationDetailMode = "STEPS_PROSE"
+followUpQueueMode = "queue"
+
+[tui]
+screen_reader_detection_done = true
 
 [tui.model_availability_nux]
 gpt-6-astra = 4
+"gpt-6.1-sol" = 2
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = '\\?\C:\Users\craig\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = '\\?\C:\Users\craig\.codex\.tmp\bundled-marketplaces\openai-bundled'
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[mcp_servers.node_repl]
+args = []
+command = 'C:\Users\craig\AppData\Local\OpenAI\Codex\runtimes\cua_node\cfb32733c877621e\bin\node_repl.exe'
+env_vars = ["CODEX_WINDOWS_REGISTERED_CORE"]
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = 'C:\Users\craig\AppData\Local\OpenAI\Codex\runtimes\cua_node\cfb32733c877621e\bin\node_modules'
+NODE_REPL_NODE_PATH = 'C:\Users\craig\AppData\Local\OpenAI\Codex\runtimes\cua_node\cfb32733c877621e\bin\node.exe'
+NODE_REPL_TRUSTED_CODE_PATHS = 'C:\Users\craig\.codex;C:\Users\craig\AppData\Local\OpenAI\Codex\runtimes\cua_node\cfb32733c877621e\bin\node_modules'
+CODEX_HOME = 'C:\Users\craig\.codex'
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.1007.21434"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"C:/Users/craig/.codex/plugins/cache/openai-bundled/browser/26.1007.21434/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_NATIVE_PIPE = "1"
+SKY_CUA_NATIVE_PIPE_DIRECTORY = '\\.\pipe\codex-computer-use-4fa67ea1-dc50-46b4-98e4-dfd123ea33db'
+CODEX_CLI_PATH = 'C:\Users\craig\AppData\Local\OpenAI\Codex\bin\2e5e00daee91c61d\codex.exe'
+NODE_REPL_UNTRUSTED_ENV_ALLOWLIST = "CODEX_WINDOWS_REGISTERED_CORE"
