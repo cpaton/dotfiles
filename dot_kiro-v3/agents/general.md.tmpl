@@ -10,11 +10,40 @@
     (dict "key" "ent_gitlab" "groups" (list "read_only" "write"))
     (dict "key" "chrome" "groups" (list "read_only" "write"))
 -}}
-{{- $permission_layers := list "base" -}}
+{{- /* ── Build V3 permission rules from shared data ── */}}
 {{- $rules := list -}}
-{{- range $permission_layers -}}
-{{-   $rules = concat $rules (index $k.permission_rules .) -}}
+{{- /* Shell allow (prefixes → glob) */}}
+{{- $shellAllow := list -}}
+{{- range $k.shell_command_prefixes.allow -}}
+{{-   $shellAllow = append $shellAllow (printf "%s *" .) -}}
 {{- end -}}
+{{- range $k.shell_command_patterns.allow -}}
+{{-   $shellAllow = append $shellAllow (replace ".*" "*" .) -}}
+{{- end -}}
+{{- range $k.shell_command_exact.allow -}}
+{{-   $shellAllow = append $shellAllow . -}}
+{{- end -}}
+{{- $rules = append $rules (dict "capability" "shell" "match" $shellAllow "effect" "allow") -}}
+{{- /* Shell ask (prefixes → glob) */}}
+{{- $shellAsk := list -}}
+{{- range $k.shell_command_prefixes.ask -}}
+{{-   $shellAsk = append $shellAsk (printf "%s*" .) -}}
+{{- end -}}
+{{- $rules = append $rules (dict "capability" "shell" "match" $shellAsk "effect" "ask") -}}
+{{- /* Filesystem rules */}}
+{{- $rules = append $rules (dict "capability" "fs_read" "match" $k.paths.read_allow "effect" "allow") -}}
+{{- $rules = append $rules (dict "capability" "fs_read" "match" $k.paths.read_deny "effect" "deny") -}}
+{{- $rules = append $rules (dict "capability" "fs_write" "match" $k.paths.write_allow "effect" "allow") -}}
+{{- /* Capability allows from KAS policy tools */}}
+{{- $rules = append $rules (dict "capability" "subagent" "effect" "allow") -}}
+{{- $rules = append $rules (dict "capability" "web_fetch" "match" (list "*") "effect" "allow") -}}
+{{- $rules = append $rules (dict "capability" "web_search" "effect" "allow") -}}
+{{- $rules = append $rules (dict "capability" "skill" "effect" "allow") -}}
+{{- /* V3-only capabilities */}}
+{{- range $k.v3_extra_capabilities -}}
+{{-   $rules = append $rules . -}}
+{{- end -}}
+{{- /* MCP tool patterns (server/tool) */}}
 {{- $servers := dict -}}
 {{- $mcpAllowPatterns := list -}}
 {{- range $mcps -}}
@@ -42,11 +71,11 @@
     "includeMcpJson" false
     "includePowers" false
     "mcpServers" $servers
-    "resources" $k.resources
+    "resources" (concat $k.resources.base $k.resources.cli_only)
     "permissions" (dict "rules" $rules)
 -}}
 ---
-{{ toYaml $frontmatter | replace "~/" (printf "%s/" .chezmoi.homeDir) -}}
+{{ toYaml $frontmatter | replace "~/" (printf "%s/" .chezmoi.homeDir) | replace "${sourceDir}" .chezmoi.sourceDir -}}
 ---
 
 You are the default Kiro CLI agent. Beyond development tasks, you help with writing, analysis, planning, research, and any other professional work the user needs.

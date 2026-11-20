@@ -1,0 +1,588 @@
+kiro:
+  # ══════════════════════════════════════════════════════════════════════
+  # Shell commands
+  #
+  # Three categories:
+  #
+  # shell_command_prefixes — simple command prefixes.
+  #   Templates append the target-specific wildcard:
+  #   V2 allowedCommands: "awk" → "awk .*"   (regex)
+  #   V3 permission match: "awk" → "awk *"   (glob)
+  #
+  # shell_command_patterns — patterns with EMBEDDED wildcards.
+  #   Stored in V2 regex format (using .*).
+  #   V2 uses as-is; V3 converts .* → * for glob matching.
+  #   Use for commands where flags can appear in the middle,
+  #   e.g. "kubectl .*get .*" matches both:
+  #     kubectl get pods
+  #     kubectl --context prod -n kube-system get pods
+  #
+  # shell_command_exact — exact command strings (no wildcard appended).
+  # ══════════════════════════════════════════════════════════════════════
+  shell_command_prefixes:
+    allow:
+      - awk
+      - base64
+      - cat
+      - cd
+      - date
+      - diff
+      - dotnet build
+      - dotnet restore
+      - dotnet run
+      - dotnet watch
+      - echo
+      - env
+      - find
+      - grep
+      - head
+      - jq
+      - ls
+      - "mise exec -- bd"
+      - "mise exec -- openspec"
+      - sed
+      - sleep
+      - sort
+      - tail
+      - wc
+      - which
+    ask:
+      - git push
+
+  shell_command_patterns:
+    allow:
+      # kubectl read-only — "kubectl.* <subcmd>" anchors on word boundary
+      # via the space before the subcommand. The .* after kubectl handles
+      # --context, -n, and any other flags before the subcommand.
+      - "kubectl.* get .*"
+      - "kubectl.* describe .*"
+      - "kubectl.* logs .*"
+      - "kubectl.* top .*"
+      - "kubectl.* explain .*"
+      - "kubectl.* api-resources.*"
+      - "kubectl.* api-versions.*"
+      - "kubectl.* cluster-info.*"
+      - "kubectl.* config .*"
+      - "kubectl.* version.*"
+      # helm read-only
+      - "helm.* get .*"
+      - "helm.* list.*"
+      - "helm.* status .*"
+      - "helm.* show .*"
+      - "helm.* search .*"
+      - "helm.* version.*"
+      # AWS CLI read-only — "aws .* <verb>" catches all services.
+      # Space before verb prevents false matches on substrings.
+      # No space after verb because AWS uses hyphens: get-object, describe-instances.
+      - "aws .* describe.*"
+      - "aws .* get.*"
+      - "aws .* list.*"
+      - "aws .* head.*"
+      - "aws .* batch-get.*"
+      - "aws .* lookup.*"
+      - "aws .* search.*"
+      - "aws .* scan.*"
+      - "aws .* validate.*"
+      - "aws .* wait .*"
+      - "aws .* help.*"
+
+  shell_command_exact:
+    allow:
+      - git fetch
+      - git log
+      - git status
+
+  # ══════════════════════════════════════════════════════════════════════
+  # Filesystem paths
+  # ══════════════════════════════════════════════════════════════════════
+  paths:
+    read_allow:
+      - "./**"
+      - "~/.config/**"
+      - "~/.local/share/apex/**"
+      - "~/git/**"
+      - "~/external/**"
+    read_deny:
+      - "~/.aws/credentials"
+    write_allow:
+      - "./**"
+
+  # ══════════════════════════════════════════════════════════════════════
+  # KAS / Crew permission model
+  #
+  # On KAS, built-in tools are split into two tiers:
+  #
+  # gate_answered_tools — WITHHELD from KAS auto-approve policy.
+  #   Each call raises session/request_permission; Crew's PreToolUse
+  #   gate answers it after deny floor + sensitive-path + command checks.
+  #   These need to be in V2 allowedTools so Crew knows the spec grants them.
+  #
+  # policy_approved_tools — auto-approved by KAS policy rules.
+  #   No prompt at all; KAS generates an allow rule directly.
+  #   These also go in V2 allowedTools as their Crew-vocabulary name.
+  # ══════════════════════════════════════════════════════════════════════
+  kas:
+    gate_answered_tools:
+      - code
+      - glob
+      - grep
+      - read           # alias for fs_read
+      - write          # alias for fs_write
+      - shell          # alias for execute_bash
+    policy_approved_tools:
+      - use_subagent   # NOT "subagent" — must be Crew's name
+      - web_fetch
+      - web_search
+      - disclose_context  # skill loading
+
+  # ══════════════════════════════════════════════════════════════════════
+  # V3-only capabilities (beyond shell/fs/mcp — ignored by V2 templates)
+  # ══════════════════════════════════════════════════════════════════════
+  v3_extra_capabilities:
+    - capability: power
+      effect: allow
+    - capability: context
+      effect: allow
+    - capability: diagnostics
+      effect: allow
+
+  # ══════════════════════════════════════════════════════════════════════
+  # Permission layers (additive rule sets applied per agent profile)
+  # ══════════════════════════════════════════════════════════════════════
+  permission_layers:
+    planner_readonly:
+      - capability: fs_write
+        exclude:
+          - "./docs/**"
+        effect: deny
+    write_docs:
+      write_allow:
+        - "./docs/**"
+
+  # ══════════════════════════════════════════════════════════════════════
+  # Resources
+  # ══════════════════════════════════════════════════════════════════════
+  resources:
+    base:
+      - "file://~/.kiro/AGENTS.md"
+      - "skill://.kiro/skills/*/SKILL.md"
+      - "skill://.agents/skills/*/SKILL.md"
+      - "skill://${sourceDir}/dot_config/skills/*/SKILL.md"
+    cli_only:
+      - "file://AGENTS.md"
+
+  # ══════════════════════════════════════════════════════════════════════
+  # MCP servers — single definition, all targets
+  #
+  # Tool names use the ACTUAL names the MCP server registers (including
+  # any server-specific prefix like confluence___, jira___, etc.)
+  #
+  # Templates convert to the target format:
+  #   V2 allowedTools: "@server-name/tool_name"
+  #   V3 permission match: "server-name/tool_name"
+  # ══════════════════════════════════════════════════════════════════════
+  mcp_servers:
+    ent_a2rm:
+      name: ent-a2rm
+      config:
+        command: ent-a2rm-mcp
+        timeout: 120000
+      allowed_tools:
+        read_only:
+          - "a2rm___call_api"
+          - "a2rm___list_*"
+          - "a2rm___query_*"
+          - "a2rm___retrieve_*"
+          - "a2rm___run_script"
+        write:
+          - "a2rm___call_api_mutate"
+        delete:
+          - "a2rm___call_api_delete"
+
+    ent_confluence:
+      name: ent-confluence
+      config:
+        command: ent-confluence-mcp
+      allowed_tools:
+        read_only:
+          - "confluence___call_api"
+          - "confluence___download_*"
+          - "confluence___get_*"
+          - "confluence___list_*"
+          - "confluence___run_script"
+        write:
+          - "confluence___call_api_mutate"
+          - "confluence___highlight_*"
+          - "confluence___move_*"
+          - "confluence___patch_*"
+          - "confluence___update_*"
+          - "confluence___upload_*"
+          - "confluence___revert_*"
+        delete:
+          - "confluence___call_api_delete"
+
+    ent_jira:
+      name: ent-jira
+      config:
+        command: ent-jira-mcp
+      allowed_tools:
+        read_only:
+          - "jira___call_api"
+          - "jira___get_*"
+          - "jira___list_*"
+          - "jira___run_script"
+        write:
+          - "jira___call_api_mutate"
+        delete:
+          - "jira___call_api_delete"
+
+    ent_msgraph:
+      name: ent-msgraph
+      config:
+        command: ent-msgraph-mcp
+      allowed_tools:
+        read_only:
+          - "msgraph___call_api"
+          - "msgraph___download_file"
+          - "msgraph___list_services"
+          - "msgraph___run_script"
+        write:
+          - "msgraph___call_api_mutate"
+        delete:
+          - "msgraph___call_api_delete"
+
+    ent_gitlab:
+      name: ent-gitlab
+      config:
+        command: ent-gitlab-mcp
+        timeout: 120000
+      allowed_tools:
+        read_only:
+          - "gitlab___list_services"
+          - "gitlab___call_api"
+          - "gitlab___download_repository"
+        write:
+          - "gitlab___call_api_mutate"
+          - "gitlab___run_script"
+        delete:
+          - "gitlab___call_api_delete"
+
+    gitlab:
+      name: gitlab
+      config:
+        __comment: "https://github.com/zereight/gitlab-mcp"
+        command: npx
+        args: ["-y", "@zereight/mcp-gitlab"]
+        env:
+          GITLAB_USE_OAUTH: "true"
+          GITLAB_OAUTH_CLIENT_ID: "f65139ee21c22e436a3297901413499ea213b059ee93c1bc1009e455abeb33a0"
+          GITLAB_OAUTH_REDIRECT_URI: "http://127.0.0.1:8888/callback"
+          GITLAB_API_URL: "https://scm.tpicapcloud.com/api/v4"
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []
+
+    atlassian:
+      name: atlassian
+      config:
+        url: "https://mcp.atlassian.com/v1/mcp"
+        type: remote
+      allowed_tools:
+        read_only: ["get*", "search*", "atlassianUserInfo", "fetch", "search"]
+        write: ["add*", "create*", "edit*", "update*", "transition*"]
+        delete: []
+
+    chrome:
+      name: chrome
+      config_linux:
+        command: ~/.config/mcp/chrome-mcp.sh
+      config_windows:
+        command: pwsh
+        args: ["-NoProfile", "-Command", "& $HOME/.config/mcp/chrome-mcp.ps1"]
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "take_*"
+          - "lighthouse_*"
+          - "performance_*"
+        write:
+          - "click"
+          - "close_*"
+          - "drag"
+          - "emulate"
+          - "evaluate_*"
+          - "fill"
+          - "fill_*"
+          - "handle_*"
+          - "hover"
+          - "navigate_*"
+          - "new_*"
+          - "press_*"
+          - "resize_*"
+          - "select_*"
+          - "type_*"
+          - "upload_*"
+          - "wait_*"
+        delete: []
+
+    grafana_non_prod:
+      name: grafana_non_prod
+      config:
+        command: python3
+        args:
+          - "~/.config/mcp/mcp-stdio-prefix-proxy.py"
+          - "non_prod"
+          - "--"
+          - "pwsh"
+          - "-NoProfile"
+          - "-File"
+          - "~/.config/mcp/grafana-non-prod.ps1"
+      allowed_tools:
+        read_only:
+          - "non_prod_get_*"
+          - "non_prod_list_*"
+          - "non_prod_search_*"
+          - "non_prod_find_*"
+          - "non_prod_query_*"
+          - "non_prod_generate_deeplink"
+          - "non_prod_alerting_manage_routing"
+          - "non_prod_alerting_rules_read"
+          - "non_prod_alerting_silences_read"
+          - "non_prod_analyze_loki_labels"
+          - "non_prod_check_datasources_health"
+          - "non_prod_diff_tempo_traces"
+          - "non_prod_grafana_api_request"
+          - "non_prod_user_info"
+          - "non_prod_validate_provisioning_file"
+          - "non_prod_suggest_loki_alloy_label_config"
+        write:
+          - "non_prod_create_*"
+          - "non_prod_update_*"
+          - "non_prod_alerting_routing_write"
+          - "non_prod_alerting_rules_write"
+          - "non_prod_alerting_silences_write"
+          - "non_prod_add_activity_to_incident"
+          - "non_prod_install_plugin"
+        delete:
+          - "non_prod_delete_*"
+
+    grafana_prod:
+      name: grafana_prod
+      config:
+        command: python3
+        args:
+          - "~/.config/mcp/mcp-stdio-prefix-proxy.py"
+          - "prod"
+          - "--"
+          - "pwsh"
+          - "-NoProfile"
+          - "-File"
+          - "~/.config/mcp/grafana-prod.ps1"
+      allowed_tools:
+        read_only:
+          - "prod_get_*"
+          - "prod_list_*"
+          - "prod_search_*"
+          - "prod_find_*"
+          - "prod_query_*"
+          - "prod_generate_deeplink"
+          - "prod_alerting_manage_routing"
+          - "prod_alerting_rules_read"
+          - "prod_alerting_silences_read"
+          - "prod_analyze_loki_labels"
+          - "prod_check_datasources_health"
+          - "prod_diff_tempo_traces"
+          - "prod_grafana_api_request"
+          - "prod_user_info"
+          - "prod_validate_provisioning_file"
+          - "prod_suggest_loki_alloy_label_config"
+        write:
+          - "prod_create_*"
+          - "prod_update_*"
+          - "prod_alerting_routing_write"
+          - "prod_alerting_rules_write"
+          - "prod_alerting_silences_write"
+          - "prod_add_activity_to_incident"
+          - "prod_install_plugin"
+        delete:
+          - "prod_delete_*"
+
+    grafana_non_prod_remote:
+      name: grafana-non-prod-remote
+      config:
+        __comment: "https://github.com/grafana/mcp-grafana"
+        url: "https://grafana-mcp.non-prod.emea.observability.tpicapcloud.com/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+          - "alerting_manage_routing"
+          - "alerting_rules_read"
+          - "alerting_silences_read"
+          - "analyze_loki_labels"
+          - "check_datasources_health"
+          - "diff_tempo_traces"
+          - "grafana_api_request"
+          - "user_info"
+          - "validate_provisioning_file"
+          - "suggest_loki_alloy_label_config"
+        write:
+          - "create_*"
+          - "update_*"
+          - "alerting_routing_write"
+          - "alerting_rules_write"
+          - "alerting_silences_write"
+          - "add_activity_to_incident"
+          - "install_plugin"
+        delete:
+          - "delete_*"
+
+    grafana_nextgen_remote:
+      name: grafana-nextgen-remote
+      config:
+        __comment: "https://github.com/grafana/mcp-grafana"
+        url: "https://grafana-mcp.non-prod.emea.nextgen.tpicapcloud.com/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+          - "alerting_manage_routing"
+          - "alerting_rules_read"
+          - "alerting_silences_read"
+          - "analyze_loki_labels"
+          - "check_datasources_health"
+          - "diff_tempo_traces"
+          - "grafana_api_request"
+          - "user_info"
+          - "validate_provisioning_file"
+          - "suggest_loki_alloy_label_config"
+        write:
+          - "create_*"
+          - "update_*"
+          - "alerting_routing_write"
+          - "alerting_rules_write"
+          - "alerting_silences_write"
+          - "add_activity_to_incident"
+          - "install_plugin"
+        delete:
+          - "delete_*"
+
+    grafana_prod_remote:
+      name: grafana-prod-remote
+      config:
+        __comment: "https://github.com/grafana/mcp-grafana"
+        url: "https://grafana-mcp.prod.emea.observability.tpicapcloud.com/mcp"
+        type: remote
+      allowed_tools:
+        read_only:
+          - "get_*"
+          - "list_*"
+          - "search_*"
+          - "find_*"
+          - "query_*"
+          - "generate_deeplink"
+          - "alerting_manage_routing"
+          - "alerting_rules_read"
+          - "alerting_silences_read"
+          - "analyze_loki_labels"
+          - "check_datasources_health"
+          - "diff_tempo_traces"
+          - "grafana_api_request"
+          - "user_info"
+          - "validate_provisioning_file"
+          - "suggest_loki_alloy_label_config"
+        write: []
+        delete: []
+
+    kirocrew_core:
+      name: kirocrew-core
+      config:
+        command: ~/.kiro/crew-venv-current/bin/kirocrew
+        args: [mcp-core]
+      allowed_tools:
+        default: ["*"]
+
+    kirocrew_cron:
+      name: kirocrew-cron
+      config:
+        command: ~/.kiro/crew-venv-current/bin/kirocrew
+        args: [mcp-cron]
+      allowed_tools:
+        default:
+          - "cron_list"
+          - "cron_pause"
+          - "cron_resume"
+          - "cron_trigger"
+          - "cron_remove"
+          - "cron_remove_all"
+
+    aws:
+      name: aws
+      config:
+        _comment: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/mcp-server.html"
+        command: uv
+        timeout: 100000
+        transport: stdio
+        args:
+          - --directory
+          - /home/cpaton/external/aws/mcp-proxy-for-aws
+          - run
+          - mcp-proxy-for-aws
+          - "https://aws-mcp.eu-central-1.api.aws/mcp"
+          - "--metadata"
+          - "AWS_REGION=eu-west-1"
+        env:
+          AWS_MCP_PROXY_PROFILES: "*"
+      allowed_tools:
+        read_only:
+          - "aws___get_*"
+          - "aws___list_*"
+          - "aws___read_*"
+          - "aws___recommend"
+          - "aws___retrieve_skill"
+          - "aws___search_*"
+          - "aws___suggest_*"
+        write:
+          - "aws___call_aws"
+          - "aws___run_script"
+        delete: []
+
+    aws_iac:
+      name: awslabs.aws-iac-mcp-server
+      config:
+        __comment: "https://github.com/awslabs/mcp/tree/main/src/aws-iac-mcp-server"
+        command: uvx
+        args: ["awslabs.aws-iac-mcp-server@latest"]
+        env: { FASTMCP_LOG_LEVEL: ERROR }
+        disabled: false
+        autoApprove: []
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []
+
+    aws_eks:
+      name: awslabs.eks-mcp-server
+      config:
+        __comment: "https://github.com/awslabs/mcp/tree/main/src/eks-mcp-server"
+        command: uvx
+        args: ["awslabs.eks-mcp-server@latest", "--allow-write", "--allow-sensitive-data-access"]
+        env: { FASTMCP_LOG_LEVEL: ERROR }
+        disabled: false
+        autoApprove: []
+      allowed_tools:
+        read_only: []
+        write: []
+        delete: []

@@ -1,4 +1,4 @@
-{{- $k := .kiro_agents -}}
+{{- $k := .kiro -}}
 {{- $mcps := list
     (dict "key" "grafana_non_prod" "groups" (list "read_only"))
     (dict "key" "grafana_prod" "groups" (list "read_only"))
@@ -10,16 +10,14 @@
     (dict "key" "ent_gitlab" "groups" (list "read_only"))
     (dict "key" "chrome" "groups" (list "read_only" "write"))
 -}}
-{{- $tool_setting_layers := list "base" "write_docs" -}}
-{{- $toolsSettings := dict -}}
-{{- range $tool_setting_layers -}}
-{{-   $toolsSettings = mustMergeOverwrite $toolsSettings (index $k.v2_tool_settings .) -}}
+{{- $tools := list -}}
+{{- range $k.kas.gate_answered_tools -}}
+{{-   $tools = append $tools . -}}
+{{- end -}}
+{{- range $k.kas.policy_approved_tools -}}
+{{-   $tools = append $tools . -}}
 {{- end -}}
 {{- $servers := dict -}}
-{{- $tools := list -}}
-{{- range $group := list "read_only" -}}
-{{-   $tools = concat $tools (index $k.v2_base_tools $group) -}}
-{{- end -}}
 {{- range $mcps -}}
 {{-   $mcp := index $k.mcp_servers .key -}}
 {{-   $config := dict -}}
@@ -43,10 +41,9 @@
     "prompt" "file://./planner-prompt.md"
     "mcpServers" $servers
     "tools" (list "*")
-    "toolsSettings" $toolsSettings
     "toolAliases" (dict)
     "allowedTools" $tools
-    "resources" (concat $k.resources $k.resources_cli_only)
+    "resources" $k.resources.base
     "hooks" (dict
       "userPromptSubmit" (list
         (dict "command" "echo 'REMINDER: You are in PLAN MODE. Do NOT write code, create files, or implement anything. Only analyze, explore, ask questions, and produce a plan.'")

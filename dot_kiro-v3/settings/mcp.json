@@ -1,4 +1,12 @@
 {
   "mcpServers": {
+    "rates-mcr-uat": {
+      "url": "https://fusion-rates-message-lib-mcp-uat.mcr-npd.tpicapcloud.com/mcp",
+      "oauth": {
+        "clientId": "0oalq55tikJ4wV6A60i7",
+        "oauthScopes": ["tpicap.rates.message-lib.mcp.read"],
+        "redirectUri": "http://localhost:7778/oauth/callback"
+      }
+    }
   }
 }

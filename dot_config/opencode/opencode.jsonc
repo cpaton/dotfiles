@@ -2,6 +2,12 @@
     "$schema": "https://opencode.ai/config.json",
     "model": "openai/gpt-6.2-sol",
     "providers": {
+        "amazon-bedrock": {
+            "settings": {
+                "region": "eu-west-1",
+                "profile": "opencode"
+            }
+        },
         "openai": {
             "models": {
                 "gpt-6.2-sol": {
@@ -13,6 +19,7 @@
         }
     },
     "update": "disable",
+    "autoupdate": false,
     "mcp": {
         "servers": {
             "aws-mcp": {
@@ -21,7 +28,8 @@
                     "uvx",
                     "mcp-proxy-for-aws==1.6.2",
                     "https://aws-mcp.eu-central-1.api.aws/mcp",
-                    "--metadata", "AWS_REGION=eu-west-1"
+                    "--metadata",
+                    "AWS_REGION=eu-west-1"
                 ],
                 "timeout": {
                     "catalog": 100000,
