@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://aka.ms/configuration-dsc-schema/0.2
+properties:
+  resources:
+    - resource: Microsoft.WinGet.DSC/WinGetPackage
+      directives:
+        description: Install Gpg4win
+        module: Microsoft.WinGet.DSC
+        # Exact DSC module version; separate from the application version below.
+        version: "1.29.380"
+        allowPrerelease: false
+        securityContext: elevated
+      settings:
+        id: GnuPG.Gpg4win
+        source: winget
+        # Exact Gpg4win suite version, not the bundled GnuPG component version.
+        # Update deliberately for security releases. Applying an older version
+        # can uninstall/reinstall a newer installation.
+        version: "5.1.1"
+        useLatest: false
+        ensure: Present
+  # Configuration format version, not a package or module version.
+  configurationVersion: 0.2.0
