@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "key": "epic",
+      "title": "<change title>",
+      "type": "epic",
+      "priority": 2,
+      "description": "<one paragraph: what this change delivers and why, self-contained>",
+      "external_ref": "openspec:<change-name>"
+    },
+    {
+      "key": "1.1",
+      "title": "<task title>",
+      "type": "task",
+      "priority": 2,
+      "parent_key": "epic",
+      "description": "<what to do>",
+      "acceptance_criteria": "<how to verify this task is done>",
+      "labels": ["<task-group-slug>"],
+      "external_ref": "openspec:<change-name>#1.1",
+      "spec_id": "<capability-path>"
+    },
+    {
+      "key": "1.2",
+      "title": "<task title>",
+      "type": "task",
+      "priority": 2,
+      "parent_key": "epic",
+      "description": "<what to do>",
+      "acceptance_criteria": "<how to verify this task is done>",
+      "labels": ["<task-group-slug>"],
+      "external_ref": "openspec:<change-name>#1.2",
+      "spec_id": "<capability-path>"
+    }
+  ],
+  "edges": [
+    { "from_key": "1.2", "to_key": "1.1", "type": "blocks" }
+  ]
+}
