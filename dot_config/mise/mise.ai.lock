@@ -8,40 +8,40 @@ backend = "npm:@opencode/cli"
 allow_builds = '["@opencode/cli"]'
 
 [[tools.pi]]
-version = "1.0.2"
+version = "1.6.0"
 backend = "aqua:earendil-works/pi"
 
 [tools.pi."platforms.linux-arm64"]
-checksum = "sha256:3321ccdc3ff38d6c52274bdab28246e06434618d1988a54e99cce45e535a013c"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828192"
+checksum = "sha256:5404547b9739be596d50ae7142c52535899e8e7dd37a7bace9be593e0355b468"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562443"
 
 [tools.pi."platforms.linux-arm64-musl"]
-checksum = "sha256:3321ccdc3ff38d6c52274bdab28246e06434618d1988a54e99cce45e535a013c"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828192"
+checksum = "sha256:5404547b9739be596d50ae7142c52535899e8e7dd37a7bace9be593e0355b468"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562443"
 
 [tools.pi."platforms.linux-x64"]
-checksum = "sha256:0d7687a6a9fcbaa88ff664cb6b28683ce9ee3e028931b55eb48a70ae9a285d18"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828196"
+checksum = "sha256:ef77dbe4379b3bdeb425a1e1b862fa3c915c255000dfe4965c98eee96a5765d1"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562455"
 
 [tools.pi."platforms.linux-x64-musl"]
-checksum = "sha256:0d7687a6a9fcbaa88ff664cb6b28683ce9ee3e028931b55eb48a70ae9a285d18"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828196"
+checksum = "sha256:ef77dbe4379b3bdeb425a1e1b862fa3c915c255000dfe4965c98eee96a5765d1"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562455"
 
 [tools.pi."platforms.macos-arm64"]
-checksum = "sha256:c2f035ea4adba87916f005c99515e3c91674b11d16ba75d95d0881e4781aa3bb"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828195"
+checksum = "sha256:6429287b7ae98d726ec577815d14fd680e7c587e89ecc5153b4a145dc4adba33"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562449"
 
 [tools.pi."platforms.macos-x64"]
-checksum = "sha256:d54be8df33ab6a2f3457bd7de37edc947050ac4a7f043456d37e03afd15684de"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828194"
+checksum = "sha256:5b69cd87c3b00e74cce2d1499df3b7a1ec73632f11abf64696d110f0f4dc4192"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562451"
 
 [tools.pi."platforms.windows-x64"]
-checksum = "sha256:37a2ee3c5222a73efc78b49f571748f11a74f4dbe160da3030a404da71f464e7"
-url = "https://github.com/earendil-works/pi/releases/download/v1.0.2/pi-windows-x64.zip"
-url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/608828204"
+checksum = "sha256:f5defb6c403ee698f5b3f8886db473e55b78aac670a8ce03620a47f5f0aec57c"
+url = "https://github.com/earendil-works/pi/releases/download/v1.6.0/pi-windows-x64.zip"
+url_api = "https://api.github.com/repos/earendil-works/pi/releases/assets/771562502"

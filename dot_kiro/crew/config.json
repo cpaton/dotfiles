@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "0.12.1",
-    "lastTouchedAt": "2026-11-12T13:29:44.583844+00:00"
+    "lastTouchedVersion": "0.13.1",
+    "lastTouchedAt": "2026-11-24T09:00:40.749708+00:00"
   },
   "agent": {
     "approval_mode": "normal",
@@ -71,6 +71,12 @@
         "addedName": true,
         "setRepository": true,
         "removedLocal": false
+      }
+    },
+    "apps_builtin_adoption_nav": {
+      "personal-shopper": {
+        "route": "/personal-shopper",
+        "icon": "ShoppingBag"
       }
     }
   },
